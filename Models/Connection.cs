@@ -9,18 +9,14 @@ namespace BoardRenual.Models
 {
     public class Connection
     {
-        protected SqlConnection con;
-        public void Conn()
+        public SqlConnection ConOpen()
         {
             string constr = ConfigurationManager.ConnectionStrings["BoardRenual"].ToString();
-            con = new SqlConnection(constr);
-        }
-        public void ConOpen()
-        {
+            SqlConnection con = new SqlConnection(constr);
             con.Open();
-
+            return con;
         }
-        public void ConClose()
+        public void ConDispose(SqlConnection con)
         {
             con.Dispose();
         }
