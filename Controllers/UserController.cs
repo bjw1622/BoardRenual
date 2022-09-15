@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BoardRenual.Entitys;
+using BoardRenual.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,17 @@ namespace BoardRenual.Controllers
 {
     public class UserController : Controller
     {
-        // GET: User
+        [HttpGet]
         public ActionResult SignUp()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(UserEntity userEntity)
+        {
+            User user = new User();
+            user.SignUp(userEntity);
             return View();
         }
 

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+    <form action="/User/SignUp" method="post">
+        <div>
+            <label>이메일 입력</label>
+            <input type="email" name="email" value="" required />
+            <button type="button">이메일 중복체크</button>
+        </div>
+        <div>
+            <label>비밀번호</label>
+            <input type="password" name="pw" value="" required />
+        </div>
+        <div>
+            <label>이름</label>
+            <input type="text" name="name" value="" required />
+        </div>
+        <div>
+            <label>생일</label>
+            <input type="date" name="birth" value="" required />
+        </div>
+        <button type="submit">회원가입</button>
+    </form>
+</body>
+</html>
