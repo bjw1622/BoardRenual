@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardRenual", "BoardRenual.csproj", "{75AFA063-A649-4704-AA24-54354A8B0255}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75AFA063-A649-4704-AA24-54354A8B0255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AFA063-A649-4704-AA24-54354A8B0255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AFA063-A649-4704-AA24-54354A8B0255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AFA063-A649-4704-AA24-54354A8B0255}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B7B503F-72B2-4E97-856B-D6A9C3BBD1B5}
+	EndGlobalSection
+EndGlobal
