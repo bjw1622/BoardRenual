@@ -1,9 +1,5 @@
-﻿using BoardRenual.Entitys;
+﻿using BoardRenual.Biz;
 using BoardRenual.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BoardRenual.Controllers
@@ -17,11 +13,17 @@ namespace BoardRenual.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(UserEntity userEntity)
+        public JsonResult SignUp(UserEntity userEntity)
         {
             User user = new User();
-            user.SignUp(userEntity);
-            return View();
+            return Json(user.SignUp(userEntity));
+        }
+        [HttpPost]
+        public JsonResult EmailCheck(string email)
+        {
+            User user = new User();
+            int result = user.EmailCheck(email);
+            return Json(result);
         }
 
         public ActionResult LogIn()

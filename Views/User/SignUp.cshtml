@@ -8,25 +8,83 @@
     <title>회원가입</title>
 </head>
 <body>
-    <form action="/User/SignUp" method="post">
-        <div>
-            <label>이메일 입력</label>
-            <input type="email" name="email" value="" required />
-            <button type="button">이메일 중복체크</button>
-        </div>
-        <div>
-            <label>비밀번호</label>
-            <input type="password" name="pw" value="" required />
-        </div>
-        <div>
-            <label>이름</label>
-            <input type="text" name="name" value="" required />
-        </div>
-        <div>
-            <label>생일</label>
-            <input type="date" name="birth" value="" required />
-        </div>
-        <button type="submit">회원가입</button>
-    </form>
+    <div>
+        <label>이메일 입력</label>
+        <input type="email" name="email" id="email" required />
+        <span id="check-email-span"></span>
+    </div>
+    <div>
+        <label>비밀번호</label>
+        <input type="password" name="pw" id="pw" required />
+    </div>
+    <div>
+        <label>이름</label>
+        <input type="text" name="name" id="name" required />
+    </div>
+    <div>
+        <label>생일</label>
+        <input type="date" name="birth" id="birth" required />
+    </div>
+    <button id="signUp">회원가입</button>
 </body>
 </html>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    //TODO 
+    // 이메일 양식 체크 만들기
+
+    let flag = false;
+    $('#email').keyup(() => {
+        const param = { Email: $('#email').val(), }
+        $.ajax({
+            url: '/User/EmailCheck',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(param),
+            contentType: 'application/json',
+            success: function (data) {
+                if (data === 1) {
+                    document.querySelector('#check-email-span').innerHTML = "이미 가입된 이메일 입니다.";
+                }
+                else {
+                    document.querySelector('#check-email-span').innerHTML = "회원 가입 가능한 이메일 입니다.";
+                    flag = true;
+                }
+            },
+            error: function (err) {
+            }
+        });
+    });
+    $('#signUp').click(() => {
+        if (flag === true) {
+            const param = {
+                Email: $('#email').val(),
+                Pw: $('#pw').val(),
+                Name: $('#name').val(),
+                Birth: $('#birth').val(),
+
+            }
+            $.ajax({
+                url: '/User/SignUp',
+                type: 'post',
+                dataType: 'json',
+                data: JSON.stringify(param),
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data === true) {
+                        alert('회원가입이 완료 되었습니다.');
+                        location.href='/User/LogIn';
+                    }
+                    else {
+                        alert('회원가입이 되지 않았습니다.')
+                    }
+                },
+                error: function (err) {
+                }
+            });
+        }
+        else {
+            alert('회원가입이 되지 않았습니다.');
+        }
+    })
+</script>

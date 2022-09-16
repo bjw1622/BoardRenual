@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Entitys
+namespace BoardRenual.Models
 {
-    public class UserEntity
+    public class UserViewEntity
     {
         public int No { get; set; }
         public string Email { get; set; }

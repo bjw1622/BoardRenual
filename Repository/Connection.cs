@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Models
+namespace BoardRenual.Repository
 {
     public class Connection
     {
