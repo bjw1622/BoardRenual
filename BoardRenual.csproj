@@ -128,8 +128,8 @@
     </Compile>
     <Compile Include="App_Start\Connection.cs" />
     <Compile Include="Models\OrginalModel\User\UserEntity.cs" />
-    <Compile Include="Models\RequestModel\User\UserEmailCheckEntity.cs" />
-    <Compile Include="Models\RequestModel\User\UserSignUpEntity.cs" />
+    <Compile Include="Models\RequestModel\User\UserEmailCheckModel.cs" />
+    <Compile Include="Models\RequestModel\User\UserSignUpModel.cs" />
     <Compile Include="Repositorys\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
