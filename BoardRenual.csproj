@@ -130,12 +130,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Common\Connection.cs" />
-    <Compile Include="Models\Orginal\Board\BoardModel.cs" />
-    <Compile Include="Models\Orginal\User\UserModel.cs" />
-    <Compile Include="Models\Request\Board\BoardWriteModel.cs" />
-    <Compile Include="Models\Request\User\UserEmailCheckModel.cs" />
-    <Compile Include="Models\Request\User\UserLogInModel.cs" />
-    <Compile Include="Models\Request\User\UserSignUpModel.cs" />
+    <Compile Include="Models\Orginal\Board\BoardOriginalModel.cs" />
+    <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
+    <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />
     <Compile Include="Repositorys\BoardRepository.cs" />
     <Compile Include="Repositorys\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

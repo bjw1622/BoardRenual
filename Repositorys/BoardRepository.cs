@@ -5,7 +5,7 @@ using System.Web;
 
 namespace BoardRenual.Repositorys
 {
-    public class BoardRepository:Connection
+    public class BoardRepository
     {
     }
 }

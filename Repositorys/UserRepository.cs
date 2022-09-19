@@ -5,11 +5,11 @@ using System.Data.SqlClient;
 
 namespace BoardRenual.Repository
 {
-    public class UserRepository : Connection
+    public class UserRepository
     {
-        public bool SignUp(UserModel userEntity)
+        public bool SignUp(UserModel userEntity,SqlConnection con)
         {
-            SqlConnection con = ConOpen();
+            Connection connection = new Connection();
             bool signUp = false;
             try
             {
@@ -21,7 +21,7 @@ namespace BoardRenual.Repository
                     com.Parameters.AddWithValue("@Name", userEntity.Name);
                     com.Parameters.AddWithValue("@Birth", userEntity.Birth);
                     com.ExecuteNonQuery();
-                    // sp에서 값 받기
+                    // sp에서 true false 값 받기
                     signUp = true;
                 }
             }
@@ -31,16 +31,16 @@ namespace BoardRenual.Repository
             }
             finally
             {
-                ConDispose(con);
+                connection.ConDispose(con);
             }
             return signUp;
         }
 
 
-        public int EmailCheck(UserModel userEntity)
+        public int EmailCheck(UserModel userEntity, SqlConnection con)
         {
             int result = -1;
-            SqlConnection con = ConOpen();
+            Connection connection = new Connection();
             try
             {
                 using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
@@ -56,15 +56,15 @@ namespace BoardRenual.Repository
             }
             finally
             {
-                ConDispose(con);
+                connection.ConDispose(con);
             }
             return result;
         }
 
-        public UserModel SignIn(UserModel userEntity)
+        public UserModel SignIn(UserModel userEntity, SqlConnection con)
         {
+            Connection connection = new Connection();
             UserModel users = new UserModel();
-            SqlConnection con = ConOpen();
 
             using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
             {
@@ -78,7 +78,7 @@ namespace BoardRenual.Repository
                     users.Name = Convert.ToString(reader["Name"]);
                 }
             }
-            ConDispose(con);
+            connection.ConDispose(con);
             return users;
         }
     }
