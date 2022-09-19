@@ -1,5 +1,5 @@
-﻿using BoardRenual.Biz;
-using BoardRenual.Models;
+﻿using BoardRenual.Biz.User;
+using BoardRenual.Models.RequestModel.User;
 using System.Web.Mvc;
 
 namespace BoardRenual.Controllers
@@ -13,19 +13,18 @@ namespace BoardRenual.Controllers
         }
 
         [HttpPost]
-        public JsonResult SignUp(UserEntity userEntity)
+        public JsonResult SignUp(UserSignUpEntity userSignUpEntity)
         {
-            User user = new User();
-            return Json(user.SignUp(userEntity));
+            SignUpBiz signUpBiz = new SignUpBiz();
+            return Json(signUpBiz.UserSignUp(userSignUpEntity));
         }
         [HttpPost]
-        public JsonResult EmailCheck(string email)
+        public JsonResult EmailCheck(UserEmailCheckEntity userEmailCheck)
         {
-            User user = new User();
-            int result = user.EmailCheck(email);
-            return Json(result);
+            EmailCheckBiz emailCheckBiz = new EmailCheckBiz();
+            return Json(emailCheckBiz.UserSignUp(userEmailCheck));
         }
-
+        [HttpGet]
         public ActionResult LogIn()
         {
             return View();
