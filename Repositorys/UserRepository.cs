@@ -7,10 +7,10 @@ namespace BoardRenual.Repository
 {
     public class UserRepository
     {
-        public bool SignUp(UserModel userEntity,SqlConnection con)
+        public int SignUp(UserModel userEntity,SqlConnection con)
         {
             Connection connection = new Connection();
-            bool signUp = false;
+            int signUpResult = -1;
             try
             {
                 using (SqlCommand com = new SqlCommand("dbo.InsertUser", con))
@@ -20,9 +20,10 @@ namespace BoardRenual.Repository
                     com.Parameters.AddWithValue("@Pw", userEntity.Pw);
                     com.Parameters.AddWithValue("@Name", userEntity.Name);
                     com.Parameters.AddWithValue("@Birth", userEntity.Birth);
-                    com.ExecuteNonQuery();
-                    // sp에서 true false 값 받기
-                    signUp = true;
+                    if((string)com.ExecuteScalar() == userEntity.Email)
+                    {
+                        signUpResult = 0;
+                    }
                 }
             }
             catch (Exception e)
@@ -33,7 +34,7 @@ namespace BoardRenual.Repository
             {
                 connection.ConDispose(con);
             }
-            return signUp;
+            return signUpResult;
         }
 
 
@@ -65,20 +66,28 @@ namespace BoardRenual.Repository
         {
             Connection connection = new Connection();
             UserModel users = new UserModel();
-
-            using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
-            {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Email", userEntity.Email);
-                com.Parameters.AddWithValue("@Pw", userEntity.Pw);
-                SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+            try {
+                using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
                 {
-                    users.Email = Convert.ToString(reader["Email"]);
-                    users.Name = Convert.ToString(reader["Name"]);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Email", userEntity.Email);
+                    com.Parameters.AddWithValue("@Pw", userEntity.Pw);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        users.Email = Convert.ToString(reader["Email"]);
+                        users.Name = Convert.ToString(reader["Name"]);
+                    }
                 }
             }
-            connection.ConDispose(con);
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
             return users;
         }
     }

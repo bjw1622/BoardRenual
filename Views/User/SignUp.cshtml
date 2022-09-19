@@ -76,7 +76,7 @@
                 data: JSON.stringify(param),
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data === true) {
+                    if (data === 0) {
                         alert('회원가입이 완료 되었습니다.');
                         location.href = '/User/LogIn';
                     }

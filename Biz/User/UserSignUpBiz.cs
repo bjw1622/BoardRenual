@@ -11,7 +11,7 @@ namespace BoardRenual.Biz.User
 {
     public class UserSignUpBiz
     {
-        public bool UserSignUp(UserSignUpModel signUpModel)
+        public int UserSignUp(UserSignUpModel signUpModel)
         {
             UserModel userEntity = new UserModel();
             UserRepository userRepository = new UserRepository();

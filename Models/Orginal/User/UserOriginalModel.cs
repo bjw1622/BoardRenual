@@ -13,6 +13,5 @@ namespace BoardRenual.Models.OrginalModel.User
         public string Name { get; set; }
         public DateTime Birth { get; set; }
         public DateTime CreateDate { get; set; }
-        //Email 확장 (extends,partialclass)
     }
 }
