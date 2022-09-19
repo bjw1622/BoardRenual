@@ -1,12 +1,11 @@
-﻿using BoardRenual.Models;
-using BoardRenual.Repository;
+﻿using BoardRenual.Models.OrginalModel.User;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BoardRenual.Biz
+namespace BoardRenual.Repository
 {
-    public class User : Connection
+    public class UserRepository : Connection
     {
         public bool SignUp(UserEntity userEntity)
         {
@@ -25,7 +24,7 @@ namespace BoardRenual.Biz
                     signUp = true;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -35,14 +34,16 @@ namespace BoardRenual.Biz
             }
             return signUp;
         }
-        public int EmailCheck(string email)
+
+
+        public int EmailCheck(UserEntity userEntity)
         {
             int result = -1;
             SqlConnection con = ConOpen();
-            using(SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
+            using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
             {
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Email", email);
+                com.Parameters.AddWithValue("@Email", userEntity.Email);
                 result = (int)com.ExecuteScalar();
             }
             ConDispose(con);

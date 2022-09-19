@@ -30,9 +30,8 @@
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
-    //TODO 
+    //TODO
     // 이메일 양식 체크 만들기
-
     let flag = false;
     $('#email').keyup(() => {
         const param = { Email: $('#email').val(), }
@@ -43,8 +42,10 @@
             data: JSON.stringify(param),
             contentType: 'application/json',
             success: function (data) {
+                // bool로 return 
                 if (data === 1) {
                     document.querySelector('#check-email-span').innerHTML = "이미 가입된 이메일 입니다.";
+                    flag = null;
                 }
                 else {
                     document.querySelector('#check-email-span').innerHTML = "회원 가입 가능한 이메일 입니다.";
@@ -73,7 +74,7 @@
                 success: function (data) {
                     if (data === true) {
                         alert('회원가입이 완료 되었습니다.');
-                        location.href='/User/LogIn';
+                        location.href = '/User/LogIn';
                     }
                     else {
                         alert('회원가입이 되지 않았습니다.')
