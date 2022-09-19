@@ -4,7 +4,7 @@ using BoardRenual.Repository;
 
 namespace BoardRenual.Biz.User
 {
-    public class EmailCheckBiz : UserRepository
+    public class UserEmailCheckBiz : UserRepository
     {
         public int UserSignUp(UserEmailCheckModel userEmailCheck)
         {
