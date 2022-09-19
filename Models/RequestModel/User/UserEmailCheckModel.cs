@@ -5,11 +5,8 @@ using System.Web;
 
 namespace BoardRenual.Models.RequestModel.User
 {
-    public class UserSignUpEntity
+    public class UserEmailCheckModel
     {
         public string Email { get; set; }
-        public string Pw { get; set; }
-        public string Name { get; set; }
-        public DateTime Birth { get; set; }
     }
 }
