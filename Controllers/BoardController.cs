@@ -8,8 +8,13 @@ namespace BoardRenual.Controllers
 {
     public class BoardController : Controller
     {
-        // GET: Board
+        [HttpGet]
         public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Write()
         {
             return View();
         }
