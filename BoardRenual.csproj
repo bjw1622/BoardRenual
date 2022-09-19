@@ -121,7 +121,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
+    <Compile Include="Biz\User\UserLogInBiz.cs" />
     <Compile Include="Biz\User\UserSignUpBiz.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -169,6 +171,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\SignUp.cshtml" />
     <Content Include="Views\User\LogIn.cshtml" />
+    <Content Include="Views\Board\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

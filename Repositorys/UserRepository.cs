@@ -40,14 +40,45 @@ namespace BoardRenual.Repository
         {
             int result = -1;
             SqlConnection con = ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
+            try
+            {
+                using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Email", userEntity.Email);
+                    result = (int)com.ExecuteScalar();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                ConDispose(con);
+            }
+            return result;
+        }
+
+        public UserEntity SignIn(UserEntity userEntity)
+        {
+            UserEntity users = new UserEntity();
+            SqlConnection con = ConOpen();
+
+            using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
             {
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Email", userEntity.Email);
-                result = (int)com.ExecuteScalar();
+                com.Parameters.AddWithValue("@Pw", userEntity.Pw);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    users.Email = Convert.ToString(reader["Email"]);
+                    users.Name = Convert.ToString(reader["Name"]);
+                }
             }
             ConDispose(con);
-            return result;
+            return users;
         }
     }
 }

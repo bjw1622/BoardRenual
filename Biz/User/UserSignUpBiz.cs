@@ -10,13 +10,13 @@ namespace BoardRenual.Biz.User
 {
     public class UserSignUpBiz : UserRepository
     {
-        public bool UserSignUp(UserSignUpModel signUpEntity)
+        public bool UserSignUp(UserSignUpModel signUpModel)
         {
             UserEntity userEntity = new UserEntity();
-            userEntity.Email = signUpEntity.Email;
-            userEntity.Pw = signUpEntity.Pw;
-            userEntity.Name = signUpEntity.Name;
-            userEntity.Birth = signUpEntity.Birth;
+            userEntity.Email = signUpModel.Email;
+            userEntity.Pw = signUpModel.Pw;
+            userEntity.Name = signUpModel.Name;
+            userEntity.Birth = signUpModel.Birth;
             return SignUp(userEntity);
         }
     }
