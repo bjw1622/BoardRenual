@@ -36,11 +36,10 @@ namespace BoardRenual.Controllers
         public ActionResult LogIn(UserLogInModel userLogin)
         {
             UserLogInBiz userLogInBiz = new UserLogInBiz();
-            UserEntity result = userLogInBiz.UserSignUp(userLogin);
+            UserModel result = userLogInBiz.UserSignUp(userLogin);
             if (result.Email != null)
             {
-                
-                Response.Cookies["UserName"].Value = result.Name;
+                Response.Cookies["UserName"].Value = Server.UrlEncode(result.Name);
                 Response.Cookies["Email"].Value = result.Email;
                 return RedirectToAction("Index", "Board");
 
@@ -49,6 +48,12 @@ namespace BoardRenual.Controllers
                 "alert('로그인 정보가 일치하지 않습니다.');" +
                 "location.href='/User/Login'" +
                 "</script>");
+        }
+        public ActionResult Logout()
+        {
+            Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies["Email"].Expires = DateTime.Now.AddDays(-1);
+            return RedirectToAction("Login", "User");
         }
     }
 }

@@ -10,9 +10,9 @@ namespace BoardRenual.Biz.User
 {
     public class UserLogInBiz : UserRepository
     {
-        public UserEntity UserSignUp(UserLogInModel signUpEntity)
+        public UserModel UserSignUp(UserLogInModel signUpEntity)
         {
-            UserEntity userEntity = new UserEntity();
+            UserModel userEntity = new UserModel();
             userEntity.Email = signUpEntity.Email;
             userEntity.Pw = signUpEntity.Pw;
             return SignIn(userEntity);

@@ -8,22 +8,40 @@
 <head>
 </head>
 <body>
-    <h2>글작성</h2>
-    <form id="FileUploadForm">
-        <div class="form-group">
-            <label>제목</label>
-            <input type="text" class="form-control" placeholder="제목" id="title" required>
-        </div>
-        <div class="form-group">
-            <label>작성자</label>
-            <input type="text" class="form-control" id="writer" value=@Session["Name"] readonly>
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">글 내용</label>
-            <textarea class="form-control" rows="5" id="main-content" required></textarea>
-        </div>
-        <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
-        <button class="btn btn-primary" id="write">글작성</button>
-    </form>
+    <div class="form-group">
+        <label>제목</label>
+        <input type="text" class="form-control" placeholder="제목" id="title" required>
+    </div>
+    <div class="form-group">
+        <label>작성자</label>
+        <input type="text" class="form-control" id="writer" value=@(Server.UrlDecode(Request.Cookies["UserName"].Value)) readonly>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">글 내용</label>
+        <textarea class="form-control" rows="5" id="main-content" required></textarea>
+    </div>
+    <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
+    <button class="btn btn-primary" id="write">글작성</button>
 </body>
 </html>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $('#write').click(() => {
+        const param = {
+            Title :  $('#title').val(),
+            Content: $('#main-content').val(),
+            Email: "@(Server.UrlDecode(Request.Cookies["Email"].Value))",
+        }
+        $.ajax({
+            url: '/User/Write',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(param),
+            contentType: 'application/json',
+            success: function () {
+            },
+            error: function (err) {
+            }
+        });
+    });
+</script>

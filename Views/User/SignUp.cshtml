@@ -30,8 +30,6 @@
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
-    //TODO
-    // 이메일 양식 체크 만들기
     let flag = false;
     $('#email').keyup(() => {
         const emailAdr = $("#email").val();
@@ -49,7 +47,6 @@
             data: JSON.stringify(param),
             contentType: 'application/json',
             success: function (data) {
-                // bool로 return 
                 if (data === 1) {
                     document.querySelector('#check-email-span').innerHTML = "이미 가입된 이메일 입니다.";
                     flag = null;

@@ -8,7 +8,7 @@ namespace BoardRenual.Biz.User
     {
         public int UserSignUp(UserEmailCheckModel userEmailCheck)
         {
-            UserEntity userEntity = new UserEntity();
+            UserModel userEntity = new UserModel();
             userEntity.Email = userEmailCheck.Email;
             return EmailCheck(userEntity);
         }

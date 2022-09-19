@@ -5,7 +5,7 @@ using System.Web;
 
 namespace BoardRenual.Models.OrginalModel.User
 {
-    public class UserEntity
+    public class UserModel
     {
         public int No { get; set; }
         public string Email { get; set; }

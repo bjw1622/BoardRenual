@@ -7,7 +7,7 @@ namespace BoardRenual.Repository
 {
     public class UserRepository : Connection
     {
-        public bool SignUp(UserEntity userEntity)
+        public bool SignUp(UserModel userEntity)
         {
             SqlConnection con = ConOpen();
             bool signUp = false;
@@ -21,6 +21,7 @@ namespace BoardRenual.Repository
                     com.Parameters.AddWithValue("@Name", userEntity.Name);
                     com.Parameters.AddWithValue("@Birth", userEntity.Birth);
                     com.ExecuteNonQuery();
+                    // sp에서 값 받기
                     signUp = true;
                 }
             }
@@ -36,7 +37,7 @@ namespace BoardRenual.Repository
         }
 
 
-        public int EmailCheck(UserEntity userEntity)
+        public int EmailCheck(UserModel userEntity)
         {
             int result = -1;
             SqlConnection con = ConOpen();
@@ -60,9 +61,9 @@ namespace BoardRenual.Repository
             return result;
         }
 
-        public UserEntity SignIn(UserEntity userEntity)
+        public UserModel SignIn(UserModel userEntity)
         {
-            UserEntity users = new UserEntity();
+            UserModel users = new UserModel();
             SqlConnection con = ConOpen();
 
             using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))

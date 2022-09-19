@@ -12,7 +12,7 @@ namespace BoardRenual.Biz.User
     {
         public bool UserSignUp(UserSignUpModel signUpModel)
         {
-            UserEntity userEntity = new UserEntity();
+            UserModel userEntity = new UserModel();
             userEntity.Email = signUpModel.Email;
             userEntity.Pw = signUpModel.Pw;
             userEntity.Name = signUpModel.Name;
