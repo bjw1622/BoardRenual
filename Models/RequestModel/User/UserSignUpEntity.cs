@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Models
+namespace BoardRenual.Models.RequestModel.User
 {
-    public class UserViewEntity
+    public class UserSignUpEntity
     {
-        public int No { get; set; }
         public string Email { get; set; }
         public string Pw { get; set; }
         public string Name { get; set; }
