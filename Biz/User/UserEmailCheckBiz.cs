@@ -4,9 +4,9 @@ using BoardRenual.Repository;
 
 namespace BoardRenual.Biz.User
 {
-    public class EmailCheckBiz : UserRepository
+    public class UserEmailCheckBiz : UserRepository
     {
-        public int UserSignUp(UserEmailCheckEntity userEmailCheck)
+        public int UserSignUp(UserEmailCheckModel userEmailCheck)
         {
             UserEntity userEntity = new UserEntity();
             userEntity.Email = userEmailCheck.Email;

@@ -13,13 +13,13 @@ namespace BoardRenual.Controllers
         }
 
         [HttpPost]
-        public JsonResult SignUp(UserSignUpEntity userSignUpEntity)
+        public JsonResult SignUp(UserSignUpModel userSignUpEntity)
         {
             SignUpBiz signUpBiz = new SignUpBiz();
             return Json(signUpBiz.UserSignUp(userSignUpEntity));
         }
         [HttpPost]
-        public JsonResult EmailCheck(UserEmailCheckEntity userEmailCheck)
+        public JsonResult EmailCheck(UserEmailCheckModel userEmailCheck)
         {
             EmailCheckBiz emailCheckBiz = new EmailCheckBiz();
             return Json(emailCheckBiz.UserSignUp(userEmailCheck));

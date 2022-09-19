@@ -8,9 +8,9 @@ using System.Web;
 
 namespace BoardRenual.Biz.User
 {
-    public class SignUpBiz : UserRepository
+    public class UserSignUpBiz : UserRepository
     {
-        public bool UserSignUp(UserSignUpEntity signUpEntity)
+        public bool UserSignUp(UserSignUpModel signUpEntity)
         {
             UserEntity userEntity = new UserEntity();
             userEntity.Email = signUpEntity.Email;
