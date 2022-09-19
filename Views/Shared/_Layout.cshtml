@@ -28,7 +28,7 @@
                     }
                     else
                     {
-                        <li style="color:white; margin-top:15px;">@(Request.Cookies["UserName"].Value)님 환영합니다. </li>
+                        <li style="color:white; margin-top:15px;">@(Server.UrlDecode(Request.Cookies["UserName"].Value))님 환영합니다. </li>
                         <li>@Html.ActionLink("로그아웃", "Logout", "User")</li>
                     }
                 </ul>
