@@ -1,4 +1,5 @@
-﻿using BoardRenual.Models.RequestModel.Board;
+﻿using BoardRenual.Biz.Board;
+using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,10 @@ namespace BoardRenual.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Write(BoardWriteModel boardWriteModel)
+        public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            return View();
+            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            return Json(boardWriteBiz.InsertBoard(boardWriteModel));
         }
     }
 }
