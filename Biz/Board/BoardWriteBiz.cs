@@ -20,22 +20,32 @@ namespace BoardRenual.Biz.Board
             boardModel.Email = boardWriteModel.Email;
 
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return(boardRepository.WriteBoard(boardModel, con));
+            // 객체를 넘기기
+            return(boardRepository.WriteBoard(boardModel, connection));
         }
         public List<BoardModel> GetBoardList()
         {
             BoardRepository boardRepository = new BoardRepository();
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return (boardRepository.GetBoardList(con));
+            return (boardRepository.GetBoardList(connection));
         }
         public BoardModel GetBoardDetail(int No)
         {
             BoardRepository boardRepository = new BoardRepository();
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return (boardRepository.GetBoardDetail(con,No));
+            return (boardRepository.GetBoardDetail(connection, No));
+        }
+        public BoardModel GetBoardEmail(int No)
+        {
+            BoardRepository boardRepository = new BoardRepository();
+            Connection connection = new Connection();
+            return (boardRepository.GetBoardEmail(connection, No));
+        }
+        public void DeleteBoard(int No)
+        {
+            BoardRepository boardRepository = new BoardRepository();
+            Connection connection = new Connection();
+            boardRepository.DeleteBoard(connection, No);
         }
     }
 }

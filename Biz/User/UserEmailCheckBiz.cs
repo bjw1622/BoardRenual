@@ -7,15 +7,14 @@ namespace BoardRenual.Biz.User
 {
     public class UserEmailCheckBiz
     {
-        public int UserSignUp(UserEmailCheckModel userEmailCheck)
+        public int EmailCheck(UserEmailCheckModel userEmailCheck)
         {
             UserModel userModel = new UserModel();
             UserRepository userRepository = new UserRepository();
             userModel.Email = userEmailCheck.Email;
             
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return userRepository.EmailCheck(userModel, con);
+            return userRepository.EmailCheck(userModel, connection);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BoardRenual.Controllers
         public JsonResult EmailCheck(UserEmailCheckModel userEmailCheck)
         {
             UserEmailCheckBiz emailCheckBiz = new UserEmailCheckBiz();
-            return Json(emailCheckBiz.UserSignUp(userEmailCheck));
+            return Json(emailCheckBiz.EmailCheck(userEmailCheck));
         }
         [HttpGet]
         public ActionResult LogIn()

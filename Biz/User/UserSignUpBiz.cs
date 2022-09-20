@@ -22,8 +22,7 @@ namespace BoardRenual.Biz.User
             userModel.Birth = signUpModel.Birth;
             
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return userRepository.SignUp(userModel, con);
+            return userRepository.SignUp(userModel, connection);
         }
     }
 }

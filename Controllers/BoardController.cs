@@ -26,12 +26,27 @@ namespace BoardRenual.Controllers
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
             return Json(boardWriteBiz.InsertBoard(boardWriteModel));
-        }
+        }  
         [HttpGet]
         public ActionResult Detail(int No)
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            // 작성 이메일 가져오기
+            if(boardWriteBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            {
+                ViewBag.EmailCheck = true;
+            }
+            else
+            {
+                ViewBag.EmailCheck = false;
+            }
             return View(boardWriteBiz.GetBoardDetail(No));
+        }
+        public ActionResult Delete(int No)
+        {
+            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            boardWriteBiz.DeleteBoard(No);
+            return RedirectToAction("Index", "Board");
         }
     }
 }

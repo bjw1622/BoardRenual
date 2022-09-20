@@ -19,8 +19,7 @@ namespace BoardRenual.Biz.User
             userModel.Pw = signUpEntity.Pw;
 
             Connection connection = new Connection();
-            SqlConnection con = connection.ConOpen();
-            return userRepository.SignIn(userModel, con);
+            return userRepository.SignIn(userModel, connection);
         }
     }
 }
