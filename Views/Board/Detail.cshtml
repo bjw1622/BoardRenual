@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    bool EmailCheck = ViewBag.EmailCheck;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <h2>상세</h2>
+    <div class="form-group">
+        <label>제목</label>
+        <input type="text" class="form-control" name="Title" id="title" value="@Model.Title">
+    </div>
+
+    <div class="form-group">
+        <label>작성자</label>
+        <input type="text" class="form-control" name="Name" readonly value="@Model.Name">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">내용</label>
+        <textarea class="form-control" name="MainContent" id="mainContent" rows="5">@Model.Content</textarea>
+    </div>
+    <hr />
+    @*<div class="form-group">
+            <h4>첨부 파일</h4>
+            @if (@ViewBag.GetFileImg[0].FileName != "")
+            {
+                <a href="~/Uploads/@ViewBag.GetFileImg[0].FileName" download="@ViewBag.GetFileImg[0].FileName">
+                    <img src="~/Uploads/@ViewBag.GetFileImg[0].FileName" alt="첨부 파일 없음">
+                </a>
+            }
+            @if (@ViewBag.GetFileImg[0].FileName2 != "")
+            {
+                <a href="~/Uploads/@ViewBag.GetFileImg[0].FileName2" download="@ViewBag.GetFileImg[0].FileName2">
+                    <img src="~/Uploads/@ViewBag.GetFileImg[0].FileName2" alt="첨부 파일 없음">
+                </a>
+            }
+        </div>*@
+    <hr />
+    <button class="btn btn-primary" id="recommand">추천 : </button>
+    @if (@EmailCheck == true)
+    {
+        <div>
+            <button class="btn btn-info" onclick="update()">수정</button>
+            <button class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+        </div>
+    }
+    <hr />
+    <div class="input-group mb-3" style="display:flex;">
+        <input type="text" class="form-control" style="margin-right : 5px;" id="reply">
+        <button class="btn btn-outline-secondary" id="reply-btn" type="button">댓글 입력</button>
+    </div>
+    <hr />
+</body>
+</html>
+<script>
+    function deleteBoard() {
+        const flag = confirm('정말 삭제하시겠습니까?');
+        const No = parseInt(window.location.pathname.split('/')[3]);
+        if (flag === true) {
+            alert('삭제 되었습니다.');
+            location.href = "/Board/Delete/" + window.location.pathname.split('/')[3];
+        }
+    };
+</script>
+

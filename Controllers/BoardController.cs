@@ -1,4 +1,5 @@
-﻿using BoardRenual.Models.RequestModel.Board;
+﻿using BoardRenual.Biz.Board;
+using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            BoardGetBoardListBiz boardGetBoardListBiz = new BoardGetBoardListBiz();
+            return View(boardGetBoardListBiz.GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
@@ -20,9 +22,31 @@ namespace BoardRenual.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Write(BoardWriteModel boardWriteModel)
+        public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            return View();
+            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            return Json(boardWriteBiz.WriteBoard(boardWriteModel));
+        }  
+        [HttpGet]
+        public ActionResult Detail(int No)
+        {
+            BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
+            BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
+            if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            {
+                ViewBag.EmailCheck = true;
+            }
+            else
+            {
+                ViewBag.EmailCheck = false;
+            }
+            return View(boardGetBoardDetailBiz.GetBoardDetail(No));
+        }
+        public ActionResult Delete(int No)
+        {
+            BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
+            boardDeleteBoardBiz.DeleteBoard(No);
+            return RedirectToAction("Index", "Board");
         }
     }
 }

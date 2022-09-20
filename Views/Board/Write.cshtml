@@ -8,20 +8,22 @@
 <head>
 </head>
 <body>
-    <div class="form-group">
-        <label>제목</label>
-        <input type="text" class="form-control" placeholder="제목" id="title" required>
-    </div>
-    <div class="form-group">
-        <label>작성자</label>
-        <input type="text" class="form-control" id="writer" value=@(Server.UrlDecode(Request.Cookies["UserName"].Value)) readonly>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">글 내용</label>
-        <textarea class="form-control" rows="5" id="main-content" required></textarea>
-    </div>
-    <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
-    <button class="btn btn-primary" id="write">글작성</button>
+    <form>
+        <div class="form-group">
+            <label>제목</label>
+            <input type="text" class="form-control" placeholder="제목" id="title" required>
+        </div>
+        <div class="form-group">
+            <label>작성자</label>
+            <input type="text" class="form-control" id="writer" value=@(Server.UrlDecode(Request.Cookies["UserName"].Value)) readonly>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">글 내용</label>
+            <textarea class="form-control" rows="5" id="main-content" required></textarea>
+        </div>
+        <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
+        <button class="btn btn-primary" id="write">글작성</button>
+    </form>
 </body>
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -33,12 +35,19 @@
             Email: "@(Server.UrlDecode(Request.Cookies["Email"].Value))",
         }
         $.ajax({
-            url: '/User/Write',
+            url: '/Board/Write',
             type: 'post',
-            dataType: 'json',
             data: JSON.stringify(param),
+            dataType: 'json',
             contentType: 'application/json',
-            success: function () {
+            success: function (data) {
+                if (data !== -1) {
+                    alert('글 작성이 완료 되었습니다.');
+                    location.href = "/Board/Index";
+                }
+                else {
+                    alert('글 작성에 실패하였습니다.');
+                }
             },
             error: function (err) {
             }

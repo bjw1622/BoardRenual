@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Models.Partial
+namespace BoardRenual.Models
 {
-    public class BoardModelPartial
+    public partial class BoardModel
     {
         public string Email { get; set; }
+        public string Name { get; set; }
     }
 }

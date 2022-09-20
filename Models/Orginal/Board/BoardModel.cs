@@ -1,12 +1,11 @@
-﻿using BoardRenual.Models.Partial;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Models.OrginalModel.Board
+namespace BoardRenual.Models
 {
-    public class BoardModel : BoardModelPartial
+    public partial class BoardModel
     {
         public int No { get; set; }
         public string Title { get; set; }
