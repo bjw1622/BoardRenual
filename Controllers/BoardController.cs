@@ -25,7 +25,7 @@ namespace BoardRenual.Controllers
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            return Json(boardWriteBiz.InsertBoard(boardWriteModel));
+            return Json(boardWriteBiz.WriteBoard(boardWriteModel));
         }  
         [HttpGet]
         public ActionResult Detail(int No)
