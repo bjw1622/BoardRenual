@@ -5,12 +5,12 @@ using System.Data.SqlClient;
 
 namespace BoardRenual.Repository
 {
-    public class UserRepository : Connection
+    public class UserRepository
     {
-        public bool SignUp(UserEntity userEntity)
+        public int SignUp(UserModel userEntity,SqlConnection con)
         {
-            SqlConnection con = ConOpen();
-            bool signUp = false;
+            Connection connection = new Connection();
+            int signUpResult = -1;
             try
             {
                 using (SqlCommand com = new SqlCommand("dbo.InsertUser", con))
@@ -20,8 +20,10 @@ namespace BoardRenual.Repository
                     com.Parameters.AddWithValue("@Pw", userEntity.Pw);
                     com.Parameters.AddWithValue("@Name", userEntity.Name);
                     com.Parameters.AddWithValue("@Birth", userEntity.Birth);
-                    com.ExecuteNonQuery();
-                    signUp = true;
+                    if((string)com.ExecuteScalar() == userEntity.Email)
+                    {
+                        signUpResult = 0;
+                    }
                 }
             }
             catch (Exception e)
@@ -30,24 +32,63 @@ namespace BoardRenual.Repository
             }
             finally
             {
-                ConDispose(con);
+                connection.ConDispose(con);
             }
-            return signUp;
+            return signUpResult;
         }
 
 
-        public int EmailCheck(UserEntity userEntity)
+        public int EmailCheck(UserModel userEntity, SqlConnection con)
         {
             int result = -1;
-            SqlConnection con = ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
+            Connection connection = new Connection();
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Email", userEntity.Email);
-                result = (int)com.ExecuteScalar();
+                using (SqlCommand com = new SqlCommand("dbo.EmailCheck", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Email", userEntity.Email);
+                    result = (int)com.ExecuteScalar();
+                }
             }
-            ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
             return result;
+        }
+
+        public UserModel SignIn(UserModel userEntity, SqlConnection con)
+        {
+            Connection connection = new Connection();
+            UserModel users = new UserModel();
+            try {
+                using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Email", userEntity.Email);
+                    com.Parameters.AddWithValue("@Pw", userEntity.Pw);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        users.Email = Convert.ToString(reader["Email"]);
+                        users.Name = Convert.ToString(reader["Name"]);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return users;
         }
     }
 }

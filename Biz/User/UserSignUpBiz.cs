@@ -3,21 +3,27 @@ using BoardRenual.Models.RequestModel.User;
 using BoardRenual.Repository;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
 namespace BoardRenual.Biz.User
 {
-    public class UserSignUpBiz : UserRepository
+    public class UserSignUpBiz
     {
-        public bool UserSignUp(UserSignUpModel signUpEntity)
+        public int UserSignUp(UserSignUpModel signUpModel)
         {
-            UserEntity userEntity = new UserEntity();
-            userEntity.Email = signUpEntity.Email;
-            userEntity.Pw = signUpEntity.Pw;
-            userEntity.Name = signUpEntity.Name;
-            userEntity.Birth = signUpEntity.Birth;
-            return SignUp(userEntity);
+            UserModel userModel = new UserModel();
+            UserRepository userRepository = new UserRepository();
+
+            userModel.Email = signUpModel.Email;
+            userModel.Pw = signUpModel.Pw;
+            userModel.Name = signUpModel.Name;
+            userModel.Birth = signUpModel.Birth;
+            
+            Connection connection = new Connection();
+            SqlConnection con = connection.ConOpen();
+            return userRepository.SignUp(userModel, con);
         }
     }
 }

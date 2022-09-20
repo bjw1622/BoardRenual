@@ -1,21 +1,26 @@
 ﻿using BoardRenual.Models.OrginalModel.User;
 using BoardRenual.Models.RequestModel.User;
 using BoardRenual.Repository;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
 
 namespace BoardRenual.Biz.User
 {
-    public class UserEmailCheckBiz
+    public class UserLogInBiz
     {
-        public int UserSignUp(UserEmailCheckModel userEmailCheck)
+        public UserModel UserSignUp(UserLogInModel signUpEntity)
         {
             UserModel userModel = new UserModel();
             UserRepository userRepository = new UserRepository();
-            userModel.Email = userEmailCheck.Email;
-            
+            userModel.Email = signUpEntity.Email;
+            userModel.Pw = signUpEntity.Pw;
+
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
-            return userRepository.EmailCheck(userModel, con);
+            return userRepository.SignIn(userModel, con);
         }
     }
 }

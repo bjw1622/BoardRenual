@@ -120,17 +120,24 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Biz\Board\BoardWriteBiz.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
+    <Compile Include="Biz\User\UserLogInBiz.cs" />
     <Compile Include="Biz\User\UserSignUpBiz.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="App_Start\Connection.cs" />
-    <Compile Include="Models\OrginalModel\User\UserEntity.cs" />
-    <Compile Include="Models\RequestModel\User\UserEmailCheckModel.cs" />
-    <Compile Include="Models\RequestModel\User\UserLogInModel.cs" />
-    <Compile Include="Models\RequestModel\User\UserSignUpModel.cs" />
+    <Compile Include="Common\Connection.cs" />
+    <Compile Include="Models\Orginal\Board\BoardOriginalModel.cs" />
+    <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
+    <Compile Include="Models\Partial\BoardModelPartial.cs" />
+    <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />
+    <Compile Include="Repositorys\BoardRepository.cs" />
     <Compile Include="Repositorys\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -169,10 +176,13 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\SignUp.cshtml" />
     <Content Include="Views\User\LogIn.cshtml" />
+    <Content Include="Views\Board\Index.cshtml" />
+    <Content Include="Views\Board\Write.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ViewModel\User\" />
+    <Folder Include="Models\View\Board\" />
+    <Folder Include="Models\View\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <h2>게시판</h2>
+    <hr />
+    <div>
+        <select class="form-select" id="board-count">
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+        </select>
+        <select class="form-select" id="find-value">
+            <option value="Name">작성자</option>
+            <option value="Title">제목</option>
+        </select>
+        <input type="text" id="find" />
+        <button id="find-board">검색</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">#</th>
+                <th class="text-center" scope="col">제목</th>
+                <th class="text-center" scope="col">작성자</th>
+                <th class="text-center" scope="col">댓글</th>
+                <th class="text-center" scope="col">추천</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+
+    </table>
+    <div id="page" style="text-align: center;">
+    </div>
+    <button class="btn btn-primary" onclick="location.href='/Board/Write'">글쓰기</button>
+</body>
+</html>
+
