@@ -20,7 +20,6 @@ namespace BoardRenual.Biz.Board
             boardModel.Email = boardWriteModel.Email;
 
             Connection connection = new Connection();
-            // 객체를 넘기기
             return(boardRepository.WriteBoard(boardModel, connection));
         }
     }

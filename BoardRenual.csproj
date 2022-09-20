@@ -120,6 +120,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Biz\Board\BoardDeleteBoardBiz.cs" />
+    <Compile Include="Biz\Board\BoardGetBoardDetailBiz.cs" />
+    <Compile Include="Biz\Board\BoardGetBoardEmailBiz.cs" />
+    <Compile Include="Biz\Board\BoardGetBoardListBiz.cs" />
     <Compile Include="Biz\Board\BoardWriteBiz.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
     <Compile Include="Biz\User\UserLogInBiz.cs" />

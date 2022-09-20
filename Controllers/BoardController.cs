@@ -13,8 +13,8 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            return View(boardWriteBiz.GetBoardList());
+            BoardGetBoardListBiz boardGetBoardListBiz = new BoardGetBoardListBiz();
+            return View(boardGetBoardListBiz.GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
@@ -30,9 +30,9 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Detail(int No)
         {
-            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            // 작성 이메일 가져오기
-            if(boardWriteBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
+            BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
+            if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
             }
@@ -40,12 +40,12 @@ namespace BoardRenual.Controllers
             {
                 ViewBag.EmailCheck = false;
             }
-            return View(boardWriteBiz.GetBoardDetail(No));
+            return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         public ActionResult Delete(int No)
         {
-            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            boardWriteBiz.DeleteBoard(No);
+            BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
+            boardDeleteBoardBiz.DeleteBoard(No);
             return RedirectToAction("Index", "Board");
         }
     }
