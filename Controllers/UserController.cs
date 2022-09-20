@@ -49,6 +49,7 @@ namespace BoardRenual.Controllers
                 "location.href='/User/Login'" +
                 "</script>");
         }
+        [HttpGet]
         public ActionResult Logout()
         {
             Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);

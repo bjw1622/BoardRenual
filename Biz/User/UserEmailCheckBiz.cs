@@ -9,13 +9,13 @@ namespace BoardRenual.Biz.User
     {
         public int UserSignUp(UserEmailCheckModel userEmailCheck)
         {
-            UserModel userEntity = new UserModel();
+            UserModel userModel = new UserModel();
             UserRepository userRepository = new UserRepository();
-            userEntity.Email = userEmailCheck.Email;
+            userModel.Email = userEmailCheck.Email;
             
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
-            return userRepository.EmailCheck(userEntity,con);
+            return userRepository.EmailCheck(userModel, con);
         }
     }
 }

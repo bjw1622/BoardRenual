@@ -13,14 +13,14 @@ namespace BoardRenual.Biz.User
     {
         public UserModel UserSignUp(UserLogInModel signUpEntity)
         {
-            UserModel userEntity = new UserModel();
+            UserModel userModel = new UserModel();
             UserRepository userRepository = new UserRepository();
-            userEntity.Email = signUpEntity.Email;
-            userEntity.Pw = signUpEntity.Pw;
+            userModel.Email = signUpEntity.Email;
+            userModel.Pw = signUpEntity.Pw;
 
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
-            return userRepository.SignIn(userEntity,con);
+            return userRepository.SignIn(userModel, con);
         }
     }
 }

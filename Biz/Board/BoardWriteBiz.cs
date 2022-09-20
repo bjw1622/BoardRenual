@@ -12,10 +12,12 @@ namespace BoardRenual.Biz.Board
     {
         public void InsertBoard(BoardWriteModel boardWriteModel)
         {
-            BoardModel boardEntity = new BoardModel();
+            BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
-            boardEntity.Title = boardWriteModel.Title;
-            boardEntity.Content = boardWriteModel.Content;
+            boardModel.Title = boardWriteModel.Title;
+            boardModel.Content = boardWriteModel.Content;
+            boardModel.Email = boardWriteModel.Email;
+
             // join으로 가져와야 하는 테이블의 정보 같은 경우는 어떻게 처리?
         }
     }
