@@ -23,5 +23,19 @@ namespace BoardRenual.Biz.Board
             SqlConnection con = connection.ConOpen();
             return(boardRepository.WriteBoard(boardModel, con));
         }
+        public List<BoardModel> GetBoardList()
+        {
+            BoardRepository boardRepository = new BoardRepository();
+            Connection connection = new Connection();
+            SqlConnection con = connection.ConOpen();
+            return (boardRepository.GetBoardList(con));
+        }
+        public BoardModel GetBoardDetail(int No)
+        {
+            BoardRepository boardRepository = new BoardRepository();
+            Connection connection = new Connection();
+            SqlConnection con = connection.ConOpen();
+            return (boardRepository.GetBoardDetail(con,No));
+        }
     }
 }

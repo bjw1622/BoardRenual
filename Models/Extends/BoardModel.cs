@@ -7,6 +7,7 @@ namespace BoardRenual.Models
 {
     public partial class BoardModel
     {
-        public  string Email { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
     }
 }

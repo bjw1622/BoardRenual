@@ -13,6 +13,20 @@ namespace BoardRenual
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // "Board/Detail/{boardNum}"에 대한 Route
+            routes.MapRoute(
+                "Detail",
+                "Board/Detail/{No}",
+                new { controller = "Board", action = "Detail" }
+            );
+
+            // "Board/Delete/{boardNum}"에 대한 Route
+            routes.MapRoute(
+                "Delete",
+                "Board/Delete/{No}",
+                new { controller = "Board", action = "Delete" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

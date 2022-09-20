@@ -13,7 +13,8 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            return View(boardWriteBiz.GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
@@ -25,6 +26,12 @@ namespace BoardRenual.Controllers
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
             return Json(boardWriteBiz.InsertBoard(boardWriteModel));
+        }
+        [HttpGet]
+        public ActionResult Detail(int No)
+        {
+            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            return View(boardWriteBiz.GetBoardDetail(No));
         }
     }
 }
