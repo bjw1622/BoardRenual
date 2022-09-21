@@ -26,7 +26,7 @@ namespace BoardRenual.Controllers
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
             return Json(boardWriteBiz.WriteBoard(boardWriteModel));
-        }  
+        }
         [HttpGet]
         public ActionResult Detail(int No)
         {
@@ -42,11 +42,14 @@ namespace BoardRenual.Controllers
             }
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
-        public ActionResult Delete(int No)
+        [HttpPost]
+        public JsonResult Delete(int No)
         {
             BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
-            boardDeleteBoardBiz.DeleteBoard(No);
-            return RedirectToAction("Index", "Board");
+            return Json(new
+            {
+                flag = boardDeleteBoardBiz.DeleteBoard(No)
+            });
         }
     }
 }

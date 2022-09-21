@@ -83,6 +83,7 @@ namespace BoardRenual.Repositorys
                     SqlDataReader reader = com.ExecuteReader();
                     while (reader.Read())
                     {
+                        boardModel.No = No;
                         boardModel.Title = Convert.ToString(reader["Title"]);
                         boardModel.Name = Convert.ToString(reader["Name"]);
                         boardModel.Content = Convert.ToString(reader["Content"]);
@@ -127,16 +128,32 @@ namespace BoardRenual.Repositorys
             }
             return boardModel;
         }
-        public void DeleteBoard(Connection connection, int No)
+        public bool DeleteBoard(Connection connection, int No)
         {
+            bool flag = false;
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.DelteBoard", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", No);
-                com.ExecuteNonQuery();
+                using (SqlCommand com = new SqlCommand("dbo.DelteBoard", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", No);
+                    int obj = (int)com.ExecuteScalar();
+                    if (obj == No)
+                    {
+                        flag = true;
+                    }
+                }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return flag;
         }
     }
 }

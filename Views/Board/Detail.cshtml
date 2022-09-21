@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Detail";
     bool EmailCheck = ViewBag.EmailCheck;
+    int No = Model.No;
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,7 +46,7 @@
     {
         <div>
             <button class="btn btn-info" onclick="update()">수정</button>
-            <button class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+            <button class="btn btn-danger" id="delete-btn">삭제</button>
         </div>
     }
     <hr />
@@ -56,14 +57,31 @@
     <hr />
 </body>
 </html>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
-    function deleteBoard() {
-        const flag = confirm('정말 삭제하시겠습니까?');
-        const No = parseInt(window.location.pathname.split('/')[3]);
+    $('#delete-btn').click(() => {
+        const flag = confirm("삭제 하시겠습니까?");
         if (flag === true) {
-            alert('삭제 되었습니다.');
-            location.href = "/Board/Delete/" + window.location.pathname.split('/')[3];
-        }
-    };
+            const param = { No: @No};
+        $.ajax({
+            url: '/Board/Delete/',
+            type: 'post',
+            data: JSON.stringify(param),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.flag === true) {
+                    alert('삭제 되었습니다.');
+                    location.href = "/Board/Index";
+                }
+                else {
+                    alert("삭제에 실패했습니다.");
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+    })
 </script>
 
