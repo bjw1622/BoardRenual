@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    int boardCount = 20;
+    int totalPage = (Model.Count / boardCount) + 2;
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,22 +36,202 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @for (var i = 0; i < @Model.Count; i++)
+            @if (Model.Count < boardCount)
             {
-            <tr class="text-center">
-                <td class="text-center">@Model[i].No</td>
-                <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
-                <td class="text-center">@Model[i].Name</td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-            </tr>
+                for (var i = 0; i < @ViewBag.Board.Count; i++)
+                {
+                    <tr class="text-center">
+                        <td class="text-center">@(i+1)</td>
+                        <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
+                        <td class="text-center">@Model[i].Name</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                for (var i = 0; i < boardCount; i++)
+                {
+                    <tr class="text-center">
+                        <td class="text-center">@(i+1)</td>
+                        <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
+                        <td class="text-center">@Model[i].Name</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                    </tr>
+                }
             }
         </tbody>
-
     </table>
     <div id="page" style="text-align: center;">
+        @for (var i = 1; i < totalPage; i++)
+        {
+            if (i == 1)
+            {
+                <button class=" page-btn btn btn-light btn-info" onclick="paging()" value=@i>@i</button>
+            }
+            else
+            {
+                <button class="page-btn btn btn-light" onclick="paging()" value=@i>@i</button>
+            }
+        }
     </div>
     <button class="btn btn-primary" onclick="location.href='/Board/Write'">글쓰기</button>
 </body>
 </html>
+<script>
+    // 페이징 나타내기
+    document.querySelector('#board-count').addEventListener('click', () => {
+        $('#page').empty();
+        let totalPageCount = @(Model.Count);
+        for (let i = 1; i < (totalPageCount / document.querySelector('#board-count').value)+1; i++)
+        {
+            if (i === 1) {
+                $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="paging()" value=${i} >${i}</button>`);
+            }
+            else {
+                $('#page').append(` <button class="page-btn btn btn-light" onclick="paging()" value=${i} >${i}</button>`);
+            }
+        }
+        init();
+        const param = {
+            PageNumber: 1,
+            PageCount: $('#board-count').val(),
+        }
+        $.ajax({
+            url: '/Board/IndexPaging',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                $('#tbody').empty();
+                if (data.Paging !== "") {
+                    data.Paging.forEach((item,val) => {
+                        $('#tbody').append(createRow(item, val, param.PageNumber))
 
+                    })
+                }
+            },
+            error: function () {
+            }
+        });
+    })
+
+    // 검색 조건 없을 때 페이징
+    function paging() {
+        const param = {
+            PageNumber: event.target.value,
+            PageCount: $('#board-count').val()
+        }
+        $.ajax({
+            url: '/Board/IndexPaging',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                $('#tbody').empty();
+                if (data.Paging !== "") {
+                    data.Paging.forEach((item,val) => {
+                        $('#tbody').append(createRow(item, val, param.PageNumber))
+                    })
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+
+    ////검색 시 첫 화면  + 페이징 버튼 그리기
+    //document.querySelector('#find-board').addEventListener('click', () => {
+    //    const param = {
+    //        PageNumber: 1,
+    //        PageCount: $('#board-count').val(),
+    //        Variable: document.querySelector("#find-value").value,
+    //        Input: $('#find').val(),
+    //    }
+    //    $.ajax({
+    //        url: '/Board/PageAndFind',
+    //        type: 'post',
+    //        dataType: "json",
+    //        data: JSON.stringify(param),
+    //        contentType: "application/json",
+    //        success: function (data) {
+    //            $('#page').empty();
+    //            for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
+    //                if (i === 1) {
+    //                    $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="findPaging()" value=${i} >${i}</button>`);
+    //                }
+    //                else {
+    //                    $('#page').append(` <button class="page-btn btn btn-light" onclick="findPaging()" value=${i} >${i}</button>`);
+    //                }
+    //            }
+    //            init();
+    //            $('#tbody').empty();
+    //            if (data.List !== "") {
+    //                data.List.forEach((item, val) => {
+    //                    $('#tbody').append(createRow(item, val, param.PageNumber));
+    //                })
+    //            }
+    //        },
+    //        error: function () {
+    //        }
+    //    });
+    //})
+
+    //// 검색 조건 있을 때 페이징
+    //function findPaging() {
+    //    const param = {
+    //        PageNumber: event.target.value,
+    //        PageCount: $('#board-count').val(),
+    //        Variable: document.querySelector("#find-value").value,
+    //        Input: $('#find').val(),
+    //    }
+    //    $.ajax({
+    //        url: '/Board/PageAndFind',
+    //        type: 'post',
+    //        dataType: "json",
+    //        data: JSON.stringify(param),
+    //        contentType: "application/json",
+    //        success: function (data) {
+    //            $('#tbody').empty();
+    //            if (data.List !== "") {
+    //                data.List.forEach((item, val) => {
+    //                    $('#tbody').append(createRow(boar, val, param.PageNumber, data.ReplyCount));
+    //                })
+    //            }
+    //        },
+    //        error: function () {
+    //        }
+    //    });
+    //}
+
+    function createRow(item,val,pageNumber) {
+        return `
+        <tr class="text-center">
+                    <td class="text-center">${(val + 1) + parseInt(pageNumber-1) * 20}</td>
+                    <td class="text-center"><a href="/Board/Detail/${item.No}">${item.Title}</a></td>
+                    <td class="text-center">${item.Name}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>`
+    }
+
+    //페이징 버튼 색깔 변경
+    const buttonClass = document.getElementsByClassName("page-btn");
+    function handleClick(event) {
+        for (var i = 0; i < buttonClass.length; i++) {
+            buttonClass[i].classList.remove("btn-info");
+        }
+        event.target.classList.add("btn-info");
+    }
+
+    function init() {
+        for (var i = 0; i < buttonClass.length; i++) {
+            buttonClass[i].addEventListener("click", handleClick);
+        }
+    }
+    init();
+</script>
