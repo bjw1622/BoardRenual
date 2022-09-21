@@ -41,9 +41,9 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                if (data !== -1) {
+                if (data.result !== -1) {
                     alert('글 작성이 완료 되었습니다.');
-                    location.href = "/Board/Index";
+                    window.location.replace("/Board/Index");
                 }
                 else {
                     alert('글 작성에 실패하였습니다.');

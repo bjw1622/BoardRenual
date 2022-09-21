@@ -45,7 +45,7 @@
     @if (@EmailCheck == true)
     {
         <div>
-            <button class="btn btn-info" onclick="update()">수정</button>
+            <button class="btn btn-info" id="update-btn">수정</button>
             <button class="btn btn-danger" id="delete-btn">삭제</button>
         </div>
     }
@@ -59,6 +59,37 @@
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
+    // HTTPMETHOD => PUT으로 수정
+    $('#update-btn').click(() => {
+        const flag = confirm("수정 하시겠습니까?");
+        if (flag === true) {
+            const param = {
+                No: @No,
+                Title: $('#title').val(),
+                Content: $('#mainContent').val(),
+            };
+        $.ajax({
+            url: '/Board/Update/',
+            type: 'post',
+            data: JSON.stringify(param),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.flag !== -1) {
+                    alert('수정 되었습니다.');
+                }
+                else {
+                    alert("수정에 실패했습니다.");
+                    window.location.reload();
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+    })
+
+    // HTTPMETHOD => DELETE로 수정
     $('#delete-btn').click(() => {
         const flag = confirm("삭제 하시겠습니까?");
         if (flag === true) {

@@ -155,5 +155,19 @@ namespace BoardRenual.Repositorys
             }
             return flag;
         }
+        public int UpdateBoard(BoardModel boardmodel, Connection connection)
+        {
+            int result = -1;
+            SqlConnection con = connection.ConOpen();
+                using (SqlCommand com = new SqlCommand("dbo.UpdateBoard", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", boardmodel.No);
+                    com.Parameters.AddWithValue("@Title", boardmodel.Title);
+                    com.Parameters.AddWithValue("@Content", boardmodel.Content);
+                    result = (int)com.ExecuteScalar();
+                }
+            return result;
+        }
     }
 }
