@@ -124,6 +124,7 @@
     <Compile Include="Biz\Board\BoardGetBoardDetailBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardEmailBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardListBiz.cs" />
+    <Compile Include="Biz\Board\BoardPagingBiz.cs" />
     <Compile Include="Biz\Board\BoardUpdateBiz.cs" />
     <Compile Include="Biz\Board\BoardWriteBiz.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Models\Extends\BoardModel.cs" />
     <Compile Include="Models\Request\Board\BoardUpdateRequestModel.cs" />
     <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
+    <Compile Include="Models\Request\Page\PageRequestModel.cs" />
     <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
     <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
     <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />

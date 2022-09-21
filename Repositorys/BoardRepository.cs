@@ -1,4 +1,5 @@
 ﻿using BoardRenual.Models;
+using BoardRenual.Models.Request.Page;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -168,6 +169,27 @@ namespace BoardRenual.Repositorys
                     result = (int)com.ExecuteScalar();
                 }
             return result;
+        }
+        public List<BoardModel> IndexPagingBoard(PageRequestModel pageRequestModel, Connection connection)
+        {
+            List<BoardModel> boardModelList = new List<BoardModel>();
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.PagingBoard", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@PageCount", pageRequestModel.PageCount);
+                com.Parameters.AddWithValue("@PageNumber", pageRequestModel.PageNumber);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    BoardModel boardModel = new BoardModel();
+                    boardModel.No = Convert.ToInt32(reader["No"]);
+                    boardModel.Title = Convert.ToString(reader["Title"]);
+                    boardModel.Name = Convert.ToString(reader["Name"]);
+                    boardModelList.Add(boardModel);
+                }
+            }
+            return boardModelList;
         }
     }
 }

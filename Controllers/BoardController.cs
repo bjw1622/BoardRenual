@@ -1,5 +1,6 @@
 ﻿using BoardRenual.Biz.Board;
 using BoardRenual.Models.Request.Board;
+using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,15 @@ namespace BoardRenual.Controllers
             {
                 flag = boardUpdateBiz.UpdateBoard(boardUpdateRequestModel)
             });
+        }
+        [HttpPost]
+        // 페이징
+        public JsonResult IndexPaging(PageRequestModel pageRequestModel)
+        {
+            BoardPagingBiz boardPagingBiz = new BoardPagingBiz();
+            return Json(new
+            { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }
+        );
         }
     }
 }
