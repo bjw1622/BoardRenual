@@ -1,4 +1,5 @@
 ﻿using BoardRenual.Biz.Board;
+using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,13 @@ namespace BoardRenual.Controllers
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            return Json(boardWriteBiz.WriteBoard(boardWriteModel));
-        }  
+            return Json(
+                new
+                {
+                    result = boardWriteBiz.WriteBoard(boardWriteModel)
+                }
+                );
+        }
         [HttpGet]
         public ActionResult Detail(int No)
         {
@@ -42,11 +48,23 @@ namespace BoardRenual.Controllers
             }
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
-        public ActionResult Delete(int No)
+        [HttpPost]
+        public JsonResult Delete(int No)
         {
             BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
-            boardDeleteBoardBiz.DeleteBoard(No);
-            return RedirectToAction("Index", "Board");
+            return Json(new
+            {
+                flag = boardDeleteBoardBiz.DeleteBoard(No)
+            });
+        }
+        [HttpPost]
+        public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
+        {
+            BoardUpdateBiz boardUpdateBiz = new BoardUpdateBiz();
+            return Json(new
+            {
+                flag = boardUpdateBiz.UpdateBoard(boardUpdateRequestModel)
+            });
         }
     }
 }

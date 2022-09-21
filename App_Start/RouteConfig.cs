@@ -20,12 +20,12 @@ namespace BoardRenual
                 new { controller = "Board", action = "Detail" }
             );
 
-            // "Board/Delete/{No}"에 대한 Route
-            routes.MapRoute(
-                "Delete",
-                "Board/Delete/{No}",
-                new { controller = "Board", action = "Delete" }
-            );
+            ////"Board/Delete/{No}"에 대한 Route
+            //routes.MapRoute(
+            //    "Delete",
+            //    "Board/Delete/{No}",
+            //    new { controller = "Board", action = "Delete" }
+            //);
 
             routes.MapRoute(
                 name: "Default",

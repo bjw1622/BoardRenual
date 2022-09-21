@@ -8,11 +8,11 @@ namespace BoardRenual.Biz.Board
 {
     public class BoardDeleteBoardBiz
     {
-        public void DeleteBoard(int No)
+        public bool DeleteBoard(int No)
         {
             BoardRepository boardRepository = new BoardRepository();
             Connection connection = new Connection();
-            boardRepository.DeleteBoard(connection, No);
+            return(boardRepository.DeleteBoard(connection, No));
         }
     }
 }
