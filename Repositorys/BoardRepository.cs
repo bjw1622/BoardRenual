@@ -1,4 +1,5 @@
 ﻿using BoardRenual.Models;
+using BoardRenual.Models.Orginal.Page;
 using BoardRenual.Models.Request.Page;
 using System;
 using System.Collections.Generic;
@@ -179,6 +180,29 @@ namespace BoardRenual.Repositorys
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@PageCount", pageRequestModel.PageCount);
                 com.Parameters.AddWithValue("@PageNumber", pageRequestModel.PageNumber);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    BoardModel boardModel = new BoardModel();
+                    boardModel.No = Convert.ToInt32(reader["No"]);
+                    boardModel.Title = Convert.ToString(reader["Title"]);
+                    boardModel.Name = Convert.ToString(reader["Name"]);
+                    boardModelList.Add(boardModel);
+                }
+            }
+            return boardModelList;
+        }
+        public List<BoardModel> PageAndFindBoard(PageOriginalModel pageOriginalModel, Connection connection)
+        {
+            List<BoardModel> boardModelList = new List<BoardModel>();
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.FindingAndPaging", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@PageCount", pageOriginalModel.PageCount);
+                com.Parameters.AddWithValue("@PageNumber", pageOriginalModel.PageNumber);
+                com.Parameters.AddWithValue("@Input", pageOriginalModel.Input);
+                com.Parameters.AddWithValue("@Variable", pageOriginalModel.Variable);
                 SqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {

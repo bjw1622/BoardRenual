@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Biz\Board\BoardDeleteBoardBiz.cs" />
+    <Compile Include="Biz\Board\BoardFindAndPageRequestBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardDetailBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardEmailBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardListBiz.cs" />
@@ -137,10 +138,12 @@
     </Compile>
     <Compile Include="Common\Connection.cs" />
     <Compile Include="Models\Orginal\Board\BoardModel.cs" />
+    <Compile Include="Models\Orginal\Page\PageOriginalModel.cs" />
     <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
     <Compile Include="Models\Extends\BoardModel.cs" />
     <Compile Include="Models\Request\Board\BoardUpdateRequestModel.cs" />
     <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
+    <Compile Include="Models\Request\Page\FindAndPageRequestModel.cs" />
     <Compile Include="Models\Request\Page\PageRequestModel.cs" />
     <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
     <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />

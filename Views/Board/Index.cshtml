@@ -109,7 +109,7 @@
                 $('#tbody').empty();
                 if (data.Paging !== "") {
                     data.Paging.forEach((item,val) => {
-                        $('#tbody').append(createRow(item, val, param.PageNumber))
+                        $('#tbody').append(createRow(item, val, param.PageNumber,param.PageCount))
 
                     })
                 }
@@ -135,7 +135,7 @@
                 $('#tbody').empty();
                 if (data.Paging !== "") {
                     data.Paging.forEach((item,val) => {
-                        $('#tbody').append(createRow(item, val, param.PageNumber))
+                        $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
                     })
                 }
             },
@@ -144,74 +144,74 @@
         });
     }
 
-    ////검색 시 첫 화면  + 페이징 버튼 그리기
-    //document.querySelector('#find-board').addEventListener('click', () => {
-    //    const param = {
-    //        PageNumber: 1,
-    //        PageCount: $('#board-count').val(),
-    //        Variable: document.querySelector("#find-value").value,
-    //        Input: $('#find').val(),
-    //    }
-    //    $.ajax({
-    //        url: '/Board/PageAndFind',
-    //        type: 'post',
-    //        dataType: "json",
-    //        data: JSON.stringify(param),
-    //        contentType: "application/json",
-    //        success: function (data) {
-    //            $('#page').empty();
-    //            for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
-    //                if (i === 1) {
-    //                    $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="findPaging()" value=${i} >${i}</button>`);
-    //                }
-    //                else {
-    //                    $('#page').append(` <button class="page-btn btn btn-light" onclick="findPaging()" value=${i} >${i}</button>`);
-    //                }
-    //            }
-    //            init();
-    //            $('#tbody').empty();
-    //            if (data.List !== "") {
-    //                data.List.forEach((item, val) => {
-    //                    $('#tbody').append(createRow(item, val, param.PageNumber));
-    //                })
-    //            }
-    //        },
-    //        error: function () {
-    //        }
-    //    });
-    //})
+    //검색 시 첫 화면  + 페이징 버튼 그리기
+    document.querySelector('#find-board').addEventListener('click', () => {
+        const param = {
+            PageNumber: 1,
+            PageCount: $('#board-count').val(),
+            Variable: document.querySelector("#find-value").value,
+            Input: $('#find').val(),
+        }
+        $.ajax({
+            url: '/Board/PageAndFind',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                $('#page').empty();
+                for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
+                    if (i === 1) {
+                        $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="findPaging()" value=${i} >${i}</button>`);
+                    }
+                    else {
+                        $('#page').append(` <button class="page-btn btn btn-light" onclick="findPaging()" value=${i} >${i}</button>`);
+                    }
+                }
+                init();
+                $('#tbody').empty();
+                if (data.Paging !== "") {
+                    data.Paging.forEach((item, val) => {
+                        $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
+                    })
+                }
+            },
+            error: function () {
+            }
+        });
+    })
 
-    //// 검색 조건 있을 때 페이징
-    //function findPaging() {
-    //    const param = {
-    //        PageNumber: event.target.value,
-    //        PageCount: $('#board-count').val(),
-    //        Variable: document.querySelector("#find-value").value,
-    //        Input: $('#find').val(),
-    //    }
-    //    $.ajax({
-    //        url: '/Board/PageAndFind',
-    //        type: 'post',
-    //        dataType: "json",
-    //        data: JSON.stringify(param),
-    //        contentType: "application/json",
-    //        success: function (data) {
-    //            $('#tbody').empty();
-    //            if (data.List !== "") {
-    //                data.List.forEach((item, val) => {
-    //                    $('#tbody').append(createRow(boar, val, param.PageNumber, data.ReplyCount));
-    //                })
-    //            }
-    //        },
-    //        error: function () {
-    //        }
-    //    });
-    //}
+    // 검색 조건 있을 때 페이징
+    function findPaging() {
+        const param = {
+            PageNumber: event.target.value,
+            PageCount: $('#board-count').val(),
+            Variable: document.querySelector("#find-value").value,
+            Input: $('#find').val(),
+        }
+        $.ajax({
+            url: '/Board/PageAndFind',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                $('#tbody').empty();
+                if (data.Paging !== "") {
+                    data.Paging.forEach((item, val) => {
+                        $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
+                    })
+                }
+            },
+            error: function () {
+            }
+        });
+    }
 
-    function createRow(item,val,pageNumber) {
+    function createRow(item,val,pageNumber,pageCount) {
         return `
         <tr class="text-center">
-                    <td class="text-center">${(val + 1) + parseInt(pageNumber-1) * 20}</td>
+                    <td class="text-center">${(val + 1) + parseInt(pageNumber-1) * pageCount}</td>
                     <td class="text-center"><a href="/Board/Detail/${item.No}">${item.Title}</a></td>
                     <td class="text-center">${item.Name}</td>
                     <td class="text-center"></td>

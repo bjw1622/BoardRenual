@@ -76,5 +76,14 @@ namespace BoardRenual.Controllers
             { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }
         );
         }
+        [HttpPost]
+        // 페이징
+        public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
+        {
+            BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
+            return Json(new
+            { Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel) }
+        );
+        }
     }
 }
