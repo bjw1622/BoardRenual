@@ -161,13 +161,24 @@ namespace BoardRenual.Repositorys
         {
             int result = -1;
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.UpdateBoard", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", boardmodel.No);
-                com.Parameters.AddWithValue("@Title", boardmodel.Title);
-                com.Parameters.AddWithValue("@Content", boardmodel.Content);
-                result = (int)com.ExecuteScalar();
+                using (SqlCommand com = new SqlCommand("dbo.UpdateBoard", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", boardmodel.No);
+                    com.Parameters.AddWithValue("@Title", boardmodel.Title);
+                    com.Parameters.AddWithValue("@Content", boardmodel.Content);
+                    result = (int)com.ExecuteScalar();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
             }
             return result;
         }
@@ -175,20 +186,30 @@ namespace BoardRenual.Repositorys
         {
             List<BoardModel> boardModelList = new List<BoardModel>();
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.PagingBoard", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@PageCount", pageRequestModel.PageCount);
-                com.Parameters.AddWithValue("@PageNumber", pageRequestModel.PageNumber);
-                SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+                using (SqlCommand com = new SqlCommand("dbo.PagingBoard", con))
                 {
-                    BoardModel boardModel = new BoardModel();
-                    boardModel.No = Convert.ToInt32(reader["No"]);
-                    boardModel.Title = Convert.ToString(reader["Title"]);
-                    boardModel.Name = Convert.ToString(reader["Name"]);
-                    boardModelList.Add(boardModel);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@PageCount", pageRequestModel.PageCount);
+                    com.Parameters.AddWithValue("@PageNumber", pageRequestModel.PageNumber);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        BoardModel boardModel = new BoardModel();
+                        boardModel.No = Convert.ToInt32(reader["No"]);
+                        boardModel.Title = Convert.ToString(reader["Title"]);
+                        boardModel.Name = Convert.ToString(reader["Name"]);
+                        boardModelList.Add(boardModel);
+                    }
                 }
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
             }
             return boardModelList;
         }
@@ -196,24 +217,60 @@ namespace BoardRenual.Repositorys
         {
             List<BoardModel> boardModelList = new List<BoardModel>();
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.FindingAndPaging", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@PageCount", pageOriginalModel.PageCount);
-                com.Parameters.AddWithValue("@PageNumber", pageOriginalModel.PageNumber);
-                com.Parameters.AddWithValue("@Input", pageOriginalModel.Input);
-                com.Parameters.AddWithValue("@Variable", pageOriginalModel.Variable);
-                SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+                using (SqlCommand com = new SqlCommand("dbo.FindingAndPaging", con))
                 {
-                    BoardModel boardModel = new BoardModel();
-                    boardModel.No = Convert.ToInt32(reader["No"]);
-                    boardModel.Title = Convert.ToString(reader["Title"]);
-                    boardModel.Name = Convert.ToString(reader["Name"]);
-                    boardModelList.Add(boardModel);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@PageCount", pageOriginalModel.PageCount);
+                    com.Parameters.AddWithValue("@PageNumber", pageOriginalModel.PageNumber);
+                    com.Parameters.AddWithValue("@Input", pageOriginalModel.Input);
+                    com.Parameters.AddWithValue("@Variable", pageOriginalModel.Variable);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        BoardModel boardModel = new BoardModel();
+                        boardModel.No = Convert.ToInt32(reader["No"]);
+                        boardModel.Title = Convert.ToString(reader["Title"]);
+                        boardModel.Name = Convert.ToString(reader["Name"]);
+                        boardModelList.Add(boardModel);
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
             return boardModelList;
+        }
+        public int PageAndFindBoardCount(PageOriginalModel pageOriginalModel, Connection connection)
+        {
+            int result = 0;
+            List<BoardModel> boardModelList = new List<BoardModel>();
+            SqlConnection con = connection.ConOpen();
+            try
+            {
+                using (SqlCommand com = new SqlCommand("dbo.FindBoardListCount", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Input", pageOriginalModel.Input);
+                    com.Parameters.AddWithValue("@Variable", pageOriginalModel.Variable);
+                    result = (int)com.ExecuteScalar();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return result;
         }
     }
 }

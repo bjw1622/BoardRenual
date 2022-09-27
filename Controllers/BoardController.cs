@@ -81,8 +81,11 @@ namespace BoardRenual.Controllers
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
             BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
+            BoardFindAndPageCountRequestBiz boardFindAndPageCountRequestBiz = new BoardFindAndPageCountRequestBiz();
             return Json(new
-            { Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel) }
+            { 
+                Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
+                Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel) }
         );
         }
     }

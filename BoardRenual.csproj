@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Biz\Board\BoardDeleteBoardBiz.cs" />
+    <Compile Include="Biz\Board\BoardFindAndPageCountRequestBiz.cs" />
     <Compile Include="Biz\Board\BoardFindAndPageRequestBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardDetailBiz.cs" />
     <Compile Include="Biz\Board\BoardGetBoardEmailBiz.cs" />
