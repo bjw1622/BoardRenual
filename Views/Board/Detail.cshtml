@@ -59,6 +59,8 @@
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
+    let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
+
     // HTTPMETHOD => PUT으로 수정
     $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
@@ -88,7 +90,6 @@
         });
     }
     })
-
     // HTTPMETHOD => DELETE로 수정
     $('#delete-btn').click(() => {
         const flag = confirm("삭제 하시겠습니까?");
@@ -113,6 +114,34 @@
             }
         });
     }
+    })
+
+        // 게시글 추천
+    document.querySelector('#recommand').addEventListener('click', () => {
+
+        const param = {
+            "Board_No": window.location.pathname.split('/')[3],
+            "Email": "@(Request.Cookies["Email"].Value)",
+        }
+
+        $.ajax({
+            url: '/Board/RecommandInfo',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                if (data.Result === 1) {
+                    alert('추천이 취소 되었습니다.');
+                }
+                else {
+                    alert('추천 되었습니다.');
+                }
+                document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
+            },
+            error: function () {
+            }
+        });
     })
 </script>
 
