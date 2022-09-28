@@ -43,6 +43,7 @@ namespace BoardRenual.Controllers
         {
             BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
             BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
+            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
             if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
@@ -51,6 +52,7 @@ namespace BoardRenual.Controllers
             {
                 ViewBag.EmailCheck = false;
             }
+            ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제

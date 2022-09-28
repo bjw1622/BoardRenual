@@ -56,6 +56,7 @@ namespace BoardRenual.Repositorys
                         BoardModel boardModel = new BoardModel();
                         boardModel.No = Convert.ToInt32(reader["No"]);
                         boardModel.Title = Convert.ToString(reader["Title"]);
+                        boardModel.RecommandCount = Convert.ToInt32(reader["RecommandCount"]);
                         boardModel.Name = Convert.ToString(reader["Name"]);
                         boardModelList.Add(boardModel);
                     }
@@ -200,6 +201,7 @@ namespace BoardRenual.Repositorys
                         boardModel.No = Convert.ToInt32(reader["No"]);
                         boardModel.Title = Convert.ToString(reader["Title"]);
                         boardModel.Name = Convert.ToString(reader["Name"]);
+                        boardModel.RecommandCount = Convert.ToInt32(reader["RecommandCount"]);
                         boardModelList.Add(boardModel);
                     }
                 }
@@ -234,6 +236,7 @@ namespace BoardRenual.Repositorys
                         boardModel.No = Convert.ToInt32(reader["No"]);
                         boardModel.Title = Convert.ToString(reader["Title"]);
                         boardModel.Name = Convert.ToString(reader["Name"]);
+                        boardModel.RecommandCount = Convert.ToInt32(reader["RecommandCount"]);
                         boardModelList.Add(boardModel);
                     }
                 }
