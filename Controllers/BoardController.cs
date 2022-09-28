@@ -106,19 +106,24 @@ namespace BoardRenual.Controllers
             RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
             int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
             int flag = -1;
-            if(recommandInfoNum == 1)
+            if (recommandInfoNum == 1)
             {
                 recommandDeleteBiz.RecommandDelete(recommandInfoRequestModel);
                 flag = 1;
             }
-            else if(recommandInfoNum == 0)
+            else if (recommandInfoNum == 0)
             {
                 recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
                 flag = 0;
             }
             // 추천 내역 업데이트
-            recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
-            return Json(new { Flag = flag });
+            int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
+            return Json(new
+            {
+                Flag = flag
+            ,
+                RecommandCount = recommandCount
+            });
         }
 
     }

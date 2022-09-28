@@ -308,5 +308,17 @@ namespace BoardRenual.Repositorys
                 com.ExecuteNonQuery();
             }
         }
+        public int GetRecommandCount(BoardModel boardModel, Connection connection)
+        {
+            int result = -1;
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.GetRecommandCount", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                result = (int)com.ExecuteScalar();
+            }
+            return result;
+        }
     }
 }
