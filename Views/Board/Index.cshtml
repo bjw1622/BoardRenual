@@ -100,10 +100,10 @@
             PageCount: $('#board-count').val(),
         }
         $.ajax({
-            url: '/Board/IndexPaging',
-            type: 'post',
+            url: '/Board/IndexPaging/',
+            type: 'get',
             dataType: "json",
-            data: JSON.stringify(param),
+            data: param,
             contentType: "application/json",
             success: function (data) {
                 $('#tbody').empty();
@@ -126,10 +126,10 @@
             PageCount: $('#board-count').val()
         }
         $.ajax({
-            url: '/Board/IndexPaging',
-            type: 'post',
+            url: '/Board/IndexPaging/',
+            type: 'get',
             dataType: "json",
-            data: JSON.stringify(param),
+            data: param,
             contentType: "application/json",
             success: function (data) {
                 $('#tbody').empty();
@@ -154,7 +154,7 @@
         }
         $.ajax({
             url: '/Board/PageAndFind',
-            type: 'post',
+            type: 'get',
             dataType: "json",
             data: JSON.stringify(param),
             contentType: "application/json",
@@ -191,7 +191,7 @@
         }
         $.ajax({
             url: '/Board/PageAndFind',
-            type: 'post',
+            type: 'get',
             dataType: "json",
             data: JSON.stringify(param),
             contentType: "application/json",

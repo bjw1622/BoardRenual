@@ -123,9 +123,9 @@
             "Board_No": window.location.pathname.split('/')[3],
             "Email": "@(Request.Cookies["Email"].Value)",
         }
-
+        console.log(param);
         $.ajax({
-            url: '/Board/RecommandInfo',
+            url: '/Board/Recommand',
             type: 'post',
             dataType: "json",
             data: JSON.stringify(param),
