@@ -100,20 +100,25 @@ namespace BoardRenual.Controllers
         // 검색 + 페이징
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
-            // 해당 이메일 추천 기록있는지
             RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
+            RecommandInsertBiz recommandInsertBiz = new RecommandInsertBiz();
+            RecommandDeleteBiz recommandDeleteBiz = new RecommandDeleteBiz();
+            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
             int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
-            // 추천이 이미 됨 => 취소
+            int flag = -1;
             if(recommandInfoNum == 1)
             {
-                Console.WriteLine(recommandInfo);
+                recommandDeleteBiz.RecommandDelete(recommandInfoRequestModel);
+                flag = 1;
             }
-            // 추천 내역 없음 => 추천
             else if(recommandInfoNum == 0)
             {
-                Console.WriteLine(recommandInfo);
+                recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
+                flag = 0;
             }
-            return Json(new { test = "a" });
+            // 추천 내역 업데이트
+            recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
+            return Json(new { Flag = flag });
         }
 
     }

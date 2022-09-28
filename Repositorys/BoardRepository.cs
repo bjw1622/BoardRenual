@@ -286,5 +286,27 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
+        public void RecommandInsert(BoardModel boardModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.InsertRecommand", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                com.Parameters.AddWithValue("@Email", boardModel.Email);
+                com.ExecuteNonQuery();
+            }
+        }
+        public void RecommandDelete(BoardModel boardModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.DeleteRecommand", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                com.Parameters.AddWithValue("@Email", boardModel.Email);
+                com.ExecuteNonQuery();
+            }
+        }
     }
 }

@@ -156,7 +156,7 @@
             url: '/Board/PageAndFind',
             type: 'get',
             dataType: "json",
-            data: JSON.stringify(param),
+            data: param,
             contentType: "application/json",
             success: function (data) {
                 $('#page').empty();
@@ -193,7 +193,7 @@
             url: '/Board/PageAndFind',
             type: 'get',
             dataType: "json",
-            data: JSON.stringify(param),
+            data: param,
             contentType: "application/json",
             success: function (data) {
                 $('#tbody').empty();
