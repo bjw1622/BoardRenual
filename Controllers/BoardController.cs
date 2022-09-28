@@ -1,6 +1,8 @@
 ﻿using BoardRenual.Biz.Board;
+using BoardRenual.Biz.Recommand;
 using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
+using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,7 @@ namespace BoardRenual.Controllers
         {
             return View();
         }
+        // 글작성
         [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
@@ -34,6 +37,7 @@ namespace BoardRenual.Controllers
                 }
                 );
         }
+        // 상세
         [HttpGet]
         public ActionResult Detail(int No)
         {
@@ -49,6 +53,7 @@ namespace BoardRenual.Controllers
             }
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
+        // 삭제
         [HttpPost]
         public JsonResult Delete(int No)
         {
@@ -58,6 +63,7 @@ namespace BoardRenual.Controllers
                 flag = boardDeleteBoardBiz.DeleteBoard(No)
             });
         }
+        // 수정
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
@@ -67,23 +73,58 @@ namespace BoardRenual.Controllers
                 flag = boardUpdateBiz.UpdateBoard(boardUpdateRequestModel)
             });
         }
-        [HttpPost]
+        [HttpGet]
         // 페이징
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
             BoardPagingBiz boardPagingBiz = new BoardPagingBiz();
             return Json(new
-            { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }
+            { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
         }
-        [HttpPost]
-        // 페이징
+        [HttpGet]
+        // 검색 + 페이징
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
             BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
+            BoardFindAndPageCountRequestBiz boardFindAndPageCountRequestBiz = new BoardFindAndPageCountRequestBiz();
             return Json(new
-            { Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel) }
+            {
+                Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
+                Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel)
+            },
+                JsonRequestBehavior.AllowGet
         );
         }
+        [HttpPost]
+        // 검색 + 페이징
+        public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
+        {
+            RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
+            RecommandInsertBiz recommandInsertBiz = new RecommandInsertBiz();
+            RecommandDeleteBiz recommandDeleteBiz = new RecommandDeleteBiz();
+            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
+            int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
+            int flag = -1;
+            if (recommandInfoNum == 1)
+            {
+                recommandDeleteBiz.RecommandDelete(recommandInfoRequestModel);
+                flag = 1;
+            }
+            else if (recommandInfoNum == 0)
+            {
+                recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
+                flag = 0;
+            }
+            // 추천 내역 업데이트
+            int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
+            return Json(new
+            {
+                Flag = flag
+            ,
+                RecommandCount = recommandCount
+            });
+        }
+
     }
 }

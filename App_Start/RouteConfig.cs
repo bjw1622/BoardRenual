@@ -20,20 +20,6 @@ namespace BoardRenual
                 new { controller = "Board", action = "Detail" }
             );
 
-            //// "Board/IndexPaging/{PageNumber}/{PageCount}"에 대한 Route
-            //routes.MapRoute(
-            //    "IndexPaging",
-            //    "Board/IndexPaging/{PageNumber}/{PageCount}",
-            //    new { controller = "Board", action = "IndexPaging" }
-            //);
-
-            ////"Board/Delete/{No}"에 대한 Route
-            //routes.MapRoute(
-            //    "Delete",
-            //    "Board/Delete/{No}",
-            //    new { controller = "Board", action = "Delete" }
-            //);
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
