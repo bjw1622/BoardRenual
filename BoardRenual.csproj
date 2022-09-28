@@ -129,6 +129,7 @@
     <Compile Include="Biz\Board\BoardPagingBiz.cs" />
     <Compile Include="Biz\Board\BoardUpdateBiz.cs" />
     <Compile Include="Biz\Board\BoardWriteBiz.cs" />
+    <Compile Include="Biz\Board\BoardWriteFileBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandDeleteBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandGetCountBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandInsertBiz.cs" />
@@ -464,6 +465,7 @@
     <Folder Include="bin\roslyn\" />
     <Folder Include="Models\View\Board\" />
     <Folder Include="Models\View\User\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

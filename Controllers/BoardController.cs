@@ -6,6 +6,7 @@ using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,10 +31,14 @@ namespace BoardRenual.Controllers
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
+            boardWriteBiz.WriteBoard(boardWriteModel);
+            boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
             return Json(
                 new
                 {
-                    result = boardWriteBiz.WriteBoard(boardWriteModel)
+                    // 글 작성 등록
+                    result = 1
                 }
                 );
         }
@@ -84,8 +89,8 @@ namespace BoardRenual.Controllers
             { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
         }
-        [HttpGet]
         // 검색 + 페이징
+        [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
             BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
@@ -98,8 +103,8 @@ namespace BoardRenual.Controllers
                 JsonRequestBehavior.AllowGet
         );
         }
-        [HttpPost]
         // 검색 + 페이징
+        [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
             RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
@@ -128,5 +133,28 @@ namespace BoardRenual.Controllers
             });
         }
 
+        // 첨부파일 로컬 저장
+        [HttpPost]
+        public void UploadFiles()
+        {
+            if (Request.Files.Count > 0)
+            {
+                var files = Request.Files;
+
+                //iterating through multiple file collection   
+                foreach (string str in files)
+                {
+                    HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
+                    //Checking file is available to save.  
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/Uploads/") + InputFileName);
+                        //Save file to server folder  
+                        file.SaveAs(ServerSavePath);
+                    }
+                }
+            }
+        }
     }
 }

@@ -280,47 +280,107 @@ namespace BoardRenual.Repositorys
         {
             int result = -1;
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.GetRecommandInfo", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
-                com.Parameters.AddWithValue("@Email", boardModel.Email);
-                result = (int)com.ExecuteScalar();
+                using (SqlCommand com = new SqlCommand("dbo.GetRecommandInfo", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                    com.Parameters.AddWithValue("@Email", boardModel.Email);
+                    result = (int)com.ExecuteScalar();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
             }
             return result;
         }
         public void RecommandInsert(BoardModel boardModel, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.InsertRecommand", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
-                com.Parameters.AddWithValue("@Email", boardModel.Email);
-                com.ExecuteNonQuery();
+                using (SqlCommand com = new SqlCommand("dbo.InsertRecommand", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                    com.Parameters.AddWithValue("@Email", boardModel.Email);
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
             }
         }
         public void RecommandDelete(BoardModel boardModel, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.DeleteRecommand", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
-                com.Parameters.AddWithValue("@Email", boardModel.Email);
-                com.ExecuteNonQuery();
+                using (SqlCommand com = new SqlCommand("dbo.DeleteRecommand", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                    com.Parameters.AddWithValue("@Email", boardModel.Email);
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
             }
         }
         public int GetRecommandCount(BoardModel boardModel, Connection connection)
         {
             int result = -1;
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.GetRecommandCount", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
-                result = (int)com.ExecuteScalar();
+                using (SqlCommand com = new SqlCommand("dbo.GetRecommandCount", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                    result = (int)com.ExecuteScalar();
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return result;
+        }
+        public int WriteFileBoard(BoardModel boardModel, Connection connection)
+        {
+            int result = -1;
+            SqlConnection con = connection.ConOpen();
+            for(int i=0; i < boardModel.FileName.Count; i++)
+            {
+                using (SqlCommand com = new SqlCommand("dbo.FileUpload", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@FileName", boardModel.FileName[i]);
+                    Console.WriteLine(boardModel.FileName[i]);
+                }
+            }
+            connection.ConDispose(con);
             return result;
         }
     }
