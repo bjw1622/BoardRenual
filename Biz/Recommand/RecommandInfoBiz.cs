@@ -18,7 +18,7 @@ namespace BoardRenual.Biz.Recommand
             boardModel.Email = recommandInfoRequestModel.Email;
 
             Connection connection = new Connection();
-            return (boardRepository.WriteBoard(boardModel, connection));
+            return (boardRepository.RecommandInfo(boardModel, connection));
         }
     }
 }

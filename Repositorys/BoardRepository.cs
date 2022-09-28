@@ -204,7 +204,8 @@ namespace BoardRenual.Repositorys
                     }
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Console.WriteLine(e);
             }
             finally
@@ -237,7 +238,7 @@ namespace BoardRenual.Repositorys
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -269,6 +270,19 @@ namespace BoardRenual.Repositorys
             finally
             {
                 connection.ConDispose(con);
+            }
+            return result;
+        }
+        public int RecommandInfo(BoardModel boardModel, Connection connection)
+        {
+            int result = -1;
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.GetRecommandInfo", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", boardModel.No);
+                com.Parameters.AddWithValue("@Email", boardModel.Email);
+                result = (int)com.ExecuteScalar();
             }
             return result;
         }

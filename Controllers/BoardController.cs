@@ -102,9 +102,18 @@ namespace BoardRenual.Controllers
         {
             // 해당 이메일 추천 기록있는지
             RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
-            recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
-                // 있으면 삭제
-                // 없으면 등록
+            int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
+            // 추천이 이미 됨 => 취소
+            if(recommandInfoNum == 1)
+            {
+                Console.WriteLine(recommandInfo);
+            }
+            // 추천 내역 없음 => 추천
+            else if(recommandInfoNum == 0)
+            {
+                Console.WriteLine(recommandInfo);
+            }
+            return Json(new { test = "a" });
         }
 
     }
