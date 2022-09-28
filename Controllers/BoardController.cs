@@ -32,13 +32,15 @@ namespace BoardRenual.Controllers
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
             BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
-            boardWriteBiz.WriteBoard(boardWriteModel);
-            boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
+            int result = boardWriteBiz.WriteBoard(boardWriteModel);
+            if(boardWriteModel.FileName != null)
+            {
+                boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
+            }
             return Json(
                 new
                 {
-                    // 글 작성 등록
-                    result = 1
+                    result = result
                 }
                 );
         }

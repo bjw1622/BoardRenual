@@ -10,14 +10,14 @@ namespace BoardRenual.Biz.Board
 {
     public class BoardWriteFileBiz
     {
-        public int WriteFileBoard(List<string> FileName)
+        public void WriteFileBoard(List<string> FileName)
         {
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
             boardModel.FileName = FileName;
 
             Connection connection = new Connection();
-            return (boardRepository.WriteFileBoard(boardModel, connection));
+            boardRepository.WriteFileBoard(boardModel, connection);
         }
     }
 }

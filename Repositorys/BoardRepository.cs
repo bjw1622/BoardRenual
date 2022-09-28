@@ -367,21 +367,29 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public int WriteFileBoard(BoardModel boardModel, Connection connection)
+        public void WriteFileBoard(BoardModel boardModel, Connection connection)
         {
-            int result = -1;
             SqlConnection con = connection.ConOpen();
-            for(int i=0; i < boardModel.FileName.Count; i++)
+            try
             {
-                using (SqlCommand com = new SqlCommand("dbo.FileUpload", con))
+                for (int i = 0; i < boardModel.FileName.Count; i++)
                 {
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@FileName", boardModel.FileName[i]);
-                    Console.WriteLine(boardModel.FileName[i]);
+                    using (SqlCommand com = new SqlCommand("dbo.FileUpload", con))
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@FileName", boardModel.FileName[i]);
+                        com.ExecuteNonQuery();
+                    }
                 }
             }
-            connection.ConDispose(con);
-            return result;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
         }
     }
 }
