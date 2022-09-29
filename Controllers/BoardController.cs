@@ -3,6 +3,7 @@ using BoardRenual.Biz.Recommand;
 using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
+using BoardRenual.Models.Request.Reply;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
@@ -154,6 +155,11 @@ namespace BoardRenual.Controllers
                     }
                 }
             }
+        }
+        // 댓글 작성
+        [HttpPost]
+        public void WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
+        {
         }
     }
 }

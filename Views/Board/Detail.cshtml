@@ -30,9 +30,9 @@
         @for (int i = 0; i < @ViewBag.FileInfoList.Count; i++)
         {
             <a href="~/Uploads/@ViewBag.FileInfoList[i]" download="@ViewBag.FileInfoList[i]">
-                <img style="width:60px;height:60px;"src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
-            </a>    
-         }
+                <img style="width:60px;height:60px;" src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
+            </a>
+        }
     </div>
     <hr />
     <button class="btn btn-primary" id="recommand">추천 : @ViewBag.RecommandCount </button>
@@ -113,7 +113,7 @@
     // 게시글 추천
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
-            "Board_No": window.location.pathname.split('/')[3],
+            "Board_No": @No,
             "Email": "@(Request.Cookies["Email"].Value)",
         }
         console.log(param);
@@ -139,5 +139,36 @@
             }
         });
     })
+    $('#reply-btn').click(() => {
+        const param = {
+            "BoardNo": @No,
+            "ParentReplyNo": 0,
+            "Content": $('#reply').val(),
+            "Email" : "@(Request.Cookies["Email"].Value)",
+        }
+        $.ajax({
+            url: '/Board/WriteReply',
+            type: 'post',
+            dataType: "json",
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                if (data.Flag === 1) {
+                    alert('추천이 취소 되었습니다.');
+                }
+                else if (data.Flag === 0) {
+                    alert('추천 되었습니다.');
+                }
+                else {
+                    alert('추천 업데이트에 실패했습니다.')
+                }
+                document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
+            },
+            error: function () {
+            }
+        });
+    })
+
+
 </script>
 

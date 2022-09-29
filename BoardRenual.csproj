@@ -135,6 +135,7 @@
     <Compile Include="Biz\Recommand\RecommandGetCountBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandInsertBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandInfoBiz.cs" />
+    <Compile Include="Biz\Reply\ReplyWriteBiz.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
     <Compile Include="Biz\User\UserLogInBiz.cs" />
     <Compile Include="Biz\User\UserSignUpBiz.cs" />
@@ -144,8 +145,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Common\Connection.cs" />
+    <Compile Include="Models\Extends\ReplyModel.cs" />
     <Compile Include="Models\Orginal\Board\BoardModel.cs" />
     <Compile Include="Models\Orginal\Page\PageOriginalModel.cs" />
+    <Compile Include="Models\Orginal\Reply\ReplyModel.cs" />
     <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
     <Compile Include="Models\Extends\BoardModel.cs" />
     <Compile Include="Models\Request\Board\BoardUpdateRequestModel.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Models\Request\Page\FindAndPageRequestModel.cs" />
     <Compile Include="Models\Request\Page\PageRequestModel.cs" />
     <Compile Include="Models\Request\Recommand\RecommandInfoRequestModel.cs" />
+    <Compile Include="Models\Request\Reply\ReplyWriteRequestModel.cs" />
     <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
     <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
     <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />
