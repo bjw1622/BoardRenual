@@ -50,15 +50,18 @@
     </div>
     <hr />
     <h3>댓글 목록</h3>
+    <hr />
     <div id="reply-content">
         @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
         {
-            <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
-                <div>
-                    <button class="@ViewBag.ReplyList[i].No">답글 달기</button>
-                    <button class="@ViewBag.ReplyList[i].No">답글 보기</button>
-                    <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
+            <div class="@ViewBag.ReplyList[i].No">
+                <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                    <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
+                    <div>
+                        <button class="@ViewBag.ReplyList[i].No re-reply-btn">답글 달기</button>
+                        <button class="@ViewBag.ReplyList[i].No">답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -183,17 +186,33 @@
             }
         });
     })
+    $('.re-reply-btn').click((event) => {
+        event.target.style.visibility = "hidden";
+        console.log(event.target.classList[0]);
+    });
+    // 부모 댓글 불러오기
     function replyStructure(item) {
         return `
-        <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                <input type="text" class="form-control" value=${item.Content} readonly>
-                <div>
-                    <button class=${item.No}>답글 달기</button>
-                    <button class=${item.No}>답글 보기</button>
-                    <button class=${item.No} ${item.UserNo}>삭제</button>
-                </div>
+        <div class=${item.No}>
+            <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                    <input type="text" class="form-control" value=${item.Content} readonly>
+                    <div>
+                        <button class=${item.No} re-reply-btn>답글 달기</button>
+                        <button class=${item.No}>답글 보기</button>
+                        <button class=${item.No} ${item.UserNo}>삭제</button>
+                    </div>
             </div>
-            <hr>
+        </div>
+        <hr>
+        `
+    }
+    // 대댓글 입력창
+    function createReReply(No) {
+        return `
+        <div class=${No} style="margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control">
+                <button class="btn btn-outline-secondary">댓글 입력</button>
+        </div>
         `
     }
 </script>

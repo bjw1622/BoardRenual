@@ -30,6 +30,10 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult LogIn()
         {
+            if (Request.Cookies["Email"] != null)
+            {
+                return RedirectToAction("Index", "Board");
+            }
             return View();
         }
         [HttpPost]

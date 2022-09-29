@@ -20,6 +20,10 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if(Request.Cookies["Email"] == null)
+            {
+                return RedirectToAction("LogIn", "User");
+            }
             BoardGetBoardListBiz boardGetBoardListBiz = new BoardGetBoardListBiz();
             return View(boardGetBoardListBiz.GetBoardList());
         }
