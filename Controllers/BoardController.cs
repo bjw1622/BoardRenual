@@ -51,6 +51,7 @@ namespace BoardRenual.Controllers
             BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
             BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
             RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
+            BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
             if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
@@ -60,6 +61,8 @@ namespace BoardRenual.Controllers
                 ViewBag.EmailCheck = false;
             }
             ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
+            // 첨부파일 불러오기
+            
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제
@@ -142,7 +145,6 @@ namespace BoardRenual.Controllers
             if (Request.Files.Count > 0)
             {
                 var files = Request.Files;
-
                 //iterating through multiple file collection   
                 foreach (string str in files)
                 {
