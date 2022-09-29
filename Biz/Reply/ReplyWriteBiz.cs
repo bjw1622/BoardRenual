@@ -10,7 +10,7 @@ namespace BoardRenual.Biz.Reply
 {
     public class ReplyWriteBiz
     {
-        public void ReplyWrite(ReplyWriteRequestModel replyWriteRequestModel)
+        public bool ReplyWrite(ReplyWriteRequestModel replyWriteRequestModel)
         {
             ReplyModel replyModel = new ReplyModel();
             BoardRepository boardRepository = new BoardRepository();
@@ -19,7 +19,7 @@ namespace BoardRenual.Biz.Reply
             replyModel.Content = replyWriteRequestModel.Content;
             replyModel.Email = replyWriteRequestModel.Email;
             Connection connection = new Connection();
-            boardRepository.ReplyWrite(replyModel, connection);
+            return(boardRepository.ReplyWrite(replyModel, connection));
         }
     }
 }

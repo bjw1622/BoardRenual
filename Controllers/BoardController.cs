@@ -164,10 +164,10 @@ namespace BoardRenual.Controllers
         {
             ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
             ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
-            replyWriteBiz.ReplyWrite(replyWriteRequestModel);
             //댓글 리스트 가져와서 댓글 그리기
             return Json(new
             {
+                WriteResult = replyWriteBiz.ReplyWrite(replyWriteRequestModel),
                 ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
             }
             );

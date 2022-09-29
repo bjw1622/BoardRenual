@@ -412,19 +412,32 @@ namespace BoardRenual.Repositorys
             connection.ConDispose(con);
             return FileNameList;
         }
-        public void ReplyWrite(ReplyModel replyModel, Connection connection)
+        public bool ReplyWrite(ReplyModel replyModel, Connection connection)
         {
+            bool result = false;
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.WriteReply", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", replyModel.BoardNo);
-                com.Parameters.AddWithValue("@ParentReplyNo", replyModel.@ParentReplyNo);
-                com.Parameters.AddWithValue("@Content", replyModel.@Content);
-                com.Parameters.AddWithValue("@Email", replyModel.@Email);
-                com.ExecuteNonQuery();
+                using (SqlCommand com = new SqlCommand("dbo.WriteReply", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", replyModel.BoardNo);
+                    com.Parameters.AddWithValue("@ParentReplyNo", replyModel.@ParentReplyNo);
+                    com.Parameters.AddWithValue("@Content", replyModel.@Content);
+                    com.Parameters.AddWithValue("@Email", replyModel.@Email);
+                    com.ExecuteNonQuery();
+                    result = true;
+                }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return result;
         }
         public List<ReplyModel> GetReplyList(int BoardNo, Connection connection)
         {
