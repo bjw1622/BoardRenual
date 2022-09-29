@@ -149,20 +149,10 @@
         $.ajax({
             url: '/Board/WriteReply',
             type: 'post',
-            dataType: "json",
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
-                if (data.Flag === 1) {
-                    alert('추천이 취소 되었습니다.');
-                }
-                else if (data.Flag === 0) {
-                    alert('추천 되었습니다.');
-                }
-                else {
-                    alert('추천 업데이트에 실패했습니다.')
-                }
-                document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
+                alert('댓글이 작성되었습니다.')
             },
             error: function () {
             }

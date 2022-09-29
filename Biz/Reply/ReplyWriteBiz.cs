@@ -1,4 +1,4 @@
-﻿using BoardRenual.Models.Orginal.Reply;
+﻿using BoardRenual.Models;
 using BoardRenual.Models.Request.Reply;
 using BoardRenual.Repositorys;
 using System;
@@ -13,8 +13,13 @@ namespace BoardRenual.Biz.Reply
         public void ReplyWrite(ReplyWriteRequestModel replyWriteRequestModel)
         {
             ReplyModel replyModel = new ReplyModel();
-            replyModel.BoardNo = replyWriteRequestModel.BoardNo;
             BoardRepository boardRepository = new BoardRepository();
+            replyModel.BoardNo = replyWriteRequestModel.BoardNo;
+            replyModel.ParentReplyNo = replyWriteRequestModel.ParentReplyNo;
+            replyModel.Content = replyWriteRequestModel.Content;
+            replyModel.Email = replyWriteRequestModel.Email;
+            Connection connection = new Connection();
+            boardRepository.ReplyWrite(replyModel, connection);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace BoardRenual.Biz.Board
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
             boardModel.No = BoardNo;
-
             Connection connection = new Connection();
             return(boardRepository.GetFileInfo(boardModel, connection));
         }

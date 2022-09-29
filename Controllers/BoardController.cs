@@ -1,5 +1,6 @@
 ﻿using BoardRenual.Biz.Board;
 using BoardRenual.Biz.Recommand;
+using BoardRenual.Biz.Reply;
 using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
@@ -136,7 +137,6 @@ namespace BoardRenual.Controllers
                 RecommandCount = recommandCount
             });
         }
-
         // 첨부파일 로컬 저장
         [HttpPost]
         public void UploadFiles()
@@ -160,6 +160,9 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public void WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
+            ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
+            replyWriteBiz.ReplyWrite(replyWriteRequestModel);
+            //댓글 리스트 가져와서 댓글 그리기
         }
     }
 }

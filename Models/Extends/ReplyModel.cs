@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Models.Extends
+namespace BoardRenual.Models
 {
     public partial class ReplyModel
     {

@@ -409,5 +409,19 @@ namespace BoardRenual.Repositorys
             connection.ConDispose(con);
             return FileNameList;
         }
+        public void ReplyWrite(ReplyModel replyModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.WriteReply", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", replyModel.BoardNo);
+                com.Parameters.AddWithValue("@ParentReplyNo", replyModel.@ParentReplyNo);
+                com.Parameters.AddWithValue("@Content", replyModel.@Content);
+                com.Parameters.AddWithValue("@Email", replyModel.@Email);
+                com.ExecuteNonQuery();
+            }
+            connection.ConDispose(con);
+        }
     }
 }
