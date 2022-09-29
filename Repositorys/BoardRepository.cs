@@ -426,5 +426,27 @@ namespace BoardRenual.Repositorys
             }
             connection.ConDispose(con);
         }
+        public List<ReplyModel> GetReplyList(int BoardNo, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            List<ReplyModel> ReplyModelList = new List<ReplyModel>();
+            using (SqlCommand com = new SqlCommand("dbo.GetReplyList", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@BoardNo", BoardNo);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    ReplyModel replyModel = new ReplyModel();
+                    replyModel.No = Convert.ToInt32(reader["No"]);
+                    replyModel.ParentReplyNo = Convert.ToInt32(reader["ParentReplyNo"]);
+                    replyModel.Content = Convert.ToString(reader["Content"]);
+                    replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
+                    ReplyModelList.Add(replyModel);
+                }
+            }
+            connection.ConDispose(con);
+            return ReplyModelList;
+        }
     }
 }

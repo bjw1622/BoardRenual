@@ -49,12 +49,20 @@
         <button class="btn btn-outline-secondary" id="reply-btn" type="button">댓글 입력</button>
     </div>
     <hr />
+    <h3>댓글 목록</h3>
+    <div id="reply-content">
+        @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
+        {
+            <div style="margin-bottom:15px;">
+                <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content"readonly>
+            </div>
+        }
+    </div>
 </body>
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
-
     // HTTPMETHOD => PUT으로 수정
     $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
@@ -109,7 +117,6 @@
         });
     }
     })
-
     // 게시글 추천
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
@@ -139,6 +146,7 @@
             }
         });
     })
+    // 댓글 작성
     $('#reply-btn').click(() => {
         const param = {
             "BoardNo": @No,
@@ -149,6 +157,7 @@
         $.ajax({
             url: '/Board/WriteReply',
             type: 'post',
+            dataType:'json',
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
@@ -158,7 +167,5 @@
             }
         });
     })
-
-
 </script>
 

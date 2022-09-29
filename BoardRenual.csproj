@@ -135,6 +135,7 @@
     <Compile Include="Biz\Recommand\RecommandGetCountBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandInsertBiz.cs" />
     <Compile Include="Biz\Recommand\RecommandInfoBiz.cs" />
+    <Compile Include="Biz\Reply\ReplyGetReplyListBiz.cs" />
     <Compile Include="Biz\Reply\ReplyWriteBiz.cs" />
     <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
     <Compile Include="Biz\User\UserLogInBiz.cs" />

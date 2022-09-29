@@ -54,6 +54,7 @@ namespace BoardRenual.Controllers
             BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
             RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
             BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
+            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
             if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
@@ -64,6 +65,7 @@ namespace BoardRenual.Controllers
             }
             ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
             ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
+            ViewBag.ReplyList = replyGetReplyListBiz.GetReplyList(No);
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제
@@ -158,11 +160,17 @@ namespace BoardRenual.Controllers
         }
         // 댓글 작성
         [HttpPost]
-        public void WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
+        public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
             ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
+            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
             replyWriteBiz.ReplyWrite(replyWriteRequestModel);
             //댓글 리스트 가져와서 댓글 그리기
+            return Json(new
+            {
+                ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
+            }
+            );
         }
     }
 }
