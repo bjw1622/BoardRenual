@@ -33,7 +33,7 @@ namespace BoardRenual.Controllers
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
             BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
             int result = boardWriteBiz.WriteBoard(boardWriteModel);
-            if(boardWriteModel.FileName != null)
+            if (boardWriteModel.FileName != null)
             {
                 boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
             }
@@ -61,8 +61,7 @@ namespace BoardRenual.Controllers
                 ViewBag.EmailCheck = false;
             }
             ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
-            // 첨부파일 불러오기
-            
+            ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제
@@ -128,7 +127,6 @@ namespace BoardRenual.Controllers
                 recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
                 flag = 0;
             }
-            // 추천 내역 업데이트
             int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
             return Json(new
             {
@@ -145,16 +143,13 @@ namespace BoardRenual.Controllers
             if (Request.Files.Count > 0)
             {
                 var files = Request.Files;
-                //iterating through multiple file collection   
                 foreach (string str in files)
                 {
                     HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
-                    //Checking file is available to save.  
                     if (file != null)
                     {
                         var InputFileName = Path.GetFileName(file.FileName);
                         var ServerSavePath = Path.Combine(Server.MapPath("~/Uploads/") + InputFileName);
-                        //Save file to server folder  
                         file.SaveAs(ServerSavePath);
                     }
                 }

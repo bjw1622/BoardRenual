@@ -391,5 +391,23 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
+        public List<string> GetFileInfo(BoardModel boardModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            List<string> FileNameList = new List<string>();
+            using (SqlCommand com = new SqlCommand("dbo.GetFileInfo", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@No", boardModel.No);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    boardModel.Title = Convert.ToString(reader["FileName"]);
+                    FileNameList.Add(boardModel.Title);
+                }
+            }
+            connection.ConDispose(con);
+            return FileNameList;
+        }
     }
 }
