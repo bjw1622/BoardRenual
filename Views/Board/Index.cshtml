@@ -45,7 +45,7 @@
                         <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
                         <td class="text-center">@Model[i].Name</td>
                         <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">@Model[i].RecommandCount</td>
                     </tr>
                 }
             }
@@ -58,7 +58,7 @@
                         <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
                         <td class="text-center">@Model[i].Name</td>
                         <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">@Model[i].RecommandCount</td>
                     </tr>
                 }
             }
@@ -215,7 +215,7 @@
                     <td class="text-center"><a href="/Board/Detail/${item.No}">${item.Title}</a></td>
                     <td class="text-center">${item.Name}</td>
                     <td class="text-center"></td>
-                    <td class="text-center"></td>
+                    <td class="text-center">${item.RecommandCount}</td>
                 </tr>`
     }
 

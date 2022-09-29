@@ -29,10 +29,31 @@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     $('#write').click(() => {
+        //첨부파일
+        const formdata = new FormData();
+        const fileInput = document.getElementById('fileInput');
+        const fileName = [];
+
+        if (fileInput.files.length >= 3) {
+            alert('파일은 최대 2개까지 첨부 가능합니다.');
+            fileInput.files.value = "";
+            fileInput.value = "";
+            return;
+        }
+
+        for (i = 0; i < fileInput.files.length; i++) {
+            fileName.push(fileInput.files[i].name);
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Board/UploadFiles');
+        xhr.send(formdata);
+        // 글쓰기
         const param = {
             Title :  $('#title').val(),
             Content: $('#main-content').val(),
             Email: "@(Server.UrlDecode(Request.Cookies["Email"].Value))",
+            FileName : fileName,
         }
         $.ajax({
             url: '/Board/Write',
@@ -46,7 +67,7 @@
                     window.location.replace("/Board/Index");
                 }
                 else {
-                    alert('글 작성에 실패하였습니다.');
+                    alert('글 작성에 실패하였습니다. 제목과 글 내용을 기입해주세요.');
                 }
             },
             error: function (err) {

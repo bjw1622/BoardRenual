@@ -6,6 +6,7 @@ using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,10 +31,16 @@ namespace BoardRenual.Controllers
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
             BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
+            int result = boardWriteBiz.WriteBoard(boardWriteModel);
+            if (boardWriteModel.FileName != null)
+            {
+                boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
+            }
             return Json(
                 new
                 {
-                    result = boardWriteBiz.WriteBoard(boardWriteModel)
+                    result = result
                 }
                 );
         }
@@ -43,6 +50,8 @@ namespace BoardRenual.Controllers
         {
             BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
             BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
+            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
+            BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
             if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
@@ -51,6 +60,8 @@ namespace BoardRenual.Controllers
             {
                 ViewBag.EmailCheck = false;
             }
+            ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
+            ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제
@@ -82,8 +93,8 @@ namespace BoardRenual.Controllers
             { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
         }
-        [HttpGet]
         // 검색 + 페이징
+        [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
             BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
@@ -96,8 +107,8 @@ namespace BoardRenual.Controllers
                 JsonRequestBehavior.AllowGet
         );
         }
-        [HttpPost]
         // 검색 + 페이징
+        [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
             RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
@@ -116,7 +127,6 @@ namespace BoardRenual.Controllers
                 recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
                 flag = 0;
             }
-            // 추천 내역 업데이트
             int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
             return Json(new
             {
@@ -126,5 +136,24 @@ namespace BoardRenual.Controllers
             });
         }
 
+        // 첨부파일 로컬 저장
+        [HttpPost]
+        public void UploadFiles()
+        {
+            if (Request.Files.Count > 0)
+            {
+                var files = Request.Files;
+                foreach (string str in files)
+                {
+                    HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/Uploads/") + InputFileName);
+                        file.SaveAs(ServerSavePath);
+                    }
+                }
+            }
+        }
     }
 }

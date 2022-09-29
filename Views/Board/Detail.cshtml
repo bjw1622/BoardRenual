@@ -25,23 +25,17 @@
         <textarea class="form-control" name="MainContent" id="mainContent" rows="5">@Model.Content</textarea>
     </div>
     <hr />
-    @*<div class="form-group">
-            <h4>첨부 파일</h4>
-            @if (@ViewBag.GetFileImg[0].FileName != "")
-            {
-                <a href="~/Uploads/@ViewBag.GetFileImg[0].FileName" download="@ViewBag.GetFileImg[0].FileName">
-                    <img src="~/Uploads/@ViewBag.GetFileImg[0].FileName" alt="첨부 파일 없음">
-                </a>
-            }
-            @if (@ViewBag.GetFileImg[0].FileName2 != "")
-            {
-                <a href="~/Uploads/@ViewBag.GetFileImg[0].FileName2" download="@ViewBag.GetFileImg[0].FileName2">
-                    <img src="~/Uploads/@ViewBag.GetFileImg[0].FileName2" alt="첨부 파일 없음">
-                </a>
-            }
-        </div>*@
+    <div class="form-group">
+        <h4>첨부 파일</h4>
+        @for (int i = 0; i < @ViewBag.FileInfoList.Count; i++)
+        {
+            <a href="~/Uploads/@ViewBag.FileInfoList[i]" download="@ViewBag.FileInfoList[i]">
+                <img style="width:60px;height:60px;"src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
+            </a>    
+         }
+    </div>
     <hr />
-    <button class="btn btn-primary" id="recommand">추천 : </button>
+    <button class="btn btn-primary" id="recommand">추천 : @ViewBag.RecommandCount </button>
     @if (@EmailCheck == true)
     {
         <div>
