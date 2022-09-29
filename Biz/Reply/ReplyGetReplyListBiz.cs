@@ -5,17 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BoardRenual.Biz.Board
+namespace BoardRenual.Biz.Reply
 {
-    public class BoardGetFileInfoBiz
+    public class ReplyGetReplyListBiz
     {
-        public List<string> BoardGetFileInfo(int BoardNo)
+        public List<ReplyModel> GetReplyList(int BoardNo)
         {
-            BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
-            boardModel.No = BoardNo;
             Connection connection = new Connection();
-            return(boardRepository.GetFileInfo(boardModel, connection));
+            return(boardRepository.GetReplyList(BoardNo,connection));
         }
     }
 }

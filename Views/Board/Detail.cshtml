@@ -30,9 +30,9 @@
         @for (int i = 0; i < @ViewBag.FileInfoList.Count; i++)
         {
             <a href="~/Uploads/@ViewBag.FileInfoList[i]" download="@ViewBag.FileInfoList[i]">
-                <img style="width:60px;height:60px;"src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
-            </a>    
-         }
+                <img style="width:60px;height:60px;" src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
+            </a>
+        }
     </div>
     <hr />
     <button class="btn btn-primary" id="recommand">추천 : @ViewBag.RecommandCount </button>
@@ -49,12 +49,26 @@
         <button class="btn btn-outline-secondary" id="reply-btn" type="button">댓글 입력</button>
     </div>
     <hr />
+    <h3>댓글 목록</h3>
+    <div id="reply-content">
+        @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
+        {
+            <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
+                <div>
+                    <button class="@ViewBag.ReplyList[i].No">답글 달기</button>
+                    <button class="@ViewBag.ReplyList[i].No">답글 보기</button>
+                    <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
+                </div>
+            </div>
+            <hr>
+        }
+    </div>
 </body>
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
-
     // HTTPMETHOD => PUT으로 수정
     $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
@@ -109,11 +123,10 @@
         });
     }
     })
-
     // 게시글 추천
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
-            "Board_No": window.location.pathname.split('/')[3],
+            "Board_No": @No,
             "Email": "@(Request.Cookies["Email"].Value)",
         }
         console.log(param);
@@ -139,5 +152,48 @@
             }
         });
     })
+    // 댓글 작성
+    $('#reply-btn').click(() => {
+        const param = {
+            "BoardNo": @No,
+            "ParentReplyNo": 0,
+            "Content": $('#reply').val(),
+            "Email" : "@(Request.Cookies["Email"].Value)",
+        }
+        $.ajax({
+            url: '/Board/WriteReply',
+            type: 'post',
+            dataType:'json',
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                if (data.WriteResult === true) {
+                    alert('댓글이 작성되었습니다.')
+                    $('#reply-content').empty();
+                    data.ReplyList.forEach((item) => {
+                        $('#reply-content').append(replyStructure(item));
+                    })
+                }
+                else {
+                    alert('댓글을 올바르게 입력해주세요.')
+                }
+                $('#reply').val("");
+            },
+            error: function () {
+            }
+        });
+    })
+    function replyStructure(item) {
+        return `
+        <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" value=${item.Content} readonly>
+                <div>
+                    <button class=${item.No}>답글 달기</button>
+                    <button class=${item.No}>답글 보기</button>
+                    <button class=${item.No} ${item.UserNo}>삭제</button>
+                </div>
+            </div>
+            <hr>
+        `
+    }
 </script>
-

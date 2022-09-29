@@ -1,8 +1,10 @@
 ﻿using BoardRenual.Biz.Board;
 using BoardRenual.Biz.Recommand;
+using BoardRenual.Biz.Reply;
 using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
+using BoardRenual.Models.Request.Reply;
 using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
@@ -52,6 +54,7 @@ namespace BoardRenual.Controllers
             BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
             RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
             BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
+            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
             if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
@@ -62,6 +65,7 @@ namespace BoardRenual.Controllers
             }
             ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
             ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
+            ViewBag.ReplyList = replyGetReplyListBiz.GetReplyList(No);
             return View(boardGetBoardDetailBiz.GetBoardDetail(No));
         }
         // 삭제
@@ -135,7 +139,6 @@ namespace BoardRenual.Controllers
                 RecommandCount = recommandCount
             });
         }
-
         // 첨부파일 로컬 저장
         [HttpPost]
         public void UploadFiles()
@@ -154,6 +157,20 @@ namespace BoardRenual.Controllers
                     }
                 }
             }
+        }
+        // 댓글 작성
+        [HttpPost]
+        public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
+        {
+            ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
+            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
+            //댓글 리스트 가져와서 댓글 그리기
+            return Json(new
+            {
+                WriteResult = replyWriteBiz.ReplyWrite(replyWriteRequestModel),
+                ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
+            }
+            );
         }
     }
 }
