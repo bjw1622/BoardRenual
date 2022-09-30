@@ -132,7 +132,6 @@
             "Board_No": @No,
             "Email": "@(Request.Cookies["Email"].Value)",
         }
-        console.log(param);
         $.ajax({
             url: '/Board/Recommand',
             type: 'post',
@@ -189,6 +188,7 @@
     $('.re-reply-btn').click((event) => {
         event.target.style.visibility = "hidden";
         console.log(event.target.classList[0]);
+        $(`.${event.target}`).append(createReReply(event.target.classList[0]))
     });
     // 부모 댓글 불러오기
     function replyStructure(item) {
