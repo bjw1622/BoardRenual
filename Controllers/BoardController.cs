@@ -20,7 +20,7 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            if(Request.Cookies["Email"] == null)
+            if (Request.Cookies["Email"] == null)
             {
                 return RedirectToAction("LogIn", "User");
             }
@@ -162,7 +162,7 @@ namespace BoardRenual.Controllers
                 }
             }
         }
-        // 댓글 작성
+        // 댓글,답글 작성
         [HttpPost]
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
@@ -175,6 +175,16 @@ namespace BoardRenual.Controllers
                 ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
             }
             );
+        }
+        // 답글 불러오기
+        [HttpPost]
+        public JsonResult GetReReplyList(int ParentReplyNo)
+        {
+            ReplyGetReReplyListBiz replyGetReReplyListBiz = new ReplyGetReReplyListBiz();
+            return Json(new
+            {
+                ReReplyList = replyGetReReplyListBiz.ReplyGetReReplyList(ParentReplyNo)
+            });
         }
     }
 }

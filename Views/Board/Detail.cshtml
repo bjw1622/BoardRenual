@@ -59,7 +59,7 @@
                     <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
                         <button class="@ViewBag.ReplyList[i].No" onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class="@ViewBag.ReplyList[i].No">답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No" onclick=reReplyGetList(event)>답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
                         <button class=${item.No} onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class=${item.No}>답글 보기</button>
+                        <button class=${item.No} onclick=reReplyGetList(event)>답글 보기</button>
                         <button class=${item.No} ${item.UserNo}>삭제</button>
                     </div>
             </div>
@@ -206,7 +206,7 @@
         <hr>
         `
     }
-    // 대댓글 입력창
+    // 답글 입력창
     function createReReply(No) {
         return `
         <div style="margin-bottom:15px; display:flex; justify-content:space-between">
@@ -215,11 +215,11 @@
         </div>
         `
     }
+    // 답글 달기 onclick
     function reReplyStrcture(event) {
         event.target.style.visibility = "hidden";
         $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
     }
-    
     // 대댓글 입력 onclick
     function reReply(event) {
         const param = {
@@ -250,5 +250,38 @@
             error: function () {
             }
         });
+    }
+    // 부모 댓글에 해당하는 답글 가져오기
+    function reReplyGetList(event) {
+        const param = {
+            ParentReplyNo: event.target.className
+        }
+        $.ajax({
+            url: '/Board/GetReReplyList',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                data.ReReplyList.forEach((item) => {
+                    $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item));
+                })
+            },
+            error: function () {
+            }
+        });
+    }
+    // 자식 댓글 불러오기
+    function reReplyStructure(item) {
+        return `
+        <div>
+            <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+                    <input type="text" class="form-control" value=${item.Content} readonly>
+                    <div>
+                        <button class=${item.No} ${item.UserNo}>삭제</button>
+                    </div>
+            </div>
+        </div>
+        `
     }
 </script>
