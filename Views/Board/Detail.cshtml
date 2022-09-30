@@ -54,11 +54,11 @@
     <div id="reply-content">
         @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
         {
-            <div class="@ViewBag.ReplyList[i].No">
+            <div class="reply-list @ViewBag.ReplyList[i].No">
                 <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
-                        <button class="@ViewBag.ReplyList[i].No re-reply-btn">답글 달기</button>
+                        <button class="@ViewBag.ReplyList[i].No" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No">답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
                     </div>
@@ -185,19 +185,19 @@
             }
         });
     })
+    // 답글 달기
     $('.re-reply-btn').click((event) => {
         event.target.style.visibility = "hidden";
-        console.log(event.target.classList[0]);
-        $(`.${event.target}`).append(createReReply(event.target.classList[0]))
+        $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
     });
     // 부모 댓글 불러오기
     function replyStructure(item) {
         return `
-        <div class=${item.No}>
+        <div class="reply-list ${item.No}">
             <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
-                        <button class=${item.No} re-reply-btn>답글 달기</button>
+                        <button class=${item.No} onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class=${item.No}>답글 보기</button>
                         <button class=${item.No} ${item.UserNo}>삭제</button>
                     </div>
@@ -209,10 +209,46 @@
     // 대댓글 입력창
     function createReReply(No) {
         return `
-        <div class=${No} style="margin-bottom:15px; display:flex; justify-content:space-between">
-                <input type="text" class="form-control">
-                <button class="btn btn-outline-secondary">댓글 입력</button>
+        <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" id="re-reply-input">
+                <button class=${No} onclick=reReply(event)>답글 입력</button>
         </div>
         `
+    }
+    function reReplyStrcture(event) {
+        event.target.style.visibility = "hidden";
+        $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
+    }
+    
+    // 대댓글 입력 onclick
+    function reReply(event) {
+        const param = {
+            "BoardNo": @No,
+            "ParentReplyNo": event.target.className,
+            "Content": $('#re-reply-input').val(),
+            "Email" : "@(Request.Cookies["Email"].Value)",
+        }
+        $.ajax({
+            url: '/Board/WriteReply',
+            type: 'post',
+            dataType:'json',
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                if (data.WriteResult === true) {
+                    alert('답글이 작성되었습니다.')
+                    $('#reply-content').empty();
+                    data.ReplyList.forEach((item) => {
+                        $('#reply-content').append(replyStructure(item));
+                    })
+                }
+                else {
+                    alert('댓글을 올바르게 입력해주세요.')
+                }
+                $('#reply').val("");
+            },
+            error: function () {
+            }
+        });
     }
 </script>
