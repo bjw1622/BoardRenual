@@ -30,6 +30,10 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult LogIn()
         {
+            if (Request.Cookies["Email"] != null)
+            {
+                return RedirectToAction("Index", "Board");
+            }
             return View();
         }
         [HttpPost]
@@ -41,6 +45,9 @@ namespace BoardRenual.Controllers
             {
                 Response.Cookies["UserName"].Value = Server.UrlEncode(result.Name);
                 Response.Cookies["Email"].Value = result.Email;
+                // 쿠키 생성 1분후 소멸
+                Response.Cookies["UserName"].Expires = DateTime.Now.AddMinutes(1);
+                Response.Cookies["Email"].Expires = DateTime.Now.AddMinutes(1);
                 return RedirectToAction("Index", "Board");
 
             }
