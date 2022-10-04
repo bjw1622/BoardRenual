@@ -36,12 +36,24 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
+            int result = -1;
             BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
-            int result = boardWriteBiz.WriteBoard(boardWriteModel);
-            UploadFiles(boardWriteModel.FormData);
-            if (boardWriteModel.FileName != null)
+            if (boardWriteModel == null)
             {
+                return Json(
+                    result
+                    );
+            }
+            if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
+                && !(string.IsNullOrEmpty(boardWriteModel.Email)))
+            {
+                // 불필요한 선언 방지
+                // 글번호 return으로 fileupload할때 boardNo같이 파라미터로 넘기기
+                result = new BoardWriteBiz().WriteBoard(boardWriteModel);
+            }
+            if (result != -1)
+            {
+                UploadFiles(boardWriteModel.FormData);
                 boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
             }
             return Json(
@@ -131,7 +143,7 @@ namespace BoardRenual.Controllers
             {
                 Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
                 Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel)
-            },JsonRequestBehavior.AllowGet
+            }, JsonRequestBehavior.AllowGet
         );
         }
         // 검색 + 페이징

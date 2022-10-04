@@ -437,7 +437,7 @@ namespace BoardRenual.Repositorys
                     result = true;
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -541,14 +541,24 @@ namespace BoardRenual.Repositorys
         {
             SqlConnection con = connection.ConOpen();
             bool flag = false;
-            using (SqlCommand com = new SqlCommand("dbo.DeleteReply", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", replyModel.No);
-                com.ExecuteScalar();
-                flag = true;
+                using (SqlCommand com = new SqlCommand("dbo.DeleteReply", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", replyModel.No);
+                    com.ExecuteScalar();
+                    flag = true;
+                }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
             return flag;
         }
     }

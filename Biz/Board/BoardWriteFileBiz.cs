@@ -14,8 +14,13 @@ namespace BoardRenual.Biz.Board
         {
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
-            boardModel.FileName = FileName;
-
+            for (int i = 0; i < FileName.Count; i++)
+            {
+                if (!(string.IsNullOrEmpty(FileName[i])))
+                {
+                    boardModel.FileName[i] = FileName[i];
+                }
+            }
             Connection connection = new Connection();
             boardRepository.WriteFileBoard(boardModel, connection);
         }

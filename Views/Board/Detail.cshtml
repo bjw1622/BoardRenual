@@ -58,7 +58,7 @@
                 <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
-                        <button class="@ViewBag.ReplyList[i].No" onclick=reReplyStrcture(event)>답글 달기</button>
+                        <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(event)" style="display:none;">답글 닫기</button>
                         <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
@@ -200,7 +200,7 @@
                     <div>
                         <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="${item.No} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
-                        <button class="${item.No} close-rereply" onclick="reReplyClose(event) style="display:none;">답글 닫기</button>
+                        <button class="${item.No} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
                         <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
@@ -211,10 +211,10 @@
     // 답글 입력창
     function createReReply(No) {
         return `
-        <div class="re-reply-input-div"style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+        <div class="re-reply-input-div ${No}"style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" id="re-reply-input">
             <div>
-                <button>닫기</button>
+                <button class="${No}" onclick=closeReply(event)>닫기</button>
                 <button class="${No}" onclick=reReply(event)>답글 입력</button>
             </div>
         </div>
@@ -224,6 +224,10 @@
     function reReplyStrcture(event) {
         $(event.target).hide();
         $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
+    }
+    function closeReply(event) {
+        $(`.re-reply-input-div.${event.target.classList[0]}`).hide();
+        $(`.${event.target.classList[0]}.add-rereply`).show();
     }
     // 답글 입력 onclick
     function reReply(event) {
@@ -333,7 +337,6 @@
         $(`.re-reply-structure.${event.target.classList[0]}`).hide();
         $(`.${event.target.classList[0]}.close-rereply`).hide();
         $(`.${event.target.classList[0]}.open-rereply`).show();
-
     }
     // 댓글 본인 확인
     function UserCheck(event) {
