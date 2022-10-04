@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace BoardRenual.Repositorys
 {
@@ -398,18 +396,28 @@ namespace BoardRenual.Repositorys
         {
             SqlConnection con = connection.ConOpen();
             List<string> FileNameList = new List<string>();
-            using (SqlCommand com = new SqlCommand("dbo.GetFileInfo", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", boardModel.No);
-                SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+                using (SqlCommand com = new SqlCommand("dbo.GetFileInfo", con))
                 {
-                    boardModel.Title = Convert.ToString(reader["FileName"]);
-                    FileNameList.Add(boardModel.Title);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", boardModel.No);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        boardModel.Title = Convert.ToString(reader["FileName"]);
+                        FileNameList.Add(boardModel.Title);
+                    }
                 }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
             return FileNameList;
         }
         public bool ReplyWrite(ReplyModel replyModel, Connection connection)
@@ -443,23 +451,80 @@ namespace BoardRenual.Repositorys
         {
             SqlConnection con = connection.ConOpen();
             List<ReplyModel> ReplyModelList = new List<ReplyModel>();
-            using (SqlCommand com = new SqlCommand("dbo.GetReplyList", con))
+            try
+            {
+                using (SqlCommand com = new SqlCommand("dbo.GetReplyList", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@BoardNo", BoardNo);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ReplyModel replyModel = new ReplyModel();
+                        replyModel.No = Convert.ToInt32(reader["No"]);
+                        replyModel.ParentReplyNo = Convert.ToInt32(reader["ParentReplyNo"]);
+                        replyModel.Content = Convert.ToString(reader["Content"]);
+                        replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
+                        ReplyModelList.Add(replyModel);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return ReplyModelList;
+        }
+        public List<ReplyModel> GetReReplyList(int ParentReplyNo, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            List<ReplyModel> ReplyModelList = new List<ReplyModel>();
+            try
+            {
+                using (SqlCommand com = new SqlCommand("dbo.GetReReplyList", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@ParentReplyNo", ParentReplyNo);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ReplyModel replyModel = new ReplyModel();
+                        replyModel.No = Convert.ToInt32(reader["No"]);
+                        replyModel.Content = Convert.ToString(reader["Content"]);
+                        replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
+                        ReplyModelList.Add(replyModel);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return ReplyModelList;
+        }
+        public string ReplyUerCheck(ReplyModel replyModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            using (SqlCommand com = new SqlCommand("dbo.UserCheck", con))
             {
                 com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@BoardNo", BoardNo);
+                com.Parameters.AddWithValue("@No", replyModel.UserNo);
                 SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
+                while(reader.Read())
                 {
-                    ReplyModel replyModel = new ReplyModel();
-                    replyModel.No = Convert.ToInt32(reader["No"]);
-                    replyModel.ParentReplyNo = Convert.ToInt32(reader["ParentReplyNo"]);
-                    replyModel.Content = Convert.ToString(reader["Content"]);
-                    replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
-                    ReplyModelList.Add(replyModel);
+                    replyModel.Email = Convert.ToString(reader["Email"]);
                 }
             }
             connection.ConDispose(con);
-            return ReplyModelList;
+            return replyModel.Email;
         }
     }
 }

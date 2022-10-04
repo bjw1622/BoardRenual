@@ -29,7 +29,6 @@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     $('#write').click(() => {
-        //첨부파일
         const formdata = new FormData();
         const fileInput = document.getElementById('fileInput');
         const fileName = [];
@@ -40,20 +39,17 @@
             fileInput.value = "";
             return;
         }
-
         for (i = 0; i < fileInput.files.length; i++) {
             fileName.push(fileInput.files[i].name);
             formdata.append(fileInput.files[i].name, fileInput.files[i]);
         }
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/Board/UploadFiles');
-        xhr.send(formdata);
-        // 글쓰기
+
         const param = {
             Title :  $('#title').val(),
             Content: $('#main-content').val(),
             Email: "@(Server.UrlDecode(Request.Cookies["Email"].Value))",
-            FileName : fileName,
+            FileName: fileName,
+            FormData: JSON.stringify(Object.fromEntries(formdata.entries())),
         }
         $.ajax({
             url: '/Board/Write',

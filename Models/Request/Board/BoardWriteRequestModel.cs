@@ -11,5 +11,6 @@ namespace BoardRenual.Models.RequestModel.Board
         public string Content { get; set; }
         public string Email { get; set; }
         public List<string> FileName { get; set; }
+        public List<object> FormData { get; set; }
     }
 }
