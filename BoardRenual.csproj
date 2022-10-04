@@ -160,6 +160,7 @@
     <Compile Include="Models\Request\Page\FindAndPageRequestModel.cs" />
     <Compile Include="Models\Request\Page\PageRequestModel.cs" />
     <Compile Include="Models\Request\Recommand\RecommandInfoRequestModel.cs" />
+    <Compile Include="Models\Request\Reply\ReplyDeleteRequestModel.cs" />
     <Compile Include="Models\Request\Reply\ReplyWriteRequestModel.cs" />
     <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
     <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />

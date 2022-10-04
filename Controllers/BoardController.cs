@@ -197,12 +197,14 @@ namespace BoardRenual.Controllers
             });
         }
         //부모 댓글 삭제
-        public JsonResult DeleteReply(int No)
+        public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
             ReplyDeleteReplyBiz replyDeleteReplyBiz = new ReplyDeleteReplyBiz();
+            var replyGetReplyListBiz = new ReplyGetReplyListBiz();
             return Json(new
             {
-                Delete = replyDeleteReplyBiz.ReplyDeleteReply(No)
+                Delete = replyDeleteReplyBiz.ReplyDeleteReply(replyDeleteRequestModel.No),
+                ReplyList = replyGetReplyListBiz.GetReplyList(replyDeleteRequestModel.BoardNo),
             });
         }
     }
