@@ -513,18 +513,43 @@ namespace BoardRenual.Repositorys
         public string ReplyUerCheck(ReplyModel replyModel, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.UserCheck", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", replyModel.UserNo);
-                SqlDataReader reader = com.ExecuteReader();
-                while(reader.Read())
+                using (SqlCommand com = new SqlCommand("dbo.UserCheck", con))
                 {
-                    replyModel.Email = Convert.ToString(reader["Email"]);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", replyModel.UserNo);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        replyModel.Email = Convert.ToString(reader["Email"]);
+                    }
                 }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+
+            }
             return replyModel.Email;
+        }
+        public bool ReplyDeleteReply(ReplyModel replyModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            bool flag = false;
+            using (SqlCommand com = new SqlCommand("dbo.DeleteReply", con))
+            {
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@No", replyModel.No);
+                com.ExecuteScalar();
+                flag = true;
+            }
+            connection.ConDispose(con);
+            return flag;
         }
     }
 }

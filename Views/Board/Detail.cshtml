@@ -30,7 +30,7 @@
         @for (int i = 0; i < @ViewBag.FileInfoList.Count; i++)
         {
             <a href="~/Uploads/@ViewBag.FileInfoList[i]" download="@ViewBag.FileInfoList[i]">
-                <img style="width:60px;height:60px;" src="~/Uploads/@ViewBag.FileInfoList[i]" alt="첨부 파일 없음">
+                <img style="width:60px;height:60px;" src="~/Uploads/@ViewBag.FileInfoList[i]" alt="이미지 깨짐">
             </a>
         }
     </div>
@@ -60,7 +60,7 @@
                     <div>
                         <button class="@ViewBag.ReplyList[i].No" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No" onclick=reReplyGetList(event)>답글 보기</button>
-                        <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo">삭제</button>
+                        <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@
     })
     // 답글 달기
     $('.re-reply-btn').click((event) => {
-        event.target.style.visibility = "hidden";
+        $(event.target).hide();
         $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
     });
     // 부모 댓글 불러오기
@@ -197,9 +197,9 @@
             <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
-                        <button class=${item.No} onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class=${item.No} onclick=reReplyGetList(event)>답글 보기</button>
-                        <button class=${item.No} ${item.UserNo}>삭제</button>
+                        <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
+                        <button class="${item.No} show-rereply" onclick=reReplyGetList(event)>답글 보기</button>
+                        <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
         </div>
@@ -209,18 +209,18 @@
     // 답글 입력창
     function createReReply(No) {
         return `
-        <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+        <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" id="re-reply-input">
-                <button class=${No} onclick=reReply(event)>답글 입력</button>
+                <button class="${No}" onclick=reReply(event)>답글 입력</button>
         </div>
         `
     }
     // 답글 달기 onclick
     function reReplyStrcture(event) {
-        event.target.style.visibility = "hidden";
+        $(event.target).hide();
         $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
     }
-    // 대댓글 입력 onclick
+    // 답글 입력 onclick
     function reReply(event) {
         const param = {
             "BoardNo": @No,
@@ -266,6 +266,7 @@
                 data.ReReplyList.forEach((item) => {
                     $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item));
                 })
+                $(event.target).hide();
             },
             error: function () {
             }
@@ -278,10 +279,72 @@
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
-                        <button class=${item.No} ${item.UserNo}>삭제</button>
+                        <button class="${item.No} ${item.UserNo}" onclick=deleteReReply(event)>삭제</button>
                     </div>
             </div>
         </div>
         `
     }
+    // 부모 댓글 삭제
+    function deleteReply(event) {
+        if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
+            const deleteReply = confirm('삭제 하시겠습니까?');
+            if (deleteReply === true) {
+                const param = {
+                    No: parseInt(event.target.className[0]),
+                }
+                $.ajax({
+                    url: '/Board/DeleteReply',
+                    type: 'post',
+                    dataType: 'json',
+                    data: JSON.stringify(param),
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (data.Delete === true) {
+                            alert('삭제 되었습니다.');
+                            $('#reply-content').empty();
+                            data.ReplyList.forEach((item) => {
+                                $('#reply-content').append(replyStructure(item));
+                            })
+                        }
+                        else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        }
+        
+    }
+    // 자식 댓글 삭제
+    function deleteReReply(event) {
+
+    }
+    // 댓글 본인 확인
+    function UserCheck(event) {
+        const param = {
+            "No" : parseInt(event.target.classList[1]),
+        }
+        let Email;
+        $.ajax({
+            url: '/Board/UserCheck',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            async: false,
+            success: function (data) {
+                Email = data.Email;
+            },
+            error: function () {
+            }
+        });
+        return Email;
+    }
+    // TO DO
+    //      답글 달기, 보기 적용 시에 어떻게 보이고 어떻게 삭제할지 확인
+    //      댓글,답글 삭제 기능 추가 구현
+    //      Controller에서 flag 부분 어떻게 수정하면 좋을지
 </script>

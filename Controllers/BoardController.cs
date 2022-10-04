@@ -196,5 +196,14 @@ namespace BoardRenual.Controllers
                 Email = replyUserCheckBiz.ReplyUerCheck(No)
             });
         }
+        //부모 댓글 삭제
+        public JsonResult DeleteReply(int No)
+        {
+            ReplyDeleteReplyBiz replyDeleteReplyBiz = new ReplyDeleteReplyBiz();
+            return Json(new
+            {
+                Delete = replyDeleteReplyBiz.ReplyDeleteReply(No)
+            });
+        }
     }
 }
