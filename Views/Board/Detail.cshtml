@@ -209,9 +209,12 @@
     // 답글 입력창
     function createReReply(No) {
         return `
-        <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+        <div class="re-reply-input-div"style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" id="re-reply-input">
+            <div>
+                <button>닫기</button>
                 <button class="${No}" onclick=reReply(event)>답글 입력</button>
+            </div>
         </div>
         `
     }
@@ -263,10 +266,16 @@
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
-                data.ReReplyList.forEach((item) => {
-                    $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item));
-                })
-                $(event.target).hide();
+                if (data.ReReplyList.length === 0) {
+                    alert('답글이 없습니다.');
+                }
+                else {
+                    data.ReReplyList.forEach((item) => {
+                        $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item));
+                    })
+                    $(event.target).hide();
+                }
+
             },
             error: function () {
             }
@@ -279,7 +288,7 @@
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
-                        <button class="${item.No} ${item.UserNo}" onclick=deleteReReply(event)>삭제</button>
+                        <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
         </div>
@@ -317,12 +326,40 @@
                 });
             }
         }
-
     }
     // 자식 댓글 삭제
-    function deleteReReply(event) {
-
-    }
+    @*function deleteReReply(event) {
+        if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
+            const deleteReply = confirm('삭제 하시겠습니까?');
+            if (deleteReply === true) {
+                const param = {
+                    "No": parseInt(event.target.classList[0]),
+                    "BoardNo": @No,
+                }
+                $.ajax({
+                    url: '/Board/DeleteReply',
+                    type: 'post',
+                    dataType: 'json',
+                    data: JSON.stringify(param),
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (data.Delete === true) {
+                            alert('삭제 되었습니다.');
+                            $('#reply-content').empty();
+                            data.ReplyList.forEach((item) => {
+                                $('#reply-content').append(replyStructure(item));
+                            })
+                        }
+                        else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        }
+    }*@
     // 댓글 본인 확인
     function UserCheck(event) {
         const param = {
