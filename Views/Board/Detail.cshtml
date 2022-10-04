@@ -59,7 +59,8 @@
                     <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
                         <button class="@ViewBag.ReplyList[i].No" onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class="@ViewBag.ReplyList[i].No" onclick=reReplyGetList(event)>답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(event)" style="display:none;">답글 닫기</button>
                         <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
                     </div>
                 </div>
@@ -198,7 +199,8 @@
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
                         <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class="${item.No} show-rereply" onclick=reReplyGetList(event)>답글 보기</button>
+                        <button class="${item.No} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
+                        <button class="${item.No} close-rereply" onclick="reReplyClose(event) style="display:none;">답글 닫기</button>
                         <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
@@ -271,20 +273,20 @@
                 }
                 else {
                     data.ReReplyList.forEach((item) => {
-                        $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item));
+                        $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item,param.ParentReplyNo));
                     })
                     $(event.target).hide();
+                    $(`.close-rereply.${event.target.classList[0]}`).show();
                 }
-
             },
             error: function () {
             }
         });
     }
     // 자식 댓글 불러오기
-    function reReplyStructure(item) {
+    function reReplyStructure(item,ParentReplyNo) {
         return `
-        <div>
+        <div class="${ParentReplyNo} re-reply-structure">
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
@@ -327,39 +329,12 @@
             }
         }
     }
-    // 자식 댓글 삭제
-    @*function deleteReReply(event) {
-        if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
-            const deleteReply = confirm('삭제 하시겠습니까?');
-            if (deleteReply === true) {
-                const param = {
-                    "No": parseInt(event.target.classList[0]),
-                    "BoardNo": @No,
-                }
-                $.ajax({
-                    url: '/Board/DeleteReply',
-                    type: 'post',
-                    dataType: 'json',
-                    data: JSON.stringify(param),
-                    contentType: "application/json",
-                    success: function (data) {
-                        if (data.Delete === true) {
-                            alert('삭제 되었습니다.');
-                            $('#reply-content').empty();
-                            data.ReplyList.forEach((item) => {
-                                $('#reply-content').append(replyStructure(item));
-                            })
-                        }
-                        else {
-                            alert('삭제에 실패했습니다.');
-                        }
-                    },
-                    error: function () {
-                    }
-                });
-            }
-        }
-    }*@
+    function reReplyClose(event) {
+        $(`.re-reply-structure.${event.target.classList[0]}`).hide();
+        $(`.${event.target.classList[0]}.close-rereply`).hide();
+        $(`.${event.target.classList[0]}.open-rereply`).show();
+
+    }
     // 댓글 본인 확인
     function UserCheck(event) {
         const param = {
@@ -381,8 +356,4 @@
         });
         return Email;
     }
-    // TO DO
-    //      답글 달기, 보기 적용 시에 어떻게 보이고 어떻게 삭제할지 확인
-    //      댓글,답글 삭제 기능 추가 구현
-    //      Controller에서 flag 부분 어떻게 수정하면 좋을지
 </script>
