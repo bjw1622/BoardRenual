@@ -227,10 +227,18 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult GetReReplyList(int ParentReplyNo)
         {
+            if(ParentReplyNo > 0)
+            {
+                return Json(new
+                {
+                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(ParentReplyNo)
+                });
+            }
             return Json(new
             {
-                ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(ParentReplyNo)
+                ReReplyList = -1
             });
+            
         }
         // 본인 확인
         [HttpPost]

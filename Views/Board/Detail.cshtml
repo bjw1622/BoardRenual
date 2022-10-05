@@ -275,6 +275,9 @@
                 if (data.ReReplyList.length === 0) {
                     alert('답글이 없습니다.');
                 }
+                else if (data.ReReplyList === -1) {
+                    alert('답글 불러오기를 실패했습니다.');
+                }
                 else {
                     data.ReReplyList.forEach((item) => {
                         $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item,param.ParentReplyNo));
