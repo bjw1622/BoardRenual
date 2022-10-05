@@ -9,7 +9,6 @@ using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,8 +23,7 @@ namespace BoardRenual.Controllers
             {
                 return RedirectToAction("LogIn", "User");
             }
-            BoardGetBoardListBiz boardGetBoardListBiz = new BoardGetBoardListBiz();
-            return View(boardGetBoardListBiz.GetBoardList());
+            return View(new BoardGetBoardListBiz().GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
@@ -51,7 +49,7 @@ namespace BoardRenual.Controllers
             if (BoardNo != -1)
             {
                 UploadFiles(boardWriteModel.FormData);
-                new BoardWriteFileBiz().WriteFileBoard(BoardNo,boardWriteModel.FileName);
+                new BoardWriteFileBiz().WriteFileBoard(BoardNo, boardWriteModel.FileName);
             }
             return Json(
                 new
@@ -83,138 +81,198 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Detail(int No)
         {
-            BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
-            BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
-            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
-            BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
-            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
-            if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            if (No > 0)
             {
-                ViewBag.EmailCheck = true;
+                if (new BoardGetBoardEmailBiz().GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+                {
+                    ViewBag.EmailCheck = true;
+                }
+                else
+                {
+                    ViewBag.EmailCheck = false;
+                }
+                ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(No);
+                ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(No);
+                ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(No);
+                return View(new BoardGetBoardDetailBiz().GetBoardDetail(No));
             }
-            else
-            {
-                ViewBag.EmailCheck = false;
-            }
-            ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
-            ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
-            ViewBag.ReplyList = replyGetReplyListBiz.GetReplyList(No);
-            return View(boardGetBoardDetailBiz.GetBoardDetail(No));
+            return RedirectToAction("Index", "Board");
+
         }
         // 삭제
         [HttpPost]
         public JsonResult Delete(int No)
         {
-            BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
-            return Json(new
+            if (No > 0)
             {
-                flag = boardDeleteBoardBiz.DeleteBoard(No)
-            });
+                return Json(new
+                {
+                    flag = new BoardDeleteBoardBiz().DeleteBoard(No)
+                });
+            }
+            return Json(new { flag = false });
+
         }
         // 수정
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
-            BoardUpdateBiz boardUpdateBiz = new BoardUpdateBiz();
+            if (boardUpdateRequestModel != null && boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
+                && !(string.IsNullOrEmpty(boardUpdateRequestModel.Content)))
+            {
+                return Json(new
+                {
+                    flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
+                });
+            }
             return Json(new
             {
-                flag = boardUpdateBiz.UpdateBoard(boardUpdateRequestModel)
-            });
+                flag = -1
+            }
+                    );
         }
         [HttpGet]
         // 페이징
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
-            BoardPagingBiz boardPagingBiz = new BoardPagingBiz();
-            return Json(new
-            { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
+            if (pageRequestModel != null && pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
+            {
+                return Json(new
+                { Paging = new BoardPagingBiz().IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
+            }
+            return Json(new
+            {
+                Paging = -1
+            }
+                    );
+
         }
         // 검색 + 페이징
         [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
-            BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
-            BoardFindAndPageCountRequestBiz boardFindAndPageCountRequestBiz = new BoardFindAndPageCountRequestBiz();
-            return Json(new
+            if (findAndPageRequestModel != null && findAndPageRequestModel.PageNumber > 0 && findAndPageRequestModel.PageCount > 0 &&
+                !(string.IsNullOrEmpty(findAndPageRequestModel.Variable)) && !(string.IsNullOrEmpty(findAndPageRequestModel.Input)))
             {
-                Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
-                Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel)
-            }, JsonRequestBehavior.AllowGet
+                return Json(new
+                {
+                    Result = new BoardFindAndPageCountRequestBiz().PageAndFindBoardCount(findAndPageRequestModel),
+                    Paging = new BoardFindAndPageRequestBiz().PageAndFindBoard(findAndPageRequestModel)
+                }, JsonRequestBehavior.AllowGet
         );
+            }
+            return Json(
+                new
+                {
+                    Result = -1,
+                    Paging = -1
+                }
+            );
         }
-        // 검색 + 페이징
+        // 추천
         [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
-            RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
-            RecommandInsertBiz recommandInsertBiz = new RecommandInsertBiz();
-            RecommandDeleteBiz recommandDeleteBiz = new RecommandDeleteBiz();
-            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
-            int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
             int flag = -1;
-            if (recommandInfoNum == 1)
+            int recommandCount = -1;
+            if (recommandInfoRequestModel != null && recommandInfoRequestModel.Board_No > 0 && !(string.IsNullOrEmpty(recommandInfoRequestModel.Email)))
             {
-                recommandDeleteBiz.RecommandDelete(recommandInfoRequestModel);
-                flag = 1;
+                int recommandInfoNum = new RecommandInfoBiz().GetRecommandInfo(recommandInfoRequestModel);
+                if (recommandInfoNum == 1)
+                {
+                    new RecommandDeleteBiz().RecommandDelete(recommandInfoRequestModel);
+                    flag = 1;
+                }
+                else if (recommandInfoNum == 0)
+                {
+                    new RecommandInsertBiz().RecommandInsert(recommandInfoRequestModel);
+                    flag = 0;
+                }
+                recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.Board_No);
+                return Json(new
+                {
+                    Flag = flag
+                ,
+                    RecommandCount = recommandCount
+                });
             }
-            else if (recommandInfoNum == 0)
-            {
-                recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
-                flag = 0;
-            }
-            int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
             return Json(new
             {
                 Flag = flag
-            ,
+                ,
                 RecommandCount = recommandCount
             });
+
         }
         // 댓글,답글 작성
         [HttpPost]
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
-            ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
-            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
-            //댓글 리스트 가져와서 댓글 그리기
+            bool writeResult = false;
+            if (replyWriteRequestModel != null && replyWriteRequestModel.BoardNo > 0 && replyWriteRequestModel.ParentReplyNo >= 0 && !(string.IsNullOrEmpty(replyWriteRequestModel.Content)) && !(string.IsNullOrEmpty(replyWriteRequestModel.Email)))
+            {
+                return Json(new
+                {
+                    WriteResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel),
+                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo),
+                });
+            }
             return Json(new
             {
-                WriteResult = replyWriteBiz.ReplyWrite(replyWriteRequestModel),
-                ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
-            }
-            );
+                WriteResult = writeResult,
+            });
         }
         // 답글 불러오기
         [HttpPost]
         public JsonResult GetReReplyList(int ParentReplyNo)
         {
-            ReplyGetReReplyListBiz replyGetReReplyListBiz = new ReplyGetReReplyListBiz();
+            if (ParentReplyNo > 0)
+            {
+                return Json(new
+                {
+                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(ParentReplyNo)
+                });
+            }
             return Json(new
             {
-                ReReplyList = replyGetReReplyListBiz.ReplyGetReReplyList(ParentReplyNo)
+                ReReplyList = -1
             });
+
         }
         // 본인 확인
         [HttpPost]
         public JsonResult UserCheck(int No)
         {
-            ReplyUserCheckBiz replyUserCheckBiz = new ReplyUserCheckBiz();
+            if (No > 0)
+            {
+                return Json(new
+                {
+                    Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
+                });
+            }
             return Json(new
             {
-                Email = replyUserCheckBiz.ReplyUerCheck(No)
+                Email = ""
             });
+
         }
-        //부모 댓글 삭제
+        //댓글 삭제 
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
-            ReplyDeleteReplyBiz replyDeleteReplyBiz = new ReplyDeleteReplyBiz();
-            var replyGetReplyListBiz = new ReplyGetReplyListBiz();
+            if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
+            {
+                return Json(new
+                {
+                    Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
+                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
+                });
+            }
             return Json(new
             {
-                Delete = replyDeleteReplyBiz.ReplyDeleteReply(replyDeleteRequestModel.No),
-                ReplyList = replyGetReplyListBiz.GetReplyList(replyDeleteRequestModel.BoardNo),
+                Delete = false
             });
+
         }
     }
 }
