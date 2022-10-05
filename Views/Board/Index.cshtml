@@ -106,12 +106,14 @@
             data: param,
             contentType: "application/json",
             success: function (data) {
-                $('#tbody').empty();
-                if (data.Paging !== "") {
-                    data.Paging.forEach((item,val) => {
-                        $('#tbody').append(createRow(item, val, param.PageNumber,param.PageCount))
+                if (data.Paging !== -1) {
+                    $('#tbody').empty();
+                    if (data.Paging !== "") {
+                        data.Paging.forEach((item, val) => {
+                            $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
 
-                    })
+                        })
+                    }
                 }
             },
             error: function () {

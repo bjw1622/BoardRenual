@@ -49,7 +49,7 @@ namespace BoardRenual.Controllers
             if (BoardNo != -1)
             {
                 UploadFiles(boardWriteModel.FormData);
-                new BoardWriteFileBiz().WriteFileBoard(BoardNo,boardWriteModel.FileName);
+                new BoardWriteFileBiz().WriteFileBoard(BoardNo, boardWriteModel.FileName);
             }
             return Json(
                 new
@@ -81,44 +81,88 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Detail(int No)
         {
-            if (new BoardGetBoardEmailBiz().GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            if (No > 0)
             {
-                ViewBag.EmailCheck = true;
+                if (new BoardGetBoardEmailBiz().GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+                {
+                    ViewBag.EmailCheck = true;
+                }
+                else
+                {
+                    ViewBag.EmailCheck = false;
+                }
+                ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(No);
+                ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(No);
+                ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(No);
+                return View(new BoardGetBoardDetailBiz().GetBoardDetail(No));
             }
-            else
-            {
-                ViewBag.EmailCheck = false;
-            }
-            ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(No);
-            ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(No);
-            ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(No);
-            return View(new BoardGetBoardDetailBiz().GetBoardDetail(No));
+            return RedirectToAction("Index", "Board");
+
         }
         // 삭제
         [HttpPost]
         public JsonResult Delete(int No)
         {
-            return Json(new
+            if (No > 0)
             {
-                flag = new BoardDeleteBoardBiz().DeleteBoard(No)
-            });
+                return Json(new
+                {
+                    flag = new BoardDeleteBoardBiz().DeleteBoard(No)
+                });
+            }
+            return Json(new { flag = false });
+
         }
         // 수정
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
+            if (boardUpdateRequestModel == null)
+            {
+                return Json(new
+                {
+                    flag = -1
+                }
+                    );
+            }
+            if (boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
+                && !(string.IsNullOrEmpty(boardUpdateRequestModel.Content)))
+            {
+                return Json(new
+                {
+                    flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
+                });
+            }
             return Json(new
             {
-                flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
-            });
+                flag = -1
+            }
+                    );
         }
         [HttpGet]
         // 페이징
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
-            return Json(new
-            { Paging = new BoardPagingBiz().IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
+            if (pageRequestModel == null)
+            {
+                return Json(new
+                {
+                    Paging = -1
+                }
+                    );
+            }
+            if (pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
+            {
+                return Json(new
+                { Paging = new BoardPagingBiz().IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
+            }
+            return Json(new
+            {
+                Paging = -1
+            }
+                    );
+
         }
         // 검색 + 페이징
         [HttpGet]
@@ -184,7 +228,7 @@ namespace BoardRenual.Controllers
                 Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
             });
         }
-        //부모 댓글 삭제
+        //부모 댓글 삭제 
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
             return Json(new
