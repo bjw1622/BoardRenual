@@ -9,7 +9,6 @@ using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,8 +23,7 @@ namespace BoardRenual.Controllers
             {
                 return RedirectToAction("LogIn", "User");
             }
-            BoardGetBoardListBiz boardGetBoardListBiz = new BoardGetBoardListBiz();
-            return View(boardGetBoardListBiz.GetBoardList());
+            return View(new BoardGetBoardListBiz().GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
@@ -83,12 +81,7 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public ActionResult Detail(int No)
         {
-            BoardGetBoardDetailBiz boardGetBoardDetailBiz = new BoardGetBoardDetailBiz();
-            BoardGetBoardEmailBiz boardGetBoardEmailBiz = new BoardGetBoardEmailBiz();
-            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
-            BoardGetFileInfoBiz boardGetFileInfoBiz = new BoardGetFileInfoBiz();
-            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
-            if (boardGetBoardEmailBiz.GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+            if (new BoardGetBoardEmailBiz().GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
             {
                 ViewBag.EmailCheck = true;
             }
@@ -96,50 +89,45 @@ namespace BoardRenual.Controllers
             {
                 ViewBag.EmailCheck = false;
             }
-            ViewBag.RecommandCount = recommandGetCountBiz.GetRecommandCount(No);
-            ViewBag.FileInfoList = boardGetFileInfoBiz.BoardGetFileInfo(No);
-            ViewBag.ReplyList = replyGetReplyListBiz.GetReplyList(No);
-            return View(boardGetBoardDetailBiz.GetBoardDetail(No));
+            ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(No);
+            ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(No);
+            ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(No);
+            return View(new BoardGetBoardDetailBiz().GetBoardDetail(No));
         }
         // 삭제
         [HttpPost]
         public JsonResult Delete(int No)
         {
-            BoardDeleteBoardBiz boardDeleteBoardBiz = new BoardDeleteBoardBiz();
             return Json(new
             {
-                flag = boardDeleteBoardBiz.DeleteBoard(No)
+                flag = new BoardDeleteBoardBiz().DeleteBoard(No)
             });
         }
         // 수정
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
-            BoardUpdateBiz boardUpdateBiz = new BoardUpdateBiz();
             return Json(new
             {
-                flag = boardUpdateBiz.UpdateBoard(boardUpdateRequestModel)
+                flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
             });
         }
         [HttpGet]
         // 페이징
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
-            BoardPagingBiz boardPagingBiz = new BoardPagingBiz();
             return Json(new
-            { Paging = boardPagingBiz.IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
+            { Paging = new BoardPagingBiz().IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
         );
         }
         // 검색 + 페이징
         [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
-            BoardFindAndPageRequestBiz boardFindAndPageRequestBiz = new BoardFindAndPageRequestBiz();
-            BoardFindAndPageCountRequestBiz boardFindAndPageCountRequestBiz = new BoardFindAndPageCountRequestBiz();
             return Json(new
             {
-                Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
-                Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel)
+                Result = new BoardFindAndPageCountRequestBiz().PageAndFindBoardCount(findAndPageRequestModel),
+                Paging = new BoardFindAndPageRequestBiz().PageAndFindBoard(findAndPageRequestModel)
             }, JsonRequestBehavior.AllowGet
         );
         }
@@ -147,23 +135,19 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
-            RecommandInfoBiz recommandInfo = new RecommandInfoBiz();
-            RecommandInsertBiz recommandInsertBiz = new RecommandInsertBiz();
-            RecommandDeleteBiz recommandDeleteBiz = new RecommandDeleteBiz();
-            RecommandGetCountBiz recommandGetCountBiz = new RecommandGetCountBiz();
-            int recommandInfoNum = recommandInfo.GetRecommandInfo(recommandInfoRequestModel);
+            int recommandInfoNum = new RecommandInfoBiz().GetRecommandInfo(recommandInfoRequestModel);
             int flag = -1;
             if (recommandInfoNum == 1)
             {
-                recommandDeleteBiz.RecommandDelete(recommandInfoRequestModel);
+                new RecommandDeleteBiz().RecommandDelete(recommandInfoRequestModel);
                 flag = 1;
             }
             else if (recommandInfoNum == 0)
             {
-                recommandInsertBiz.RecommandInsert(recommandInfoRequestModel);
+                new RecommandInsertBiz().RecommandInsert(recommandInfoRequestModel);
                 flag = 0;
             }
-            int recommandCount = recommandGetCountBiz.GetRecommandCount(recommandInfoRequestModel.Board_No);
+            int recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.Board_No);
             return Json(new
             {
                 Flag = flag
@@ -175,13 +159,10 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
-            ReplyWriteBiz replyWriteBiz = new ReplyWriteBiz();
-            ReplyGetReplyListBiz replyGetReplyListBiz = new ReplyGetReplyListBiz();
-            //댓글 리스트 가져와서 댓글 그리기
             return Json(new
             {
-                WriteResult = replyWriteBiz.ReplyWrite(replyWriteRequestModel),
-                ReplyList = replyGetReplyListBiz.GetReplyList(replyWriteRequestModel.BoardNo),
+                WriteResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel),
+                ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo),
             }
             );
         }
@@ -189,31 +170,27 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult GetReReplyList(int ParentReplyNo)
         {
-            ReplyGetReReplyListBiz replyGetReReplyListBiz = new ReplyGetReReplyListBiz();
             return Json(new
             {
-                ReReplyList = replyGetReReplyListBiz.ReplyGetReReplyList(ParentReplyNo)
+                ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(ParentReplyNo)
             });
         }
         // 본인 확인
         [HttpPost]
         public JsonResult UserCheck(int No)
         {
-            ReplyUserCheckBiz replyUserCheckBiz = new ReplyUserCheckBiz();
             return Json(new
             {
-                Email = replyUserCheckBiz.ReplyUerCheck(No)
+                Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
             });
         }
         //부모 댓글 삭제
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
-            ReplyDeleteReplyBiz replyDeleteReplyBiz = new ReplyDeleteReplyBiz();
-            var replyGetReplyListBiz = new ReplyGetReplyListBiz();
             return Json(new
             {
-                Delete = replyDeleteReplyBiz.ReplyDeleteReply(replyDeleteRequestModel.No),
-                ReplyList = replyGetReplyListBiz.GetReplyList(replyDeleteRequestModel.BoardNo),
+                Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
+                ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
             });
         }
     }
