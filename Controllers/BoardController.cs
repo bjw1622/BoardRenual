@@ -227,7 +227,7 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult GetReReplyList(int ParentReplyNo)
         {
-            if(ParentReplyNo > 0)
+            if (ParentReplyNo > 0)
             {
                 return Json(new
                 {
@@ -238,25 +238,41 @@ namespace BoardRenual.Controllers
             {
                 ReReplyList = -1
             });
-            
+
         }
         // 본인 확인
         [HttpPost]
         public JsonResult UserCheck(int No)
         {
+            if (No > 0)
+            {
+                return Json(new
+                {
+                    Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
+                });
+            }
             return Json(new
             {
-                Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
+                Email = ""
             });
+
         }
-        //부모 댓글 삭제 
+        //댓글 삭제 
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
+            if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
+            {
+                return Json(new
+                {
+                    Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
+                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
+                });
+            }
             return Json(new
             {
-                Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
-                ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
+                Delete = false
             });
+
         }
     }
 }

@@ -355,7 +355,12 @@
             contentType: "application/json",
             async: false,
             success: function (data) {
-                Email = data.Email;
+                if (data.Email === "") {
+                    alert('사용자 확인이 필요합니다.')
+                }
+                else {
+                    Email = data.Email;
+                }
             },
             error: function () {
             }
