@@ -161,22 +161,24 @@
             data: param,
             contentType: "application/json",
             success: function (data) {
-                $('#page').empty();
-                for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
-                    if (i === 1) {
-                        $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="findPaging()" value=${i} >${i}</button>`);
+                if (data.Result !== 1 && data.Paging !== -1){
+                    $('#page').empty();
+                    for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
+                        if (i === 1) {
+                            $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="findPaging()" value=${i} >${i}</button>`);
+                        }
+                        else {
+                            $('#page').append(` <button class="page-btn btn btn-light" onclick="findPaging()" value=${i} >${i}</button>`);
+                        }
                     }
-                    else {
-                        $('#page').append(` <button class="page-btn btn btn-light" onclick="findPaging()" value=${i} >${i}</button>`);
+                    init();
+                    $('#tbody').empty();
+                    if (data.Paging !== "") {
+                        data.Paging.forEach((item, val) => {
+                            $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
+                        })
                     }
-                }
-                init();
-                $('#tbody').empty();
-                if (data.Paging !== "") {
-                    data.Paging.forEach((item, val) => {
-                        $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
-                    })
-                }
+        }
             },
             error: function () {
             }

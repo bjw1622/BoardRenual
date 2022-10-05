@@ -117,15 +117,7 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
-            if (boardUpdateRequestModel == null)
-            {
-                return Json(new
-                {
-                    flag = -1
-                }
-                    );
-            }
-            if (boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
+            if (boardUpdateRequestModel != null && boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
                 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Content)))
             {
                 return Json(new
@@ -143,15 +135,7 @@ namespace BoardRenual.Controllers
         // 페이징
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
-            if (pageRequestModel == null)
-            {
-                return Json(new
-                {
-                    Paging = -1
-                }
-                    );
-            }
-            if (pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
+            if (pageRequestModel != null && pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
             {
                 return Json(new
                 { Paging = new BoardPagingBiz().IndexPagingBoard(pageRequestModel) }, JsonRequestBehavior.AllowGet
@@ -168,47 +152,76 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
-            return Json(new
+            if (findAndPageRequestModel != null && findAndPageRequestModel.PageNumber > 0 && findAndPageRequestModel.PageCount > 0 &&
+                !(string.IsNullOrEmpty(findAndPageRequestModel.Variable)) && !(string.IsNullOrEmpty(findAndPageRequestModel.Input)))
             {
-                Result = new BoardFindAndPageCountRequestBiz().PageAndFindBoardCount(findAndPageRequestModel),
-                Paging = new BoardFindAndPageRequestBiz().PageAndFindBoard(findAndPageRequestModel)
-            }, JsonRequestBehavior.AllowGet
+                return Json(new
+                {
+                    Result = new BoardFindAndPageCountRequestBiz().PageAndFindBoardCount(findAndPageRequestModel),
+                    Paging = new BoardFindAndPageRequestBiz().PageAndFindBoard(findAndPageRequestModel)
+                }, JsonRequestBehavior.AllowGet
         );
+            }
+            return Json(
+                new
+                {
+                    Result = -1,
+                    Paging = -1
+                }
+            );
         }
-        // 검색 + 페이징
+        // 추천
         [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
-            int recommandInfoNum = new RecommandInfoBiz().GetRecommandInfo(recommandInfoRequestModel);
             int flag = -1;
-            if (recommandInfoNum == 1)
+            int recommandCount = -1;
+            if (recommandInfoRequestModel != null && recommandInfoRequestModel.Board_No > 0 && !(string.IsNullOrEmpty(recommandInfoRequestModel.Email)))
             {
-                new RecommandDeleteBiz().RecommandDelete(recommandInfoRequestModel);
-                flag = 1;
+                int recommandInfoNum = new RecommandInfoBiz().GetRecommandInfo(recommandInfoRequestModel);
+                if (recommandInfoNum == 1)
+                {
+                    new RecommandDeleteBiz().RecommandDelete(recommandInfoRequestModel);
+                    flag = 1;
+                }
+                else if (recommandInfoNum == 0)
+                {
+                    new RecommandInsertBiz().RecommandInsert(recommandInfoRequestModel);
+                    flag = 0;
+                }
+                recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.Board_No);
+                return Json(new
+                {
+                    Flag = flag
+                ,
+                    RecommandCount = recommandCount
+                });
             }
-            else if (recommandInfoNum == 0)
-            {
-                new RecommandInsertBiz().RecommandInsert(recommandInfoRequestModel);
-                flag = 0;
-            }
-            int recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.Board_No);
             return Json(new
             {
                 Flag = flag
-            ,
+                ,
                 RecommandCount = recommandCount
             });
+
         }
         // 댓글,답글 작성
         [HttpPost]
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
+            bool writeResult = false;
+            if (replyWriteRequestModel != null && replyWriteRequestModel.BoardNo > 0 && replyWriteRequestModel.ParentReplyNo >= 0 && !(string.IsNullOrEmpty(replyWriteRequestModel.Content)) && !(string.IsNullOrEmpty(replyWriteRequestModel.Email)))
+            {
+                return Json(new
+                {
+                    WriteResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel),
+                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo),
+                });
+            }
             return Json(new
             {
-                WriteResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel),
-                ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo),
-            }
-            );
+                WriteResult = writeResult,
+            });
         }
         // 답글 불러오기
         [HttpPost]
