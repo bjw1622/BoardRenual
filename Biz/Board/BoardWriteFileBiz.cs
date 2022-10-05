@@ -10,19 +10,26 @@ namespace BoardRenual.Biz.Board
 {
     public class BoardWriteFileBiz
     {
-        public void WriteFileBoard(List<string> FileName)
+        public void WriteFileBoard(int BoardNo, List<string> FileName)
         {
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
-            for (int i = 0; i < FileName.Count; i++)
+            List<string> FileNames = new List<string>();
+            if(FileName != null)
             {
-                if (!(string.IsNullOrEmpty(FileName[i])))
+                for (int i = 0; i < FileName.Count; i++)
                 {
-                    boardModel.FileName[i] = FileName[i];
+                    if (!(string.IsNullOrEmpty(FileName[i])))
+                    {
+                        boardModel.FileNameInfo = FileName[i];
+                        FileNames.Add(boardModel.FileNameInfo);
+                    }
+
                 }
+                Connection connection = new Connection();
+                boardRepository.WriteFileBoard(BoardNo, FileNames, connection);
             }
-            Connection connection = new Connection();
-            boardRepository.WriteFileBoard(boardModel, connection);
+            
         }
     }
 }

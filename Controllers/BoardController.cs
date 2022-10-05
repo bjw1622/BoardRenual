@@ -36,30 +36,27 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            int result = -1;
-            BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
+            int BoardNo = -1;
             if (boardWriteModel == null)
             {
                 return Json(
-                    result
+                    BoardNo
                     );
             }
             if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
                 && !(string.IsNullOrEmpty(boardWriteModel.Email)))
             {
-                // 불필요한 선언 방지
-                // 글번호 return으로 fileupload할때 boardNo같이 파라미터로 넘기기
-                result = new BoardWriteBiz().WriteBoard(boardWriteModel);
+                BoardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
             }
-            if (result != -1)
+            if (BoardNo != -1)
             {
                 UploadFiles(boardWriteModel.FormData);
-                boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
+                new BoardWriteFileBiz().WriteFileBoard(BoardNo,boardWriteModel.FileName);
             }
             return Json(
                 new
                 {
-                    result = result
+                    Result = BoardNo,
                 }
                 );
         }
