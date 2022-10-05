@@ -58,7 +58,8 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                if (data.result !== -1) {
+                if (data.Result !== -1) {
+                    console.log(data.Result);
                     alert('글 작성이 완료 되었습니다.');
                     window.location.replace("/Board/Index");
                 }

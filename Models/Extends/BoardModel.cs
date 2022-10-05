@@ -12,5 +12,6 @@ namespace BoardRenual.Models
         public int RecommandCount { get; set; }
         public int ReplyCount { get; set; }
         public List<string> FileName { get; set; }
+        public string FileNameInfo { get; set; }
     }
 }

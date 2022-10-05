@@ -36,18 +36,27 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            BoardWriteBiz boardWriteBiz = new BoardWriteBiz();
-            BoardWriteFileBiz boardWriteFileBiz = new BoardWriteFileBiz();
-            int result = boardWriteBiz.WriteBoard(boardWriteModel);
-            UploadFiles(boardWriteModel.FormData);
-            if (boardWriteModel.FileName != null)
+            int BoardNo = -1;
+            if (boardWriteModel == null)
             {
-                boardWriteFileBiz.WriteFileBoard(boardWriteModel.FileName);
+                return Json(
+                    BoardNo
+                    );
+            }
+            if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
+                && !(string.IsNullOrEmpty(boardWriteModel.Email)))
+            {
+                BoardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
+            }
+            if (BoardNo != -1)
+            {
+                UploadFiles(boardWriteModel.FormData);
+                new BoardWriteFileBiz().WriteFileBoard(BoardNo,boardWriteModel.FileName);
             }
             return Json(
                 new
                 {
-                    result = result
+                    Result = BoardNo,
                 }
                 );
         }
@@ -131,7 +140,7 @@ namespace BoardRenual.Controllers
             {
                 Result = boardFindAndPageCountRequestBiz.PageAndFindBoardCount(findAndPageRequestModel),
                 Paging = boardFindAndPageRequestBiz.PageAndFindBoard(findAndPageRequestModel)
-            },JsonRequestBehavior.AllowGet
+            }, JsonRequestBehavior.AllowGet
         );
         }
         // 검색 + 페이징
@@ -194,6 +203,17 @@ namespace BoardRenual.Controllers
             return Json(new
             {
                 Email = replyUserCheckBiz.ReplyUerCheck(No)
+            });
+        }
+        //부모 댓글 삭제
+        public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
+        {
+            ReplyDeleteReplyBiz replyDeleteReplyBiz = new ReplyDeleteReplyBiz();
+            var replyGetReplyListBiz = new ReplyGetReplyListBiz();
+            return Json(new
+            {
+                Delete = replyDeleteReplyBiz.ReplyDeleteReply(replyDeleteRequestModel.No),
+                ReplyList = replyGetReplyListBiz.GetReplyList(replyDeleteRequestModel.BoardNo),
             });
         }
     }

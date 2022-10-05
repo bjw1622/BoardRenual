@@ -12,7 +12,7 @@ namespace BoardRenual.Repositorys
     {
         public int WriteBoard(BoardModel boardmodel, Connection connection)
         {
-            int result = -1;
+            int BoardNo = -1;
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -22,10 +22,7 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@Title", boardmodel.Title);
                     com.Parameters.AddWithValue("@Content", boardmodel.Content);
                     com.Parameters.AddWithValue("@Email", boardmodel.Email);
-                    //ExecuteNonQuery로 true false => parsing
-                    // 이 경우는 true false
-                    // 다른 경우는 여러가지 case
-                    result = (int)com.ExecuteScalar();
+                    BoardNo = (int)com.ExecuteScalar();
                 }
             }
             catch (Exception e)
@@ -36,7 +33,7 @@ namespace BoardRenual.Repositorys
             {
                 connection.ConDispose(con);
             }
-            return result;
+            return BoardNo;
         }
 
         public List<BoardModel> GetBoardList(Connection connection)
@@ -368,17 +365,18 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void WriteFileBoard(BoardModel boardModel, Connection connection)
+        public void WriteFileBoard(int BoardNo,List<string> FileNames, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
             try
             {
-                for (int i = 0; i < boardModel.FileName.Count; i++)
+                for (int i = 0; i < FileNames.Count; i++)
                 {
                     using (SqlCommand com = new SqlCommand("dbo.FileUpload", con))
                     {
                         com.CommandType = CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@FileName", boardModel.FileName[i]);
+                        com.Parameters.AddWithValue("@BoardNo", BoardNo);
+                        com.Parameters.AddWithValue("@FileName", FileNames[i]);
                         com.ExecuteNonQuery();
                     }
                 }
@@ -437,7 +435,7 @@ namespace BoardRenual.Repositorys
                     result = true;
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -513,18 +511,53 @@ namespace BoardRenual.Repositorys
         public string ReplyUerCheck(ReplyModel replyModel, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
-            using (SqlCommand com = new SqlCommand("dbo.UserCheck", con))
+            try
             {
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@No", replyModel.UserNo);
-                SqlDataReader reader = com.ExecuteReader();
-                while(reader.Read())
+                using (SqlCommand com = new SqlCommand("dbo.UserCheck", con))
                 {
-                    replyModel.Email = Convert.ToString(reader["Email"]);
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", replyModel.UserNo);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        replyModel.Email = Convert.ToString(reader["Email"]);
+                    }
                 }
             }
-            connection.ConDispose(con);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+
+            }
             return replyModel.Email;
+        }
+        public bool ReplyDeleteReply(ReplyModel replyModel, Connection connection)
+        {
+            SqlConnection con = connection.ConOpen();
+            bool flag = false;
+            try
+            {
+                using (SqlCommand com = new SqlCommand("dbo.DeleteReply", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@No", replyModel.No);
+                    com.ExecuteScalar();
+                    flag = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                connection.ConDispose(con);
+            }
+            return flag;
         }
     }
 }
