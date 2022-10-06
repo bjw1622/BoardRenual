@@ -433,8 +433,10 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@ParentReplyNo", replyModel.@ParentReplyNo);
                     com.Parameters.AddWithValue("@Content", replyModel.@Content);
                     com.Parameters.AddWithValue("@Email", replyModel.@Email);
-                    com.ExecuteNonQuery();
-                    result = true;
+                    if(com.ExecuteNonQuery() == 1)
+                    {
+                        result = true;
+                    }
                 }
             }
             catch (Exception e)
@@ -547,8 +549,10 @@ namespace BoardRenual.Repositorys
                 {
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@No", replyModel.No);
-                    com.ExecuteScalar();
-                    flag = true;
+                    if(com.ExecuteNonQuery() != -1)
+                    {
+                        flag = true;
+                    }
                 }
             }
             catch (Exception e)

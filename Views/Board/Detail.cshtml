@@ -65,7 +65,13 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" id="re-reply-input">
+                <div>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(event)>닫기</button>
+                    <button class="@ViewBag.ReplyList[i].No"onclick=reReply(event)>답글 입력</button>
+                </div>
+            </div>
         }
     </div>
 </body>
@@ -205,7 +211,13 @@
                     </div>
             </div>
         </div>
-        <hr>
+        <div class="re-reply-input-div ${item.No}" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+            <input type="text" class="form-control" id="re-reply-input">
+              <div>
+                <button class="${item.No}" onclick=closeReply(event)>닫기</button>
+                <button class="${item.No}"onclick=reReply(event)>답글 입력</button>
+            </div>
+         </div>
         `
     }
     // 답글 입력창
@@ -222,8 +234,8 @@
     }
     // 답글 달기 onclick
     function reReplyStrcture(event) {
-        $(event.target).hide();
-        $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
+        $(`.re-reply-input-div.${event.target.classList[0]}`).show();
+        $(`.${event.target.classList[0]}.add-rereply`).hide();
     }
     function closeReply(event) {
         $(`.re-reply-input-div.${event.target.classList[0]}`).hide();
@@ -272,14 +284,11 @@
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
-                if (data.ReReplyList.length === 0) {
+                if (data.length === 0) {
                     alert('답글이 없습니다.');
                 }
-                else if (data.ReReplyList === -1) {
-                    alert('답글 불러오기를 실패했습니다.');
-                }
                 else {
-                    data.ReReplyList.forEach((item) => {
+                    data.forEach((item) => {
                         $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item,param.ParentReplyNo));
                     })
                     $(event.target).hide();

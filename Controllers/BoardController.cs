@@ -32,22 +32,22 @@ namespace BoardRenual.Controllers
         }
         // 글작성
         [HttpPost]
-        public JsonResult Write(BoardWriteRequestModel boardWriteModel)
+        public JsonResult Write(BoardWriteRequestModel boardWriteRequestModel)
         {
             int boardNo = -1;
-            if (boardWriteModel == null)
+            if (boardWriteRequestModel == null)
             {
                 return Json(boardNo);
             }
-            if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
-                && !(string.IsNullOrEmpty(boardWriteModel.Email)))
+            if (!(string.IsNullOrEmpty(boardWriteRequestModel.Title)) && !(string.IsNullOrEmpty(boardWriteRequestModel.Content))
+                && !(string.IsNullOrEmpty(boardWriteRequestModel.Email)))
             {
-                boardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
+                boardNo = new BoardWriteBiz().WriteBoard(boardWriteRequestModel);
             }
             if (boardNo != -1)
             {
-                UploadFiles(boardWriteModel.FormData);
-                new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteModel.FileName);
+                UploadFiles(boardWriteRequestModel.FormData);
+                new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteRequestModel.FileName);
             }
             return Json(boardNo);
         }
@@ -212,15 +212,9 @@ namespace BoardRenual.Controllers
         {
             if (parentReplyNo > 0)
             {
-                return Json(new
-                {
-                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo)
-                });
+                return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
             }
-            return Json(new
-            {
-                ReReplyList = -1
-            });
+            return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
 
         }
         // 본인 확인
@@ -254,7 +248,7 @@ namespace BoardRenual.Controllers
             }
             return Json(new
             {
-                Delete = false
+                Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
             });
         }
     }
