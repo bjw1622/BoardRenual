@@ -137,8 +137,7 @@ namespace BoardRenual.Repositorys
                 {
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@No", No);
-                    int obj = (int)com.ExecuteScalar();
-                    if (obj == No)
+                    if(com.ExecuteNonQuery() == 1)
                     {
                         flag = true;
                     }
@@ -365,7 +364,7 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void WriteFileBoard(int BoardNo,List<string> FileNames, Connection connection)
+        public void WriteFileBoard(int BoardNo, List<string> FileNames, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
             try
@@ -435,7 +434,7 @@ namespace BoardRenual.Repositorys
                     result = true;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }

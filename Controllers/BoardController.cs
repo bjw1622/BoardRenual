@@ -105,12 +105,9 @@ namespace BoardRenual.Controllers
         {
             if (no > 0)
             {
-                return Json(new
-                {
-                    flag = new BoardDeleteBoardBiz().DeleteBoard(no)
-                });
+                return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
             }
-            return Json(new { flag = false });
+            return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
 
         }
         // 수정
