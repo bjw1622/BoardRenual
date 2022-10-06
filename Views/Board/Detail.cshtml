@@ -130,7 +130,7 @@
     // 게시글 추천
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
-            "Board_No": @No,
+            "BoardNo": @No,
             "Email": "@(Request.Cookies["Email"].Value)",
         }
         $.ajax({
@@ -196,12 +196,12 @@
         return `
         <div class="reply-list ${item.No}">
             <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                    <input type="text" class="form-control" value=${item.Content} readonly>
+                    <input type="text" class="form-control" value="${item.Content}" readonly>
                     <div>
                         <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="${item.No} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
                         <button class="${item.No} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
-                        <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
+                        <button class="${item.No}" id="${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
         </div>

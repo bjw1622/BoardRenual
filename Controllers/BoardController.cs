@@ -273,7 +273,6 @@ namespace BoardRenual.Controllers
             {
                 Delete = false
             });
-
         }
     }
 }

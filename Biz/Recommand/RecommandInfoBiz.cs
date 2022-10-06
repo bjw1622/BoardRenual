@@ -14,7 +14,7 @@ namespace BoardRenual.Biz.Recommand
         {
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
-            boardModel.No = recommandInfoRequestModel.Board_No;
+            boardModel.No = recommandInfoRequestModel.BoardNo;
             boardModel.Email = recommandInfoRequestModel.Email;
 
             Connection connection = new Connection();
