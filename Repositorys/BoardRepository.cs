@@ -137,7 +137,7 @@ namespace BoardRenual.Repositorys
                 {
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@No", No);
-                    if(com.ExecuteNonQuery() == 1)
+                    if (com.ExecuteNonQuery() != -1)
                     {
                         flag = true;
                     }
