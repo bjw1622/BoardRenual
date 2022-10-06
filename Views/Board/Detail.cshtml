@@ -61,7 +61,7 @@
                         <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(event)" style="display:none;">답글 닫기</button>
-                        <button class="@ViewBag.ReplyList[i].No @ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
+                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
                     </div>
                 </div>
             </div>
@@ -297,13 +297,13 @@
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value=${item.Content} readonly>
                     <div>
-                        <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
+                        <button class="${item.No}" id="${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
         </div>
         `
     }
-    // 부모 댓글 삭제
+    // 댓글 삭제
     function deleteReply(event) {
         if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
             const deleteReply = confirm('삭제 하시겠습니까?');
@@ -344,7 +344,7 @@
     // 댓글 본인 확인
     function UserCheck(event) {
         const param = {
-            "No": parseInt(event.target.classList[1]),
+            "No": parseInt(event.target.id),
         }
         let Email;
         $.ajax({
@@ -356,7 +356,10 @@
             async: false,
             success: function (data) {
                 if (data.Email === "") {
-                    alert('사용자 확인이 필요합니다.')
+                    alert('사용자 확인이 필요합니다.');
+                }
+                else if ("@(Request.Cookies["Email"].Value)" !== data.Email) {
+                    alert('삭제 권한이 없습니다.');
                 }
                 else {
                     Email = data.Email;

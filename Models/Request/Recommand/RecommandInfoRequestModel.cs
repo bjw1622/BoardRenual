@@ -7,7 +7,7 @@ namespace BoardRenual.Models.Request.Recommand
 {
     public class RecommandInfoRequestModel
     {
-        public int Board_No { get; set; }
+        public int BoardNo { get; set; }
         public string Email { get; set; }
     }
 }
