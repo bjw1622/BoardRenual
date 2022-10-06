@@ -37,9 +37,7 @@ namespace BoardRenual.Controllers
             int boardNo = -1;
             if (boardWriteModel == null)
             {
-                return Json(
-                    boardNo
-                    );
+                return Json(boardNo);
             }
             if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
                 && !(string.IsNullOrEmpty(boardWriteModel.Email)))
@@ -51,12 +49,7 @@ namespace BoardRenual.Controllers
                 UploadFiles(boardWriteModel.FormData);
                 new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteModel.FileName);
             }
-            return Json(
-                new
-                {
-                    Result = boardNo,
-                }
-                );
+            return Json(boardNo);
         }
         // 첨부파일 로컬 저장
         [HttpPost]
@@ -117,16 +110,9 @@ namespace BoardRenual.Controllers
             if (boardUpdateRequestModel != null && boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
                 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Content)))
             {
-                return Json(new
-                {
-                    flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
-                });
+                return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
             }
-            return Json(new
-            {
-                flag = -1
-            }
-                    );
+            return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
         }
         [HttpGet]
         // 페이징

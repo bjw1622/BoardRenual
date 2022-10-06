@@ -89,7 +89,7 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                if (data.flag !== -1) {
+                if (data === true) {
                     alert('수정 되었습니다.');
                 }
                 else {

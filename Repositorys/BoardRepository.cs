@@ -153,9 +153,9 @@ namespace BoardRenual.Repositorys
             }
             return flag;
         }
-        public int UpdateBoard(BoardModel boardmodel, Connection connection)
+        public bool UpdateBoard(BoardModel boardmodel, Connection connection)
         {
-            int result = -1;
+            bool result = false;
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -165,7 +165,10 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@No", boardmodel.No);
                     com.Parameters.AddWithValue("@Title", boardmodel.Title);
                     com.Parameters.AddWithValue("@Content", boardmodel.Content);
-                    result = (int)com.ExecuteScalar();
+                    if(com.ExecuteNonQuery() == 1)
+                    {
+                        result = true;
+                    }
                 }
             }
             catch (Exception e)

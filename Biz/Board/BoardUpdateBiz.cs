@@ -10,7 +10,7 @@ namespace BoardRenual.Biz.Board
 {
     public class BoardUpdateBiz
     {
-        public int UpdateBoard(BoardUpdateRequestModel boardUpdateRequestModel)
+        public bool UpdateBoard(BoardUpdateRequestModel boardUpdateRequestModel)
         {
             BoardModel boardModel = new BoardModel();
             BoardRepository boardRepository = new BoardRepository();
