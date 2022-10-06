@@ -7,10 +7,10 @@ namespace BoardRenual.Repository
 {
     public class UserRepository
     {
-        public int SignUp(UserModel userModel, Connection connection)
+        public bool SignUp(UserModel userModel, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
-            int signUpResult = -1;
+            bool result = false;
             try
             {
                 using (SqlCommand com = new SqlCommand("dbo.InsertUser", con))
@@ -20,9 +20,9 @@ namespace BoardRenual.Repository
                     com.Parameters.AddWithValue("@Pw", userModel.Pw);
                     com.Parameters.AddWithValue("@Name", userModel.Name);
                     com.Parameters.AddWithValue("@Birth", userModel.Birth);
-                    if((string)com.ExecuteScalar() == userModel.Email)
+                    if(com.ExecuteNonQuery() == 1)
                     {
-                        signUpResult = 0;
+                        result = true;
                     }
                 }
             }
@@ -34,7 +34,7 @@ namespace BoardRenual.Repository
             {
                 connection.ConDispose(con);
             }
-            return signUpResult;
+            return result;
         }
 
 

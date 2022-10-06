@@ -79,7 +79,6 @@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
-    // HTTPMETHOD => PUT으로 수정
     $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
         if (flag === true) {
@@ -108,7 +107,6 @@
         });
     }
     })
-    // HTTPMETHOD => DELETE로 수정
     $('#delete-btn').click(() => {
         const flag = confirm("삭제 하시겠습니까?");
         if (flag === true) {
