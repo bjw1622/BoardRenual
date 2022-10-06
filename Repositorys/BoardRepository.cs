@@ -137,8 +137,7 @@ namespace BoardRenual.Repositorys
                 {
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@No", No);
-                    int obj = (int)com.ExecuteScalar();
-                    if (obj == No)
+                    if (com.ExecuteNonQuery() != -1)
                     {
                         flag = true;
                     }
@@ -154,9 +153,9 @@ namespace BoardRenual.Repositorys
             }
             return flag;
         }
-        public int UpdateBoard(BoardModel boardmodel, Connection connection)
+        public bool UpdateBoard(BoardModel boardmodel, Connection connection)
         {
-            int result = -1;
+            bool result = false;
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -166,7 +165,10 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@No", boardmodel.No);
                     com.Parameters.AddWithValue("@Title", boardmodel.Title);
                     com.Parameters.AddWithValue("@Content", boardmodel.Content);
-                    result = (int)com.ExecuteScalar();
+                    if(com.ExecuteNonQuery() == 1)
+                    {
+                        result = true;
+                    }
                 }
             }
             catch (Exception e)
@@ -365,7 +367,7 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void WriteFileBoard(int BoardNo,List<string> FileNames, Connection connection)
+        public void WriteFileBoard(int BoardNo, List<string> FileNames, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
             try
@@ -431,11 +433,13 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@ParentReplyNo", replyModel.@ParentReplyNo);
                     com.Parameters.AddWithValue("@Content", replyModel.@Content);
                     com.Parameters.AddWithValue("@Email", replyModel.@Email);
-                    com.ExecuteNonQuery();
-                    result = true;
+                    if(com.ExecuteNonQuery() == 1)
+                    {
+                        result = true;
+                    }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -545,8 +549,10 @@ namespace BoardRenual.Repositorys
                 {
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@No", replyModel.No);
-                    com.ExecuteScalar();
-                    flag = true;
+                    if(com.ExecuteNonQuery() != -1)
+                    {
+                        flag = true;
+                    }
                 }
             }
             catch (Exception e)

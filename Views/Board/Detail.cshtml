@@ -65,7 +65,13 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" id="re-reply-input">
+                <div>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(event)>닫기</button>
+                    <button class="@ViewBag.ReplyList[i].No"onclick=reReply(event)>답글 입력</button>
+                </div>
+            </div>
         }
     </div>
 </body>
@@ -89,7 +95,7 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                if (data.flag !== -1) {
+                if (data === true) {
                     alert('수정 되었습니다.');
                 }
                 else {
@@ -114,8 +120,8 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                if (data.flag === true) {
-                    alert('삭제 되었습니다.');
+                if (data=== true) {
+                    alert('삭제되었습니다.');
                     location.href = "/Board/Index";
                 }
                 else {
@@ -130,7 +136,7 @@
     // 게시글 추천
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
-            "Board_No": @No,
+            "BoardNo": @No,
             "Email": "@(Request.Cookies["Email"].Value)",
         }
         $.ajax({
@@ -196,16 +202,22 @@
         return `
         <div class="reply-list ${item.No}">
             <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                    <input type="text" class="form-control" value=${item.Content} readonly>
+                    <input type="text" class="form-control" value="${item.Content}" readonly>
                     <div>
                         <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
                         <button class="${item.No} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
                         <button class="${item.No} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
-                        <button class="${item.No} ${item.UserNo}" onclick=deleteReply(event)>삭제</button>
+                        <button class="${item.No}" id="${item.UserNo}" onclick=deleteReply(event)>삭제</button>
                     </div>
             </div>
         </div>
-        <hr>
+        <div class="re-reply-input-div ${item.No}" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+            <input type="text" class="form-control" id="re-reply-input">
+              <div>
+                <button class="${item.No}" onclick=closeReply(event)>닫기</button>
+                <button class="${item.No}"onclick=reReply(event)>답글 입력</button>
+            </div>
+         </div>
         `
     }
     // 답글 입력창
@@ -222,8 +234,8 @@
     }
     // 답글 달기 onclick
     function reReplyStrcture(event) {
-        $(event.target).hide();
-        $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
+        $(`.re-reply-input-div.${event.target.classList[0]}`).show();
+        $(`.${event.target.classList[0]}.add-rereply`).hide();
     }
     function closeReply(event) {
         $(`.re-reply-input-div.${event.target.classList[0]}`).hide();
@@ -272,14 +284,11 @@
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
-                if (data.ReReplyList.length === 0) {
+                if (data.length === 0) {
                     alert('답글이 없습니다.');
                 }
-                else if (data.ReReplyList === -1) {
-                    alert('답글 불러오기를 실패했습니다.');
-                }
                 else {
-                    data.ReReplyList.forEach((item) => {
+                    data.forEach((item) => {
                         $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item,param.ParentReplyNo));
                     })
                     $(event.target).hide();

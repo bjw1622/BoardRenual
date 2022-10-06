@@ -32,31 +32,24 @@ namespace BoardRenual.Controllers
         }
         // 글작성
         [HttpPost]
-        public JsonResult Write(BoardWriteRequestModel boardWriteModel)
+        public JsonResult Write(BoardWriteRequestModel boardWriteRequestModel)
         {
             int boardNo = -1;
-            if (boardWriteModel == null)
+            if (boardWriteRequestModel == null)
             {
-                return Json(
-                    boardNo
-                    );
+                return Json(boardNo);
             }
-            if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
-                && !(string.IsNullOrEmpty(boardWriteModel.Email)))
+            if (!(string.IsNullOrEmpty(boardWriteRequestModel.Title)) && !(string.IsNullOrEmpty(boardWriteRequestModel.Content))
+                && !(string.IsNullOrEmpty(boardWriteRequestModel.Email)))
             {
-                boardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
+                boardNo = new BoardWriteBiz().WriteBoard(boardWriteRequestModel);
             }
             if (boardNo != -1)
             {
-                UploadFiles(boardWriteModel.FormData);
-                new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteModel.FileName);
+                UploadFiles(boardWriteRequestModel.FormData);
+                new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteRequestModel.FileName);
             }
-            return Json(
-                new
-                {
-                    Result = boardNo,
-                }
-                );
+            return Json(boardNo);
         }
         // 첨부파일 로컬 저장
         [HttpPost]
@@ -105,12 +98,9 @@ namespace BoardRenual.Controllers
         {
             if (no > 0)
             {
-                return Json(new
-                {
-                    flag = new BoardDeleteBoardBiz().DeleteBoard(no)
-                });
+                return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
             }
-            return Json(new { flag = false });
+            return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
 
         }
         // 수정
@@ -120,16 +110,9 @@ namespace BoardRenual.Controllers
             if (boardUpdateRequestModel != null && boardUpdateRequestModel.No > 0 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Title))
                 && !(string.IsNullOrEmpty(boardUpdateRequestModel.Content)))
             {
-                return Json(new
-                {
-                    flag = new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel)
-                });
+                return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
             }
-            return Json(new
-            {
-                flag = -1
-            }
-                    );
+            return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
         }
         [HttpGet]
         // 페이징
@@ -229,15 +212,9 @@ namespace BoardRenual.Controllers
         {
             if (parentReplyNo > 0)
             {
-                return Json(new
-                {
-                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo)
-                });
+                return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
             }
-            return Json(new
-            {
-                ReReplyList = -1
-            });
+            return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
 
         }
         // 본인 확인
@@ -271,9 +248,8 @@ namespace BoardRenual.Controllers
             }
             return Json(new
             {
-                Delete = false
+                Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
             });
-
         }
     }
 }
