@@ -34,27 +34,27 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteModel)
         {
-            int BoardNo = -1;
+            int boardNo = -1;
             if (boardWriteModel == null)
             {
                 return Json(
-                    BoardNo
+                    boardNo
                     );
             }
             if (!(string.IsNullOrEmpty(boardWriteModel.Title)) && !(string.IsNullOrEmpty(boardWriteModel.Content))
                 && !(string.IsNullOrEmpty(boardWriteModel.Email)))
             {
-                BoardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
+                boardNo = new BoardWriteBiz().WriteBoard(boardWriteModel);
             }
-            if (BoardNo != -1)
+            if (boardNo != -1)
             {
                 UploadFiles(boardWriteModel.FormData);
-                new BoardWriteFileBiz().WriteFileBoard(BoardNo, boardWriteModel.FileName);
+                new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteModel.FileName);
             }
             return Json(
                 new
                 {
-                    Result = BoardNo,
+                    Result = boardNo,
                 }
                 );
         }
@@ -79,11 +79,11 @@ namespace BoardRenual.Controllers
         }
         // 상세
         [HttpGet]
-        public ActionResult Detail(int No)
+        public ActionResult Detail(int no)
         {
-            if (No > 0)
+            if (no > 0)
             {
-                if (new BoardGetBoardEmailBiz().GetBoardEmail(No).Email == Request.Cookies["Email"].Value)
+                if (new BoardGetBoardEmailBiz().GetBoardEmail(no).Email == Request.Cookies["Email"].Value)
                 {
                     ViewBag.EmailCheck = true;
                 }
@@ -91,23 +91,23 @@ namespace BoardRenual.Controllers
                 {
                     ViewBag.EmailCheck = false;
                 }
-                ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(No);
-                ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(No);
-                ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(No);
-                return View(new BoardGetBoardDetailBiz().GetBoardDetail(No));
+                ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(no);
+                ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(no);
+                ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(no);
+                return View(new BoardGetBoardDetailBiz().GetBoardDetail(no));
             }
             return RedirectToAction("Index", "Board");
 
         }
         // 삭제
         [HttpPost]
-        public JsonResult Delete(int No)
+        public JsonResult Delete(int no)
         {
-            if (No > 0)
+            if (no > 0)
             {
                 return Json(new
                 {
-                    flag = new BoardDeleteBoardBiz().DeleteBoard(No)
+                    flag = new BoardDeleteBoardBiz().DeleteBoard(no)
                 });
             }
             return Json(new { flag = false });
@@ -176,7 +176,7 @@ namespace BoardRenual.Controllers
         {
             int flag = -1;
             int recommandCount = -1;
-            if (recommandInfoRequestModel != null && recommandInfoRequestModel.Board_No > 0 && !(string.IsNullOrEmpty(recommandInfoRequestModel.Email)))
+            if (recommandInfoRequestModel != null && recommandInfoRequestModel.BoardNo > 0 && !(string.IsNullOrEmpty(recommandInfoRequestModel.Email)))
             {
                 int recommandInfoNum = new RecommandInfoBiz().GetRecommandInfo(recommandInfoRequestModel);
                 if (recommandInfoNum == 1)
@@ -189,7 +189,7 @@ namespace BoardRenual.Controllers
                     new RecommandInsertBiz().RecommandInsert(recommandInfoRequestModel);
                     flag = 0;
                 }
-                recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.Board_No);
+                recommandCount = new RecommandGetCountBiz().GetRecommandCount(recommandInfoRequestModel.BoardNo);
                 return Json(new
                 {
                     Flag = flag
@@ -225,13 +225,13 @@ namespace BoardRenual.Controllers
         }
         // 답글 불러오기
         [HttpPost]
-        public JsonResult GetReReplyList(int ParentReplyNo)
+        public JsonResult GetReReplyList(int parentReplyNo)
         {
-            if (ParentReplyNo > 0)
+            if (parentReplyNo > 0)
             {
                 return Json(new
                 {
-                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(ParentReplyNo)
+                    ReReplyList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo)
                 });
             }
             return Json(new
@@ -242,13 +242,13 @@ namespace BoardRenual.Controllers
         }
         // 본인 확인
         [HttpPost]
-        public JsonResult UserCheck(int No)
+        public JsonResult UserCheck(int no)
         {
-            if (No > 0)
+            if (no > 0)
             {
                 return Json(new
                 {
-                    Email = new ReplyUserCheckBiz().ReplyUerCheck(No)
+                    Email = new ReplyUserCheckBiz().ReplyUerCheck(no)
                 });
             }
             return Json(new
@@ -257,7 +257,8 @@ namespace BoardRenual.Controllers
             });
 
         }
-        //댓글 삭제 
+        //댓글 삭제
+        [HttpPost]
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
             if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
