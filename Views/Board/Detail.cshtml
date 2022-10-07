@@ -229,6 +229,7 @@
     // 답글 달기 onclick
     function reReplyStrcture(event) {
         $(`.re-reply-input-div.${event.target.classList[0]}`).show();
+        $(`.re-reply-input-div.${event.target.classList[0]}`).css({"display":"flex","justify-content":"space-between"});
         $(`.${event.target.classList[0]}.add-rereply`).hide();
     }
     function closeReply(event) {
