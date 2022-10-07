@@ -35,7 +35,7 @@ namespace BoardRenual.Controllers
             }
             return Json(new UserEmailCheckBiz().EmailCheck(userEmailCheck));
         }
-        [HttpGet]
+        [HttpGet]  
         public ActionResult LogIn()
         {
             if (Request.Cookies["Email"] != null)

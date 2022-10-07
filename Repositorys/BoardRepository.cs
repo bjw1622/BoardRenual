@@ -338,7 +338,7 @@ namespace BoardRenual.Repositorys
             catch (Exception e)
             {
                 Console.WriteLine(e);
-            }
+            }  
             finally
             {
                 connection.ConDispose(con);
