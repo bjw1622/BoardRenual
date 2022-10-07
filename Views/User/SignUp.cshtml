@@ -76,12 +76,13 @@
                 data: JSON.stringify(param),
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data === 0) {
+                    if (data === true) {
                         alert('회원가입이 완료 되었습니다.');
                         location.href = '/User/LogIn';
                     }
-                    else {
-                        alert('회원가입이 되지 않았습니다.')
+                    else if (data === false)
+                    {
+                        alert('회원 정보를 올바르게 기입해주세요.')
                     }
                 },
                 error: function (err) {

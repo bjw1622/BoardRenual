@@ -12,7 +12,7 @@ namespace BoardRenual.Repositorys
     {
         public int WriteBoard(BoardModel boardmodel, Connection connection)
         {
-            int BoardNo = -1;
+            int boardNo = -1;
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -22,7 +22,7 @@ namespace BoardRenual.Repositorys
                     com.Parameters.AddWithValue("@Title", boardmodel.Title);
                     com.Parameters.AddWithValue("@Content", boardmodel.Content);
                     com.Parameters.AddWithValue("@Email", boardmodel.Email);
-                    BoardNo = (int)com.ExecuteScalar();
+                    boardNo = (int)com.ExecuteScalar();
                 }
             }
             catch (Exception e)
@@ -33,7 +33,7 @@ namespace BoardRenual.Repositorys
             {
                 connection.ConDispose(con);
             }
-            return BoardNo;
+            return boardNo;
         }
 
         public List<BoardModel> GetBoardList(Connection connection)
@@ -338,7 +338,7 @@ namespace BoardRenual.Repositorys
             catch (Exception e)
             {
                 Console.WriteLine(e);
-            }
+            }  
             finally
             {
                 connection.ConDispose(con);

@@ -8,7 +8,6 @@
 <head>
 </head>
 <body>
-    <form>
         <div class="form-group">
             <label>제목</label>
             <input type="text" class="form-control" placeholder="제목" id="title" required>
@@ -22,8 +21,7 @@
             <textarea class="form-control" rows="5" id="main-content" required></textarea>
         </div>
         <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
-        <button class="btn btn-primary" id="write">글작성</button>
-    </form>
+        <button type="button" class="btn btn-primary" id="write">글작성</button>
 </body>
 </html>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -58,6 +56,7 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
+                console.log(data);
                 if (data !== -1) {
                     alert('글 작성이 완료 되었습니다.');
                     location.href = "/Board/Index";
@@ -67,6 +66,7 @@
                 }
             },
             error: function (err) {
+                console.log(err);
             }
         });
     });

@@ -7,6 +7,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 <body>
     <h2>상세</h2>
@@ -65,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+            <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none; margin-left:20px; margin-bottom:15px;">
                 <input type="text" class="form-control" id="re-reply-input">
                 <div>
                     <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(event)>닫기</button>
@@ -79,7 +80,6 @@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
-    // HTTPMETHOD => PUT으로 수정
     $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
         if (flag === true) {
@@ -108,7 +108,6 @@
         });
     }
     })
-    // HTTPMETHOD => DELETE로 수정
     $('#delete-btn').click(() => {
         const flag = confirm("삭제 하시겠습니까?");
         if (flag === true) {
@@ -192,11 +191,6 @@
             }
         });
     })
-    // 답글 달기
-    $('.re-reply-btn').click((event) => {
-        $(event.target).hide();
-        $(`.reply-list.${event.target.classList[0]}`).append(createReReply(event.target.classList[0]));
-    });
     // 부모 댓글 불러오기
     function replyStructure(item) {
         return `
@@ -211,7 +205,7 @@
                     </div>
             </div>
         </div>
-        <div class="re-reply-input-div ${item.No}" style=" display:none!important; margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+        <div class="re-reply-input-div ${item.No}" style=" display:none; margin-left:20px; margin-bottom:15px;">
             <input type="text" class="form-control" id="re-reply-input">
               <div>
                 <button class="${item.No}" onclick=closeReply(event)>닫기</button>
@@ -223,7 +217,7 @@
     // 답글 입력창
     function createReReply(No) {
         return `
-        <div class="re-reply-input-div ${No}"style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+        <div class="re-reply-input-div ${No}"style="display:flex; justify-content:space-between">
                 <input type="text" class="form-control" id="re-reply-input">
             <div>
                 <button class="${No}" onclick=closeReply(event)>닫기</button>
