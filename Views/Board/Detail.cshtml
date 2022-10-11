@@ -104,7 +104,7 @@
         {{#each .}}
         <div class="{{ParentReplyNo}} re-reply-structure">
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
-                <input type="text" class="form-control" value={{Content}} readonly>
+                <input type="text" class="form-control" value="{{Content}}" readonly>
                 <div>
                     <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
                 </div>
@@ -337,7 +337,6 @@
         }
     function reReplyClose(event) {
         $(`.${event.target.classList[0]}.re-reply-structure`).hide();
-        //$(`.re-reply-structure`).hide();
         $(`.${event.target.classList[0]}.close-rereply`).hide();
         $(`.${event.target.classList[0]}.open-rereply`).show();
     }
