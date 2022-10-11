@@ -7,7 +7,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    @* Handlebar script *@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
 </head>
 <body>
     <h2>상세</h2>
@@ -67,20 +69,85 @@
                 </div>
             </div>
             <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none; margin-left:20px; margin-bottom:15px;">
-                <input type="text" class="form-control" id="re-reply-input">
+                <input type="text" class="re-reply-input @ViewBag.ReplyList[i].No form-control">
                 <div>
                     <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(event)>닫기</button>
-                    <button class="@ViewBag.ReplyList[i].No"onclick=reReply(event)>답글 입력</button>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=reReply(event)>답글 입력</button>
                 </div>
             </div>
         }
     </div>
-</body>
-</html>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script>
+    <script id="reply-list-template" type="text/x-handlebars-template">
+        {{#each .}}
+        <div class="reply-list {{No}}">
+            <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" value="{{Content}}" readonly>
+                <div>
+                    <button class="{{No}} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
+                    <button class="{{No}} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
+                    <button class="{{No}} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
+                </div>
+            </div>
+        </div>
+        <div class="re-reply-input-div {{No}}" style=" display:none; margin-left:20px; margin-bottom:15px;">
+            <input type="text" class="re-reply-input {{No}} form-control">
+            <div>
+                <button class="{{No}}" onclick=closeReply(event)>닫기</button>
+                <button class="{{No}}" onclick=reReply(event)>답글 입력</button>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script id="re-reply-list-template" type="text/x-handlebars-template">
+        {{#each .}}
+        <div class="{{ParentReplyNo}} re-reply-structure">
+            <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
+                <input type="text" class="form-control" value={{Content}} readonly>
+                <div>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
     let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
-    $('#update-btn').click(() => {
+    // 댓글 작성
+    $('#reply-btn').click(() => {
+        const param = {
+            "BoardNo": @No,
+            "ParentReplyNo": 0,
+            "Content": $('#reply').val(),
+            "Email" : "@(Request.Cookies["Email"].Value)",
+        }
+        $.ajax({
+            url: '/Board/WriteReply',
+            type: 'post',
+            dataType:'json',
+            data: JSON.stringify(param),
+            contentType: "application/json",
+            success: function (data) {
+                if (data.WriteResult === true) {
+                    alert('댓글이 작성되었습니다.')
+                    $('#reply-content').empty();
+                    var source = $("#reply-list-template").html();
+                    var template = Handlebars.compile(source);
+                    var data = data.ReplyList;
+                    $("#reply-content").html(template(data));
+                }
+                else {
+                    alert('댓글 작성에 실패했습니다.')
+                }
+                $('#reply').val("");
+            },
+            error: function () {
+            }
+        });
+    })
+        $('#update-btn').click(() => {
         const flag = confirm("수정 하시겠습니까?");
         if (flag === true) {
             const param = {
@@ -160,72 +227,6 @@
             }
         });
     })
-    // 댓글 작성
-    $('#reply-btn').click(() => {
-        const param = {
-            "BoardNo": @No,
-            "ParentReplyNo": 0,
-            "Content": $('#reply').val(),
-            "Email" : "@(Request.Cookies["Email"].Value)",
-        }
-        $.ajax({
-            url: '/Board/WriteReply',
-            type: 'post',
-            dataType:'json',
-            data: JSON.stringify(param),
-            contentType: "application/json",
-            success: function (data) {
-                if (data.WriteResult === true) {
-                    alert('댓글이 작성되었습니다.')
-                    $('#reply-content').empty();
-                    data.ReplyList.forEach((item) => {
-                        $('#reply-content').append(replyStructure(item));
-                    })
-                }
-                else {
-                    alert('댓글 작성에 실패했습니다.')
-                }
-                $('#reply').val("");
-            },
-            error: function () {
-            }
-        });
-    })
-    // 부모 댓글 불러오기
-    function replyStructure(item) {
-        return `
-        <div class="reply-list ${item.No}">
-            <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                    <input type="text" class="form-control" value="${item.Content}" readonly>
-                    <div>
-                        <button class="${item.No} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class="${item.No} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
-                        <button class="${item.No} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
-                        <button class="${item.No}" id="${item.UserNo}" onclick=deleteReply(event)>삭제</button>
-                    </div>
-            </div>
-        </div>
-        <div class="re-reply-input-div ${item.No}" style=" display:none; margin-left:20px; margin-bottom:15px;">
-            <input type="text" class="form-control" id="re-reply-input">
-              <div>
-                <button class="${item.No}" onclick=closeReply(event)>닫기</button>
-                <button class="${item.No}"onclick=reReply(event)>답글 입력</button>
-            </div>
-         </div>
-        `
-    }
-    // 답글 입력창
-    function createReReply(No) {
-        return `
-        <div class="re-reply-input-div ${No}"style="display:flex; justify-content:space-between">
-                <input type="text" class="form-control" id="re-reply-input">
-            <div>
-                <button class="${No}" onclick=closeReply(event)>닫기</button>
-                <button class="${No}" onclick=reReply(event)>답글 입력</button>
-            </div>
-        </div>
-        `
-    }
     // 답글 달기 onclick
     function reReplyStrcture(event) {
         $(`.re-reply-input-div.${event.target.classList[0]}`).show();
@@ -241,9 +242,10 @@
         const param = {
             "BoardNo": @No,
             "ParentReplyNo": event.target.className,
-            "Content": $('#re-reply-input').val(),
+            "Content": $(`.re-reply-input.${event.target.className}`).val(),
             "Email" : "@(Request.Cookies["Email"].Value)",
         }
+        console.log(param);
         $.ajax({
             url: '/Board/WriteReply',
             type: 'post',
@@ -254,9 +256,10 @@
                 if (data.WriteResult === true) {
                     alert('답글이 작성되었습니다.')
                     $('#reply-content').empty();
-                    data.ReplyList.forEach((item) => {
-                        $('#reply-content').append(replyStructure(item));
-                    })
+                    var source = $("#reply-list-template").html();
+                    var template = Handlebars.compile(source);
+                    var data = data.ReplyList;
+                    $("#reply-content").html(template(data));
                 }
                 else {
                     alert('댓글을 올바르게 입력해주세요.')
@@ -279,34 +282,25 @@
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
+                console.log(data);
                 if (data.length === 0) {
                     alert('답글이 없습니다.');
                 }
                 else {
-                    data.forEach((item) => {
-                        $(`.reply-list.${event.target.classList[0]}`).append(reReplyStructure(item,param.ParentReplyNo));
-                    })
+                    var source = $("#re-reply-list-template").html();
+                    var template = Handlebars.compile(source);
+                    for (let i = 0; i < data.length; i++){
+                        data[i].ParentReplyNo = param.ParentReplyNo;
+                    }
+                    $(`.reply-list.${event.target.classList[0]}`).append(template(data));
                     $(event.target).hide();
-                    $(`.close-rereply.${event.target.classList[0]}`).show();
+                    $(`.${event.target.classList[0]}.close-rereply`).show();
                 }
             },
             error: function () {
             }
         });
-    }
-    // 자식 댓글 불러오기
-    function reReplyStructure(item,ParentReplyNo) {
-        return `
-        <div class="${ParentReplyNo} re-reply-structure">
-            <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
-                    <input type="text" class="form-control" value=${item.Content} readonly>
-                    <div>
-                        <button class="${item.No}" id="${item.UserNo}" onclick=deleteReply(event)>삭제</button>
-                    </div>
-            </div>
-        </div>
-        `
-    }
+        }
     // 댓글 삭제
     function deleteReply(event) {
         if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
@@ -326,9 +320,10 @@
                         if (data.Delete === true) {
                             alert('삭제 되었습니다.');
                             $('#reply-content').empty();
-                            data.ReplyList.forEach((item) => {
-                                $('#reply-content').append(replyStructure(item));
-                            })
+                            var source = $("#reply-list-template").html();
+                            var template = Handlebars.compile(source);
+                            var data = data.ReplyList;
+                            $("#reply-content").html(template(data));
                         }
                         else {
                             alert('삭제에 실패했습니다.');
@@ -339,9 +334,10 @@
                 });
             }
         }
-    }
+        }
     function reReplyClose(event) {
-        $(`.re-reply-structure.${event.target.classList[0]}`).hide();
+        $(`.${event.target.classList[0]}.re-reply-structure`).hide();
+        //$(`.re-reply-structure`).hide();
         $(`.${event.target.classList[0]}.close-rereply`).hide();
         $(`.${event.target.classList[0]}.open-rereply`).show();
     }
@@ -374,4 +370,6 @@
         });
         return Email;
     }
-</script>
+    </script>
+</body>
+</html>
