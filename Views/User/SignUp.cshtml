@@ -26,75 +26,74 @@
         <input type="date" name="birth" id="birth" required />
     </div>
     <button id="signUp">회원가입</button>
-</body>
-</html>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script>
-    let flag = false;
-    $('#email').keyup(() => {
-        const emailAdr = $("#email").val();
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script>
+        let flag = false;
+        $('#email').keyup(() => {
+            const emailAdr = $("#email").val();
 
-        if (!email_check(emailAdr)) {
-            document.querySelector('#check-email-span').innerHTML = "이메일 형식에 맞게 입력해주세요.";
-            return false;
-        }
-
-        const param = { Email: $('#email').val(), }
-        $.ajax({
-            url: '/User/EmailCheck',
-            type: 'post',
-            dataType: 'json',
-            data: JSON.stringify(param),
-            contentType: 'application/json',
-            success: function (data) {
-                if (data === 1) {
-                    document.querySelector('#check-email-span').innerHTML = "이미 가입된 이메일 입니다.";
-                    flag = null;
-                }
-                else {
-                    document.querySelector('#check-email-span').innerHTML = "회원 가입 가능한 이메일 입니다.";
-                    flag = true;
-                }
-            },
-            error: function (err) {
+            if (!email_check(emailAdr)) {
+                document.querySelector('#check-email-span').innerHTML = "이메일 형식에 맞게 입력해주세요.";
+                return false;
             }
-        });
-    });
-    $('#signUp').click(() => {
-        if (flag === true) {
-            const param = {
-                Email: $('#email').val(),
-                Pw: $('#pw').val(),
-                Name: $('#name').val(),
-                Birth: $('#birth').val(),
 
-            }
+            const param = { Email: $('#email').val(), }
             $.ajax({
-                url: '/User/SignUp',
+                url: '/User/EmailCheck',
                 type: 'post',
                 dataType: 'json',
                 data: JSON.stringify(param),
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data === true) {
-                        alert('회원가입이 완료 되었습니다.');
-                        location.href = '/User/LogIn';
+                    if (data === 1) {
+                        document.querySelector('#check-email-span').innerHTML = "이미 가입된 이메일 입니다.";
+                        flag = null;
                     }
-                    else if (data === false)
-                    {
-                        alert('회원 정보를 올바르게 기입해주세요.')
+                    else {
+                        document.querySelector('#check-email-span').innerHTML = "회원 가입 가능한 이메일 입니다.";
+                        flag = true;
                     }
                 },
                 error: function (err) {
                 }
             });
+        });
+        $('#signUp').click(() => {
+            if (flag === true) {
+                const param = {
+                    Email: $('#email').val(),
+                    Pw: $('#pw').val(),
+                    Name: $('#name').val(),
+                    Birth: $('#birth').val(),
+
+                }
+                $.ajax({
+                    url: '/User/SignUp',
+                    type: 'post',
+                    dataType: 'json',
+                    data: JSON.stringify(param),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data === true) {
+                            alert('회원가입이 완료 되었습니다.');
+                            location.href = '/User/LogIn';
+                        }
+                        else if (data === false) {
+                            alert('회원 정보를 올바르게 기입해주세요.')
+                        }
+                    },
+                    error: function (err) {
+                    }
+                });
+            }
+            else {
+                alert('회원가입이 되지 않았습니다.');
+            }
+        })
+        function email_check(email) {
+            var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            return reg.test(email);
         }
-        else {
-            alert('회원가입이 되지 않았습니다.');
-        }
-    })
-    function email_check(email) {
-        var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        return reg.test(email);
-    }
-</script>
+    </script>
+</body>
+</html>
