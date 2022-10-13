@@ -61,18 +61,18 @@
                 <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                     <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
-                        <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
-                        <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
-                        <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(event)" style="display:none;">답글 닫기</button>
-                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(event)>삭제</button>
+                        <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(@ViewBag.ReplyList[i].No)>답글 달기</button>
+                        <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(@ViewBag.ReplyList[i].No)>답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(@ViewBag.ReplyList[i].No)" style="display:none;">답글 닫기</button>
+                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].No)>삭제</button>
                     </div>
                 </div>
             </div>
             <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none; margin-left:20px; margin-bottom:15px;">
                 <input type="text" class="re-reply-input @ViewBag.ReplyList[i].No form-control">
                 <div>
-                    <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(event)>닫기</button>
-                    <button class="@ViewBag.ReplyList[i].No" onclick=reReply(event)>답글 입력</button>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(@ViewBag.ReplyList[i].No)>닫기</button>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=reReply(@ViewBag.ReplyList[i].No)>답글 입력</button>
                 </div>
             </div>
         }
@@ -83,9 +83,9 @@
             <div style="margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" value="{{Content}}" readonly>
                 <div>
-                    <button class="{{No}} add-rereply" onclick=reReplyStrcture(event)>답글 달기</button>
-                    <button class="{{No}} open-rereply" onclick=reReplyGetList(event)>답글 보기</button>
-                    <button class="{{No}} close-rereply" onclick=reReplyClose(event) style="display:none;">답글 닫기</button>
+                    <button class="{{No}} add-rereply" onclick=reReplyStrcture({{No}})>답글 달기</button>
+                    <button class="{{No}} open-rereply" onclick=reReplyGetList({{No}})>답글 보기</button>
+                    <button class="{{No}} close-rereply" onclick=reReplyClose({{No}}) style="display:none;">답글 닫기</button>
                     <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
                 </div>
             </div>
@@ -93,8 +93,8 @@
         <div class="re-reply-input-div {{No}}" style=" display:none; margin-left:20px; margin-bottom:15px;">
             <input type="text" class="re-reply-input {{No}} form-control">
             <div>
-                <button class="{{No}}" onclick=closeReply(event)>닫기</button>
-                <button class="{{No}}" onclick=reReply(event)>답글 입력</button>
+                <button class="{{No}}" onclick=closeReply({{No}})>닫기</button>
+                <button class="{{No}}" onclick=reReply({{No}})>답글 입력</button>
             </div>
         </div>
         {{/each}}
@@ -229,20 +229,20 @@
     })
     // 답글 달기 onclick
     function reReplyStrcture(event) {
-        $(`.re-reply-input-div.${event.target.classList[0]}`).show();
-        $(`.re-reply-input-div.${event.target.classList[0]}`).css({"display":"flex","justify-content":"space-between"});
-        $(`.${event.target.classList[0]}.add-rereply`).hide();
+        $(`.re-reply-input-div.${event}`).show();
+        $(`.re-reply-input-div.${event}`).css({"display":"flex","justify-content":"space-between"});
+        $(`.${event}.add-rereply`).hide();
     }
     function closeReply(event) {
-        $(`.re-reply-input-div.${event.target.classList[0]}`).hide();
-        $(`.${event.target.classList[0]}.add-rereply`).show();
+        $(`.re-reply-input-div.${event}`).hide();
+        $(`.${event}.add-rereply`).show();
     }
     // 답글 입력 onclick
     function reReply(event) {
         const param = {
             "BoardNo": @No,
-            "ParentReplyNo": event.target.className,
-            "Content": $(`.re-reply-input.${event.target.className}`).val(),
+            "ParentReplyNo": event,
+            "Content": $(`.re-reply-input.${event}`).val(),
             "Email" : "@(Request.Cookies["Email"].Value)",
         }
         console.log(param);
@@ -273,7 +273,7 @@
     // 부모 댓글에 해당하는 답글 가져오기
     function reReplyGetList(event) {
         const param = {
-            ParentReplyNo: event.target.classList[0],
+            ParentReplyNo: event,
         }
         $.ajax({
             url: '/Board/GetReReplyList',
@@ -282,7 +282,6 @@
             data: JSON.stringify(param),
             contentType: "application/json",
             success: function (data) {
-                console.log(data);
                 if (data.length === 0) {
                     alert('답글이 없습니다.');
                 }
@@ -292,9 +291,9 @@
                     for (let i = 0; i < data.length; i++){
                         data[i].ParentReplyNo = param.ParentReplyNo;
                     }
-                    $(`.reply-list.${event.target.classList[0]}`).append(template(data));
-                    $(event.target).hide();
-                    $(`.${event.target.classList[0]}.close-rereply`).show();
+                    $(`.reply-list.${event}`).append(template(data));
+                    $(`.${event}.open-rereply`).hide();
+                    $(`.${event}.close-rereply`).show();
                 }
             },
             error: function () {
@@ -336,9 +335,9 @@
         }
         }
     function reReplyClose(event) {
-        $(`.${event.target.classList[0]}.re-reply-structure`).hide();
-        $(`.${event.target.classList[0]}.close-rereply`).hide();
-        $(`.${event.target.classList[0]}.open-rereply`).show();
+        $(`.${event}.re-reply-structure`).hide();
+        $(`.${event}.close-rereply`).hide();
+        $(`.${event}.open-rereply`).show();
     }
     // 댓글 본인 확인
     function UserCheck(event) {

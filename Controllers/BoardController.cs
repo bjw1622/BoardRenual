@@ -16,19 +16,27 @@ namespace BoardRenual.Controllers
 {
     public class BoardController : Controller
     {
+        private bool CookieCheck()
+        {
+            if (Request.Cookies["Email"] != null)
+            {
+                return true;
+            }
+            return false;
+        }
         [HttpGet]
         public ActionResult Index()
         {
-            if (Request.Cookies["Email"] == null)
-            {
-                return RedirectToAction("LogIn", "User");
-            }
             return View(new BoardGetBoardListBiz().GetBoardList());
         }
         [HttpGet]
         public ActionResult Write()
         {
-            return View();
+            if (Request.Cookies["Email"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Board");
         }
         // 글작성
         [HttpPost]
@@ -50,6 +58,7 @@ namespace BoardRenual.Controllers
                 new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteRequestModel.FileName);
             }
             return Json(boardNo);
+
         }
         // 첨부파일 로컬 저장
         [HttpPost]
@@ -186,7 +195,6 @@ namespace BoardRenual.Controllers
                 ,
                 RecommandCount = recommandCount
             });
-
         }
         // 댓글,답글 작성
         [HttpPost]
