@@ -99,7 +99,6 @@ namespace BoardRenual.Controllers
                 return View(new BoardGetBoardDetailBiz().GetBoardDetail(no));
             }
             return RedirectToAction("Index", "Board");
-
         }
         // 삭제
         [HttpPost]
