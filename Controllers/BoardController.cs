@@ -6,6 +6,7 @@ using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.Request.Reply;
 using BoardRenual.Models.RequestModel.Board;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -99,7 +100,8 @@ namespace BoardRenual.Controllers
                 ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(no);
                 ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(no);
                 ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(no);
-                return View(new BoardGetBoardDetailBiz().GetBoardDetail(no));
+                ViewBag.BoardDetail = new BoardGetBoardDetailBiz().GetBoardDetail(no);
+                return View();
             }
             return RedirectToAction("Index", "Board");
         }

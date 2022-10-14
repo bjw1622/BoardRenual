@@ -2,8 +2,7 @@
 @{
     ViewBag.Title = "Detail";
     bool EmailCheck = ViewBag.EmailCheck;
-    int No = Model.No;
-    List<ReplyModel> replyList = ViewBag.ReplyList;
+    int No = ViewBag.BoardDetail.No;
     string EmailCookies;
     if ((Request.Cookies["Email"]) != null)
     {
@@ -25,17 +24,17 @@
     <h2>상세</h2>
     <div class="form-group">
         <label>제목</label>
-        <input type="text" class="form-control" name="Title" id="title" value="@Model.Title">
+        <input type="text" class="form-control" name="Title" id="title" value="@ViewBag.BoardDetail.Title">
     </div>
 
     <div class="form-group">
         <label>작성자</label>
-        <input type="text" class="form-control" name="Name" readonly value="@Model.Name">
+        <input type="text" class="form-control" name="Name" readonly value="@ViewBag.BoardDetail.Name">
     </div>
 
     <div class="form-group">
         <label for="exampleFormControlTextarea1">내용</label>
-        <textarea class="form-control" name="MainContent" id="mainContent" rows="5">@Model.Content</textarea>
+        <textarea class="form-control" name="MainContent" id="mainContent" rows="5">@ViewBag.BoardDetail.Content</textarea>
     </div>
     <hr />
     <div class="form-group">
@@ -148,6 +147,7 @@
                     var source = $("#reply-list-template").html();
                     var template = Handlebars.compile(source);
                     var data = data.ReplyList;
+                    console.log(data);
                     $("#reply-content").html(template(data));
                 }
                 else {
