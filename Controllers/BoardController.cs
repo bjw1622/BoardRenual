@@ -36,7 +36,10 @@ namespace BoardRenual.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Board");
+            return Content("<script language='javascript' type='text/javascript'> " +
+                "alert('글쓰기를 위해서 로그인 해주세요.');" +
+                "location.href='/Board/Index'" +
+                "</script>");
         }
         // 글작성
         [HttpPost]
