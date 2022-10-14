@@ -4,6 +4,15 @@
     bool EmailCheck = ViewBag.EmailCheck;
     int No = Model.No;
     List<ReplyModel> replyList = ViewBag.ReplyList;
+    string EmailCookies;
+    if ((Request.Cookies["Email"]) != null)
+    {
+        EmailCookies = Request.Cookies["Email"].Value;
+    }
+    else
+    {
+        EmailCookies = "";
+    }
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,28 +67,28 @@
     <div id="reply-content">
     </div>
     <div id="reply-content">
-            @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
-            {
-                <div class="reply-list @ViewBag.ReplyList[i].No">
-                    <div style="margin-bottom:15px; display:flex; justify-content:space-between">
-                        <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
-                        <div>
-                            <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(@ViewBag.ReplyList[i].No)>답글 달기</button>
-                            <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(@ViewBag.ReplyList[i].No)>답글 보기</button>
-                            <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(@ViewBag.ReplyList[i].No)" style="display:none;">답글 닫기</button>
-                            <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].No)>삭제</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none; margin-left:20px; margin-bottom:15px;">
-                    <input type="text" class="re-reply-input @ViewBag.ReplyList[i].No form-control">
+        @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
+        {
+            <div class="reply-list @ViewBag.ReplyList[i].No">
+                <div style="margin-bottom:15px; display:flex; justify-content:space-between">
+                    <input type="text" class="form-control" value="@ViewBag.ReplyList[i].Content" readonly>
                     <div>
-                        <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(@ViewBag.ReplyList[i].No)>닫기</button>
-                        <button class="@ViewBag.ReplyList[i].No" onclick=reReply(@ViewBag.ReplyList[i].No)>답글 입력</button>
+                        <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(@ViewBag.ReplyList[i].No)>답글 달기</button>
+                        <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(@ViewBag.ReplyList[i].No)>답글 보기</button>
+                        <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(@ViewBag.ReplyList[i].No)" style="display:none;">답글 닫기</button>
+                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].No)>삭제</button>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+            <div class="re-reply-input-div @ViewBag.ReplyList[i].No" style=" display:none; margin-left:20px; margin-bottom:15px;">
+                <input type="text" class="re-reply-input @ViewBag.ReplyList[i].No form-control">
+                <div>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=closeReply(@ViewBag.ReplyList[i].No)>닫기</button>
+                    <button class="@ViewBag.ReplyList[i].No" onclick=reReply(@ViewBag.ReplyList[i].No)>답글 입력</button>
+                </div>
+            </div>
+        }
+    </div>
     <script id="reply-list-template" type="text/x-handlebars-template">
         {{#each .}}
         <div class="reply-list {{No}}">
@@ -89,7 +98,7 @@
                     <button class="{{No}} add-rereply" onclick=reReplyStrcture({{No}})>답글 달기</button>
                     <button class="{{No}} open-rereply" onclick=reReplyGetList({{No}})>답글 보기</button>
                     <button class="{{No}} close-rereply" onclick=reReplyClose({{No}}) style="display:none;">답글 닫기</button>
-                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}})>삭제</button>
                 </div>
             </div>
         </div>
@@ -109,7 +118,7 @@
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" value="{{Content}}" readonly>
                 <div>
-                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply(event)>삭제</button>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}})>삭제</button>
                 </div>
             </div>
         </div>
@@ -124,7 +133,7 @@
             "BoardNo": @No,
             "ParentReplyNo": 0,
             "Content": $('#reply').val(),
-            "Email" : "@(Request.Cookies["Email"].Value)",
+            "Email": "@EmailCookies",
         }
         $.ajax({
             url: '/Board/WriteReply',
@@ -142,7 +151,7 @@
                     $("#reply-content").html(template(data));
                 }
                 else {
-                    alert('댓글 작성에 실패했습니다.')
+                    alert('로그인 및 내용 기입을 확인해주세요.')
                 }
                 $('#reply').val("");
             },
@@ -194,7 +203,7 @@
                     location.href = "/Board/Index";
                 }
                 else {
-                    alert("삭제에 실패했습니다.");
+                    alert("삭제 권한이 없습니다.");
                 }
             },
             error: function () {
@@ -206,7 +215,7 @@
     document.querySelector('#recommand').addEventListener('click', () => {
         const param = {
             "BoardNo": @No,
-            "Email": "@(Request.Cookies["Email"].Value)",
+            "Email": "@EmailCookies",
         }
         $.ajax({
             url: '/Board/Recommand',
@@ -217,14 +226,15 @@
             success: function (data) {
                 if (data.Flag === 1) {
                     alert('추천이 취소 되었습니다.');
+                    document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
                 }
                 else if (data.Flag === 0) {
                     alert('추천 되었습니다.');
+                    document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
                 }
                 else {
-                    alert('추천 업데이트에 실패했습니다.')
+                    alert('추천을 위해서 로그인이 필요합니다.')
                 }
-                document.querySelector('#recommand').innerHTML = `추천 : ${data.RecommandCount}`;
             },
             error: function () {
             }
@@ -246,9 +256,8 @@
             "BoardNo": @No,
             "ParentReplyNo": event,
             "Content": $(`.re-reply-input.${event}`).val(),
-            "Email" : "@(Request.Cookies["Email"].Value)",
+            "Email" : "@EmailCookies",
         }
-        console.log(param);
         $.ajax({
             url: '/Board/WriteReply',
             type: 'post',
@@ -265,7 +274,7 @@
                     $("#reply-content").html(template(data));
                 }
                 else {
-                    alert('댓글을 올바르게 입력해주세요.')
+                    alert('로그인 및 답글 기입을 올바르게 해주세요.')
                 }
                 $('#reply').val("");
             },
@@ -305,7 +314,7 @@
         }
     // 댓글 삭제
     function deleteReply(event) {
-        if ("@(Request.Cookies["Email"].Value)" === UserCheck(event)) {
+        if ("@EmailCookies" === UserCheck(event)) {
             const deleteReply = confirm('삭제 하시겠습니까?');
             if (deleteReply === true) {
                 const param = {
@@ -328,7 +337,7 @@
                             $("#reply-content").html(template(data));
                         }
                         else {
-                            alert('삭제에 실패했습니다.');
+                            alert('삭제 권한이 없습니다.');
                         }
                     },
                     error: function () {
@@ -345,7 +354,7 @@
     // 댓글 본인 확인
     function UserCheck(event) {
         const param = {
-            "No": parseInt(event.target.id),
+            "No": parseInt(event),
         }
         let Email;
         $.ajax({
@@ -359,7 +368,7 @@
                 if (data.Email === "") {
                     alert('사용자 확인이 필요합니다.');
                 }
-                else if ("@(Request.Cookies["Email"].Value)" !== data.Email) {
+                else if ("@EmailCookies" !== data.Email) {
                     alert('삭제 권한이 없습니다.');
                 }
                 else {

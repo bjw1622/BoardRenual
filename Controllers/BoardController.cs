@@ -88,13 +88,13 @@ namespace BoardRenual.Controllers
         {
             if (no > 0)
             {
-                if (new BoardGetBoardEmailBiz().GetBoardEmail(no).Email == Request.Cookies["Email"].Value)
+                if (Request.Cookies["Email"]==null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
                 {
-                    ViewBag.EmailCheck = true;
+                    ViewBag.EmailCheck = false;
                 }
                 else
                 {
-                    ViewBag.EmailCheck = false;
+                    ViewBag.EmailCheck = true;
                 }
                 ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(no);
                 ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(no);
