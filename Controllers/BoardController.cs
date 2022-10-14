@@ -6,6 +6,7 @@ using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.Request.Reply;
 using BoardRenual.Models.RequestModel.Board;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +37,10 @@ namespace BoardRenual.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Board");
+            return Content("<script language='javascript' type='text/javascript'> " +
+                "alert('글쓰기를 위해서 로그인 해주세요.');" +
+                "location.href='/Board/Index'" +
+                "</script>");
         }
         // 글작성
         [HttpPost]
@@ -85,18 +89,19 @@ namespace BoardRenual.Controllers
         {
             if (no > 0)
             {
-                if (new BoardGetBoardEmailBiz().GetBoardEmail(no).Email == Request.Cookies["Email"].Value)
+                if (Request.Cookies["Email"]==null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
                 {
-                    ViewBag.EmailCheck = true;
+                    ViewBag.EmailCheck = false;
                 }
                 else
                 {
-                    ViewBag.EmailCheck = false;
+                    ViewBag.EmailCheck = true;
                 }
                 ViewBag.RecommandCount = new RecommandGetCountBiz().GetRecommandCount(no);
                 ViewBag.FileInfoList = new BoardGetFileInfoBiz().BoardGetFileInfo(no);
                 ViewBag.ReplyList = new ReplyGetReplyListBiz().GetReplyList(no);
-                return View(new BoardGetBoardDetailBiz().GetBoardDetail(no));
+                ViewBag.BoardDetail = new BoardGetBoardDetailBiz().GetBoardDetail(no);
+                return View();
             }
             return RedirectToAction("Index", "Board");
         }

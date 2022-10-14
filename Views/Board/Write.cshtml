@@ -22,7 +22,7 @@
     </div>
     <input id="fileInput" type="file" multiple accept="image/jpeg, image/jpg, image/png" onchage="checkSize(this)">
     <button type="button" class="btn btn-primary" id="write">글작성</button>
-    
+
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script>
     $('#write').click(() => {
@@ -40,7 +40,6 @@
             fileName.push(fileInput.files[i].name);
             formdata.append(fileInput.files[i].name, fileInput.files[i]);
         }
-
         const param = {
             Title :  $('#title').val(),
             Content: $('#main-content').val(),
