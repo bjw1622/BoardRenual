@@ -159,7 +159,7 @@
             data: param,
             contentType: "application/json",
             success: function (data) {
-                if (data.Result !== 1 && data.Paging !== -1){
+                if (data.Result !== 1 && data.Paging !== -1) {
                     $('#page').empty();
                     for (let i = 1; i < (data.Result / document.querySelector('#board-count').value) + 1; i++) {
                         if (i === 1) {
@@ -176,10 +176,13 @@
                             $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
                         })
                     }
-        }
+                }
+                else {
+                    alert('검색 내용을 입력해주세요.')
+                }
             },
-            error: function () {
-            }
+            error: function (request, status, error ) {
+                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);            }
         });
     })
 

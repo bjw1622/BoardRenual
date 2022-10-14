@@ -127,8 +127,8 @@ namespace BoardRenual.Controllers
             }
             return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
         }
-        [HttpGet]
         // 페이징
+        [HttpGet]
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
             if (pageRequestModel != null && pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
@@ -162,8 +162,8 @@ namespace BoardRenual.Controllers
                 new
                 {
                     Result = -1,
-                    Paging = -1
-                }
+                    Paging = -1,
+                }, JsonRequestBehavior.AllowGet
             );
         }
         // 추천
