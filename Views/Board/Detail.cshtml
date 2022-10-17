@@ -73,7 +73,7 @@
                         <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(@ViewBag.ReplyList[i].No)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(@ViewBag.ReplyList[i].No)>답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(@ViewBag.ReplyList[i].No)" style="display:none;">답글 닫기</button>
-                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].UserNo)>삭제</button>
+                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].UserNo,@ViewBag.ReplyList[i].No)>삭제</button>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <button class="{{No}} add-rereply" onclick=reReplyStrcture({{No}})>답글 달기</button>
                     <button class="{{No}} open-rereply" onclick=reReplyGetList({{No}})>답글 보기</button>
                     <button class="{{No}} close-rereply" onclick=reReplyClose({{No}}) style="display:none;">답글 닫기</button>
-                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}})>삭제</button>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}},{{No}})>삭제</button>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
             <div style="margin-left:20px; margin-bottom:15px; display:flex; justify-content:space-between">
                 <input type="text" class="form-control" value="{{Content}}" readonly>
                 <div>
-                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}})>삭제</button>
+                    <button class="{{No}}" id="{{UserNo}}" onclick=deleteReply({{UserNo}},{{No}})>삭제</button>
                 </div>
             </div>
         </div>
@@ -317,13 +317,12 @@
         });
         }
     // 댓글 삭제
-        function deleteReply(event) {
-            console.log(UserCheck(event));
-        if ("@EmailCookies" === UserCheck(event)) {
+        function deleteReply(userNo, replyNo) {
+            if ("@EmailCookies" === UserCheck(userNo)) {
             const deleteReply = confirm('삭제 하시겠습니까?');
             if (deleteReply === true) {
                 const param = {
-                    "No": parseInt(event),
+                    "No": parseInt(replyNo),
                     "BoardNo": @No,
                 }
                 $.ajax({
