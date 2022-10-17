@@ -64,8 +64,6 @@
     <h3>댓글 목록</h3>
     <hr />
     <div id="reply-content">
-    </div>
-    <div id="reply-content">
         @for (int i = 0; i < ViewBag.ReplyList.Count; i++)
         {
             <div class="reply-list @ViewBag.ReplyList[i].No">
@@ -75,7 +73,7 @@
                         <button class="@ViewBag.ReplyList[i].No add-rereply" onclick=reReplyStrcture(@ViewBag.ReplyList[i].No)>답글 달기</button>
                         <button class="@ViewBag.ReplyList[i].No open-rereply" onclick=reReplyGetList(@ViewBag.ReplyList[i].No)>답글 보기</button>
                         <button class="@ViewBag.ReplyList[i].No close-rereply" onclick="reReplyClose(@ViewBag.ReplyList[i].No)" style="display:none;">답글 닫기</button>
-                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].No)>삭제</button>
+                        <button class="@ViewBag.ReplyList[i].No" id="@ViewBag.ReplyList[i].UserNo" onclick=deleteReply(@ViewBag.ReplyList[i].UserNo)>삭제</button>
                     </div>
                 </div>
             </div>
@@ -303,7 +301,13 @@
                     for (let i = 0; i < data.length; i++){
                         data[i].ParentReplyNo = param.ParentReplyNo;
                     }
-                    $(`.reply-list.${event}`).append(template(data));
+                    // TO DO 답글 작성 후에 기존 답글 못 불러오는 문제
+                    if ($(`div.${event}.re-reply-structure`).length) {
+                        $(`.${event}.re-reply-structure`).show();
+                    }
+                    else {
+                        $(`.reply-list.${event}`).append(template(data));
+                    }
                     $(`.${event}.open-rereply`).hide();
                     $(`.${event}.close-rereply`).show();
                 }
@@ -313,12 +317,13 @@
         });
         }
     // 댓글 삭제
-    function deleteReply(event) {
+        function deleteReply(event) {
+            console.log(UserCheck(event));
         if ("@EmailCookies" === UserCheck(event)) {
             const deleteReply = confirm('삭제 하시겠습니까?');
             if (deleteReply === true) {
                 const param = {
-                    "No": parseInt(event.target.classList[0]),
+                    "No": parseInt(event),
                     "BoardNo": @No,
                 }
                 $.ajax({
