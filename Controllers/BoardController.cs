@@ -6,7 +6,6 @@ using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.Request.Reply;
 using BoardRenual.Models.RequestModel.Board;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +42,6 @@ namespace BoardRenual.Controllers
                 "</script>");
         }
         // 글작성
-        [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteRequestModel)
         {
             int boardNo = -1;
@@ -107,6 +105,7 @@ namespace BoardRenual.Controllers
         }
         // 삭제
         [HttpPost]
+        //[Route("Board/Delete/{no}")]
         public JsonResult Delete(int no)
         {
             if (no > 0)
@@ -127,8 +126,8 @@ namespace BoardRenual.Controllers
             }
             return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
         }
-        [HttpGet]
         // 페이징
+        [HttpGet]
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
             if (pageRequestModel != null && pageRequestModel.PageNumber > 0 && pageRequestModel.PageCount > 0)
@@ -162,8 +161,8 @@ namespace BoardRenual.Controllers
                 new
                 {
                     Result = -1,
-                    Paging = -1
-                }
+                    Paging = -1,
+                }, JsonRequestBehavior.AllowGet
             );
         }
         // 추천

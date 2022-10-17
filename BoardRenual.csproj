@@ -152,7 +152,6 @@
     <Compile Include="Common\Connection.cs" />
     <Compile Include="Models\Extends\ReplyModel.cs" />
     <Compile Include="Models\Orginal\Board\BoardModel.cs" />
-    <Compile Include="Models\Orginal\Page\PageOriginalModel.cs" />
     <Compile Include="Models\Orginal\Reply\ReplyModel.cs" />
     <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
     <Compile Include="Models\Extends\BoardModel.cs" />
@@ -474,8 +473,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="bin\ko\" />
     <Folder Include="bin\roslyn\" />
-    <Folder Include="Models\View\Board\" />
-    <Folder Include="Models\View\User\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
