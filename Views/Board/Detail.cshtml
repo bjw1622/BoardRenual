@@ -145,7 +145,6 @@
                     var source = $("#reply-list-template").html();
                     var template = Handlebars.compile(source);
                     var data = data.ReplyList;
-                    console.log(data);
                     $("#reply-content").html(template(data));
                 }
                 else {
@@ -188,9 +187,11 @@
     $('#delete-btn').click(() => {
         const flag = confirm("삭제 하시겠습니까?");
         if (flag === true) {
+
             const param = { No: @No};
-        $.ajax({
-            url: '/Board/Delete/',
+
+            $.ajax({
+            url: `/Board/Delete`,
             type: 'post',
             data: JSON.stringify(param),
             dataType: 'json',
@@ -301,7 +302,6 @@
                     for (let i = 0; i < data.length; i++){
                         data[i].ParentReplyNo = param.ParentReplyNo;
                     }
-                    // TO DO 답글 작성 후에 기존 답글 못 불러오는 문제
                     if ($(`div.${event}.re-reply-structure`).length) {
                         $(`.${event}.re-reply-structure`).show();
                     }

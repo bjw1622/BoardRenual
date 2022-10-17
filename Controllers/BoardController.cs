@@ -42,7 +42,6 @@ namespace BoardRenual.Controllers
                 "</script>");
         }
         // 글작성
-        [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteRequestModel)
         {
             int boardNo = -1;
@@ -106,6 +105,7 @@ namespace BoardRenual.Controllers
         }
         // 삭제
         [HttpPost]
+        //[Route("Board/Delete/{no}")]
         public JsonResult Delete(int no)
         {
             if (no > 0)
