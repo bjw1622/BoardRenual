@@ -13,10 +13,8 @@
         EmailCookies = "";
     }
 }
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    @* Handlebar script *@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
 </head>
@@ -123,7 +121,6 @@
     </script>
 
     <script type="text/javascript">
-        let recommandNumber = parseInt((document.querySelector('#recommand').innerHTML).replace(/[^0-9]/g, ''));
     // 댓글 작성
     $('#reply-btn').click(() => {
         const param = {
@@ -189,7 +186,7 @@
         if (flag === true) {
             const param = { No: @No};
             $.ajax({
-                url: `/Board/Delete`,
+                url: `/Board/Delete/`,
                 type: 'post',
                 data: JSON.stringify(param),
                 dataType: 'json',
@@ -204,6 +201,7 @@
                     }
                 },
                 error: function () {
+                    console.log('err');
                 }
         });
     }
