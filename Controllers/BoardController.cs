@@ -87,7 +87,7 @@ namespace BoardRenual.Controllers
         {
             if (no > 0)
             {
-                if (Request.Cookies["Email"]==null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
+                if (Request.Cookies["Email"] == null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
                 {
                     ViewBag.EmailCheck = false;
                 }
@@ -105,7 +105,6 @@ namespace BoardRenual.Controllers
         }
         // 삭제
         [HttpPost]
-        //[Route("Board/Delete/{no}")]
         public JsonResult Delete(int no)
         {
             if (no > 0)
@@ -113,7 +112,6 @@ namespace BoardRenual.Controllers
                 return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
             }
             return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
-
         }
         // 수정
         [HttpPost]
