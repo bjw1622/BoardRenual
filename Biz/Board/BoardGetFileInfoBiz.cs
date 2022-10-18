@@ -12,10 +12,8 @@ namespace BoardRenual.Biz.Board
         public List<string> BoardGetFileInfo(int BoardNo)
         {
             BoardModel boardModel = new BoardModel();
-            BoardRepository boardRepository = new BoardRepository();
             boardModel.No = BoardNo;
-            Connection connection = new Connection();
-            return(boardRepository.GetFileInfo(boardModel, connection));
+            return(new BoardRepository().GetFileInfo(boardModel, new Connection()));
         }
     }
 }

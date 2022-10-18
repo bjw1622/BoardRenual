@@ -15,7 +15,6 @@ namespace BoardRenual
                 "Board/Detail/{No}",
                 new { controller = "Board", action = "Detail" }
             );
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -13,8 +13,7 @@ namespace BoardRenual.Biz.Reply
             replyModel.ParentReplyNo = replyWriteRequestModel.ParentReplyNo;
             replyModel.Content = replyWriteRequestModel.Content;
             replyModel.Email = replyWriteRequestModel.Email;
-            Connection connection = new Connection();
-            return(new BoardRepository().ReplyWrite(replyModel, connection));
+            return(new BoardRepository().ReplyWrite(replyModel, new Connection()));
         }
     }
 }

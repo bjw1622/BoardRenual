@@ -31,12 +31,10 @@
         let flag = false;
         $('#email').keyup(() => {
             const emailAdr = $("#email").val();
-
             if (!email_check(emailAdr)) {
                 document.querySelector('#check-email-span').innerHTML = "이메일 형식에 맞게 입력해주세요.";
                 return false;
             }
-
             const param = { Email: $('#email').val(), }
             $.ajax({
                 url: '/User/EmailCheck',
@@ -87,7 +85,7 @@
                 });
             }
             else {
-                alert('회원가입이 되지 않았습니다.');
+                alert('회원 정보를 올바르게 기입하세요.');
             }
         })
         function email_check(email) {

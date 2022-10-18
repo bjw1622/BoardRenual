@@ -10,8 +10,7 @@ namespace BoardRenual.Biz.User
         {
             UserModel userModel = new UserModel();
             userModel.Email = userEmailCheck.Email;
-            Connection connection = new Connection();
-            return new UserRepository().EmailCheck(userModel, connection);
+            return new UserRepository().EmailCheck(userModel, new Connection());
         }
     }
 }

@@ -9,12 +9,20 @@ namespace BoardRenual.Controllers
 {
     public class UserController : Controller
     {
+        /// <summary>
+        /// User 회원 가입 페이지
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult SignUp()
         {
             return View();
         }
-
+        /// <summary>
+        /// User 회원 가입 Http post 
+        /// </summary>
+        /// <param name="userSignUp"></param>
+        /// <returns>bool</returns>
         [HttpPost]
         public JsonResult SignUp(UserSignUpModel userSignUp)
         {
@@ -26,6 +34,11 @@ namespace BoardRenual.Controllers
             return Json(new UserSignUpBiz().UserSignUp(userSignUp));
 
         }
+        /// <summary>
+        /// User 회원 가입 이메일 중복 체크
+        /// </summary>
+        /// <param name="userEmailCheck"></param>
+        /// <returns>int result</returns>
         [HttpPost]
         public JsonResult EmailCheck(UserEmailCheckModel userEmailCheck)
         {   
@@ -35,6 +48,10 @@ namespace BoardRenual.Controllers
             }
             return Json(new UserEmailCheckBiz().EmailCheck(userEmailCheck));
         }
+        /// <summary>
+        /// User 로그인
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]  
         public ActionResult LogIn()
         {
@@ -44,6 +61,11 @@ namespace BoardRenual.Controllers
             }
             return View();
         }
+        /// <summary>
+        /// User 로그인 Http Post
+        /// </summary>
+        /// <param name="userLogin"></param>
+        /// <returns>View</returns>
         [HttpPost]
         public ActionResult LogIn(UserLogInModel userLogin)
         {
@@ -64,6 +86,10 @@ namespace BoardRenual.Controllers
                 "location.href='/User/Login'" +
                 "</script>");
         }
+        /// <summary>
+        /// User 로그아웃
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult Logout()
         {

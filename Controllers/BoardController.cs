@@ -16,6 +16,10 @@ namespace BoardRenual.Controllers
 {
     public class BoardController : Controller
     {
+        /// <summary>
+        /// 쿠키 체크
+        /// </summary>
+        /// <returns>boolean</returns>
         private bool CookieCheck()
         {
             if (Request.Cookies["Email"] != null)
@@ -24,11 +28,19 @@ namespace BoardRenual.Controllers
             }
             return false;
         }
+        /// <summary>
+        /// Board Index페이지
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult Index()
         {
             return View(new BoardGetBoardListBiz().GetBoardList());
         }
+        /// <summary>
+        /// Board Write페이지
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult Write()
         {
@@ -41,7 +53,12 @@ namespace BoardRenual.Controllers
                 "location.href='/Board/Index'" +
                 "</script>");
         }
-        // 글작성
+        /// <summary>
+        /// 글쓰기 Http Post
+        /// </summary>
+        /// <param name="boardWriteRequestModel"></param>
+        /// <returns>int boardNo</returns>
+        [HttpPost]
         public JsonResult Write(BoardWriteRequestModel boardWriteRequestModel)
         {
             int boardNo = -1;
@@ -62,7 +79,10 @@ namespace BoardRenual.Controllers
             return Json(boardNo);
 
         }
-        // 첨부파일 로컬 저장
+        /// <summary>
+        /// 첨부파일 로컬 저장
+        /// </summary>
+        /// <param name="Formdata"></param>
         [HttpPost]
         public void UploadFiles(List<Object> Formdata)
         {
@@ -81,13 +101,17 @@ namespace BoardRenual.Controllers
                 }
             }
         }
-        // 상세
+        /// <summary>
+        /// Board 상세 페이지
+        /// </summary>
+        /// <param name="no"></param>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult Detail(int no)
         {
             if (no > 0)
             {
-                if (Request.Cookies["Email"]==null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
+                if (Request.Cookies["Email"] == null || new BoardGetBoardEmailBiz().GetBoardEmail(no).Email != Request.Cookies["Email"].Value)
                 {
                     ViewBag.EmailCheck = false;
                 }
@@ -103,9 +127,12 @@ namespace BoardRenual.Controllers
             }
             return RedirectToAction("Index", "Board");
         }
-        // 삭제
+        /// <summary>
+        /// Board 삭제
+        /// </summary>
+        /// <param name="no"></param>
+        /// <returns>boolean</returns>
         [HttpPost]
-        //[Route("Board/Delete/{no}")]
         public JsonResult Delete(int no)
         {
             if (no > 0)
@@ -113,9 +140,12 @@ namespace BoardRenual.Controllers
                 return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
             }
             return Json(new BoardDeleteBoardBiz().DeleteBoard(no));
-
         }
-        // 수정
+        /// <summary>
+        /// Board 수정
+        /// </summary>
+        /// <param name="boardUpdateRequestModel"></param>
+        /// <returns>boolean</returns>
         [HttpPost]
         public JsonResult Update(BoardUpdateRequestModel boardUpdateRequestModel)
         {
@@ -126,7 +156,11 @@ namespace BoardRenual.Controllers
             }
             return Json(new BoardUpdateBiz().UpdateBoard(boardUpdateRequestModel));
         }
-        // 페이징
+        /// <summary>
+        /// Board Index 페이징
+        /// </summary>
+        /// <param name="pageRequestModel"></param>
+        /// <returns>int result</returns>
         [HttpGet]
         public JsonResult IndexPaging(PageRequestModel pageRequestModel)
         {
@@ -141,9 +175,12 @@ namespace BoardRenual.Controllers
                 Paging = -1
             }
                     );
-
         }
-        // 검색 + 페이징
+        /// <summary>
+        /// Board Index 검색 + 페이징
+        /// </summary>
+        /// <param name="findAndPageRequestModel"></param>
+        /// <returns>int result</returns>
         [HttpGet]
         public JsonResult PageAndFind(FindAndPageRequestModel findAndPageRequestModel)
         {
@@ -165,7 +202,11 @@ namespace BoardRenual.Controllers
                 }, JsonRequestBehavior.AllowGet
             );
         }
-        // 추천
+        /// <summary>
+        /// Board Detail 추천
+        /// </summary>
+        /// <param name="recommandInfoRequestModel"></param>
+        /// <returns>int flag</returns>
         [HttpPost]
         public JsonResult Recommand(RecommandInfoRequestModel recommandInfoRequestModel)
         {
@@ -199,7 +240,11 @@ namespace BoardRenual.Controllers
                 RecommandCount = recommandCount
             });
         }
-        // 댓글,답글 작성
+        /// <summary>
+        /// Board Detail 댓글,답글 작성
+        /// </summary>
+        /// <param name="replyWriteRequestModel"></param>
+        /// <returns>bool writeResult</returns>
         [HttpPost]
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
@@ -217,6 +262,11 @@ namespace BoardRenual.Controllers
                 WriteResult = writeResult,
             });
         }
+        /// <summary>
+        /// Board Detail 답글 불러오기
+        /// </summary>
+        /// <param name="parentReplyNo"></param>
+        /// <returns>List<ReplyModel></returns>
         // 답글 불러오기
         [HttpPost]
         public JsonResult GetReReplyList(int parentReplyNo)
@@ -228,6 +278,11 @@ namespace BoardRenual.Controllers
             return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
 
         }
+        /// <summary>
+        /// Board Detail 삭제 권한 본인 체크
+        /// </summary>
+        /// <param name="no"></param>
+        /// <returns>bool</returns>
         // 본인 확인
         [HttpPost]
         public JsonResult UserCheck(int no)
@@ -245,7 +300,11 @@ namespace BoardRenual.Controllers
             });
 
         }
-        //댓글 삭제
+        /// <summary>
+        /// Board Detail 댓글 삭제
+        /// </summary>
+        /// <param name="replyDeleteRequestModel"></param>
+        /// <returns>bool</returns>
         [HttpPost]
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {

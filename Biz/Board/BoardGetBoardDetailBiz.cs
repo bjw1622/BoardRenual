@@ -11,9 +11,7 @@ namespace BoardRenual.Biz.Board
     {
         public BoardModel GetBoardDetail(int No)
         {
-            BoardRepository boardRepository = new BoardRepository();
-            Connection connection = new Connection();
-            return (boardRepository.GetBoardDetail(connection, No));
+            return (new BoardRepository().GetBoardDetail(new Connection(), No));
         }
     }
 }

@@ -7,9 +7,7 @@ namespace BoardRenual.Biz.Board
     {
         public int PageAndFindBoardCount(FindAndPageRequestModel findAndPageRequestModel)
         {
-            BoardRepository boardRepository = new BoardRepository();
-            Connection connection = new Connection();
-            return (boardRepository.PageAndFindBoardCount(findAndPageRequestModel.Variable,findAndPageRequestModel.Input,connection));
+            return (new BoardRepository().PageAndFindBoardCount(findAndPageRequestModel.Variable,findAndPageRequestModel.Input, new Connection()));
         }
     }
 }
