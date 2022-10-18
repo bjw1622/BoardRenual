@@ -13,8 +13,7 @@ namespace BoardRenual.Biz.User
             userModel.Pw = signUpModel.Pw;
             userModel.Name = signUpModel.Name;
             userModel.Birth = signUpModel.Birth;
-            Connection connection = new Connection();
-            return new UserRepository().SignUp(userModel, connection);
+            return new UserRepository().SignUp(userModel, new Connection());
         }
     }
 }

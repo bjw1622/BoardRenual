@@ -9,8 +9,7 @@ namespace BoardRenual.Biz.Reply
         {
             ReplyModel replyModel = new ReplyModel();
             replyModel.No = No;
-            Connection connection = new Connection();
-            return (new BoardRepository().ReplyDeleteReply(replyModel, connection));
+            return (new BoardRepository().ReplyDeleteReply(replyModel, new Connection()));
         }
     }
 }

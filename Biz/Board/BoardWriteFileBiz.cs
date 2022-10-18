@@ -13,7 +13,6 @@ namespace BoardRenual.Biz.Board
         public void WriteFileBoard(int BoardNo, List<string> FileName)
         {
             BoardModel boardModel = new BoardModel();
-            BoardRepository boardRepository = new BoardRepository();
             List<string> FileNames = new List<string>();
             if(FileName != null)
             {
@@ -24,12 +23,9 @@ namespace BoardRenual.Biz.Board
                         boardModel.FileNameInfo = FileName[i];
                         FileNames.Add(boardModel.FileNameInfo);
                     }
-
                 }
-                Connection connection = new Connection();
-                boardRepository.WriteFileBoard(BoardNo, FileNames, connection);
+                new BoardRepository().WriteFileBoard(BoardNo, FileNames, new Connection());
             }
-            
         }
     }
 }

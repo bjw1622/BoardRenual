@@ -10,8 +10,7 @@ namespace BoardRenual.Biz.Reply
         {
             ReplyModel replyModel = new ReplyModel();
             replyModel.ParentReplyNo = ParentReplyNo;
-            Connection connection = new Connection();
-            return(new BoardRepository().GetReReplyList(ParentReplyNo, connection));
+            return(new BoardRepository().GetReReplyList(ParentReplyNo, new Connection()));
         }
     }
 }
