@@ -252,11 +252,12 @@ namespace BoardRenual.Controllers
         {
             bool writeResult = false;
             List<ReplyModel> replyList = null;
-            if (replyWriteRequestModel != null && replyWriteRequestModel.BoardNo > 0 && replyWriteRequestModel.ParentReplyNo >= 0 && !(string.IsNullOrEmpty(replyWriteRequestModel.Content)) && !(string.IsNullOrEmpty(replyWriteRequestModel.Email)))
+            if (replyWriteRequestModel != null && replyWriteRequestModel.BoardNo > 0 && replyWriteRequestModel.ParentReplyNo >= 0
+                && !(string.IsNullOrEmpty(replyWriteRequestModel.Content)) && !(string.IsNullOrEmpty(replyWriteRequestModel.Email)))
             {
                 writeResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel);
-                replyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo)
-            };
+                replyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo);
+            }
             return Json(new
             {
                 WriteResult = writeResult,
@@ -272,11 +273,12 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult GetReReplyList(int parentReplyNo)
         {
+            List<ReplyModel> replyModelList = null;
             if (parentReplyNo > 0)
             {
-                return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
+                replyModelList = new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo);
             }
-            return Json(new ReplyGetReReplyListBiz().ReplyGetReReplyList(parentReplyNo));
+            return Json(replyModelList);
 
         }
         /// <summary>
@@ -288,17 +290,12 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult UserCheck(int no)
         {
+            string email = "";
             if (no > 0)
             {
-                return Json(new
-                {
-                    Email = new ReplyUserCheckBiz().ReplyUerCheck(no)
-                });
+                email = new ReplyUserCheckBiz().ReplyUerCheck(no);
             }
-            return Json(new
-            {
-                Email = ""
-            });
+            return Json(email);
 
         }
         /// <summary>
@@ -309,18 +306,34 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
         {
+            bool delete = false;
+            List<ReplyModel> replyList = null;
             if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
             {
-                return Json(new
-                {
-                    Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
-                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
-                });
+                delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No);
+                replyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo);
             }
             return Json(new
             {
-                Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
+                Delete = delete,
+                ReplyList = replyList,
             });
         }
+        //[HttpPost]
+        //public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
+        //{
+        //    if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
+        //    {
+        //        return Json(new
+        //        {
+        //            Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
+        //            ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
+        //        });
+        //    }
+        //    return Json(new
+        //    {
+        //        Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
+        //    });
+        //}
     }
 }
