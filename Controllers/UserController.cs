@@ -26,12 +26,13 @@ namespace BoardRenual.Controllers
         [HttpPost]
         public JsonResult SignUp(UserSignUpModel userSignUp)
         {
+            bool result = false;
             if(userSignUp != null && !(string.IsNullOrEmpty(userSignUp.Email)) && 
                 !(string.IsNullOrEmpty(userSignUp.Pw)) && !(string.IsNullOrEmpty(userSignUp.Name)) && userSignUp.Birth != null)
             {
-                return Json(new UserSignUpBiz().UserSignUp(userSignUp));
+                result = new UserSignUpBiz().UserSignUp(userSignUp);
             }
-            return Json(new UserSignUpBiz().UserSignUp(userSignUp));
+            return Json(result);
 
         }
         /// <summary>
@@ -41,12 +42,13 @@ namespace BoardRenual.Controllers
         /// <returns>int result</returns>
         [HttpPost]
         public JsonResult EmailCheck(UserEmailCheckModel userEmailCheck)
-        {   
+        {
+            int result = 0;
             if(userEmailCheck != null && !(string.IsNullOrEmpty(userEmailCheck.Email)))
             {
-                return Json(new UserEmailCheckBiz().EmailCheck(userEmailCheck));
+                result = new UserEmailCheckBiz().EmailCheck(userEmailCheck);
             }
-            return Json(new UserEmailCheckBiz().EmailCheck(userEmailCheck));
+            return Json(result);
         }
         /// <summary>
         /// User 로그인
