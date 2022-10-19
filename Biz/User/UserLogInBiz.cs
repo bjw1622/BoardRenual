@@ -6,7 +6,7 @@ namespace BoardRenual.Biz.User
 {
     public class UserLogInBiz
     {
-        public UserModel UserSignUp(UserLogInModel signUpEntity)
+        public UserModel SignIn(UserLogInModel signUpEntity)
         {
             UserModel userModel = new UserModel();
             userModel.Email = signUpEntity.Email;

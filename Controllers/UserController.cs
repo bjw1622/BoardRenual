@@ -73,7 +73,7 @@ namespace BoardRenual.Controllers
         {
             if(userLogin != null && !(string.IsNullOrEmpty(userLogin.Email)) && !(string.IsNullOrEmpty(userLogin.Pw)))
             {
-                UserModel result = new UserLogInBiz().UserSignUp(userLogin);
+                UserModel result = new UserLogInBiz().SignIn(userLogin);
                 if (result.Email != null)
                 {
                     Response.Cookies["UserName"].Value = Server.UrlEncode(result.Name);

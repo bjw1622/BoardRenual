@@ -36,8 +36,6 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-
-
         public int EmailCheck(UserModel userEntity, Connection connection)
         {
             int result = -1;
@@ -61,7 +59,6 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-
         public UserModel SignIn(UserModel userEntity, Connection connection)
         {
             SqlConnection con = connection.ConOpen();
