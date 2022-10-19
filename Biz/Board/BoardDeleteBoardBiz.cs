@@ -6,7 +6,7 @@ namespace BoardRenual.Biz.Board
     {
         public bool DeleteBoard(int No)
         {
-            return(new BoardRepository().DeleteBoard(new Connection(), No));
+            return(new BoardRepository().DeleteBoard(No));
         }
     }
 }

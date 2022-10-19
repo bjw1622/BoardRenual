@@ -24,7 +24,7 @@ namespace BoardRenual.Biz.Board
                         FileNames.Add(boardModel.FileNameInfo);
                     }
                 }
-                new BoardRepository().WriteFileBoard(BoardNo, FileNames, new Connection());
+                new BoardRepository().WriteFileBoard(BoardNo, FileNames);
             }
         }
     }

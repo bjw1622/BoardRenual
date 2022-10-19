@@ -9,7 +9,7 @@ namespace BoardRenual.Biz.Board
     {
         public List<BoardModel> IndexPagingBoard(PageRequestModel pageRequestModel)
         {
-            return (new BoardRepository().IndexPagingBoard(pageRequestModel, new Connection()));
+            return (new BoardRepository().IndexPagingBoard(pageRequestModel));
         }
     }
 }

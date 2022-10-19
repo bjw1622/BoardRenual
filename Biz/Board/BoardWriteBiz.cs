@@ -18,7 +18,7 @@ namespace BoardRenual.Biz.Board
             boardModel.Content = boardWriteModel.Content;
             boardModel.Email = boardWriteModel.Email;
 
-            return(new BoardRepository().WriteBoard(boardModel, new Connection()));
+            return(new BoardRepository().WriteBoard(boardModel));
         }
     }
 }

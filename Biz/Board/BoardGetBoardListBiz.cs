@@ -8,7 +8,7 @@ namespace BoardRenual.Biz.Board
     {
         public List<BoardModel> GetBoardList()
         {
-            return (new BoardRepository().GetBoardList(new Connection()));
+            return (new BoardRepository().GetBoardList());
         }
     }
 }

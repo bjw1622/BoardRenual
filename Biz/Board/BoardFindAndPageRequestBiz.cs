@@ -9,7 +9,7 @@ namespace BoardRenual.Biz.Board
     {
         public List<BoardModel> PageAndFindBoard(FindAndPageRequestModel findAndPageRequestModel)
         {
-            return (new BoardRepository().PageAndFindBoard(findAndPageRequestModel, new Connection()));
+            return (new BoardRepository().PageAndFindBoard(findAndPageRequestModel));
         }
     }
 }
