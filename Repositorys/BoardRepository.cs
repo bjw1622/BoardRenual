@@ -331,7 +331,7 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public void RecommandDelete(BoardModel boardModeㅣ)
+        public void RecommandDelete(BoardModel boardModel)
         {
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
