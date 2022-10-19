@@ -1,6 +1,7 @@
 ﻿using BoardRenual.Biz.Board;
 using BoardRenual.Biz.Recommand;
 using BoardRenual.Biz.Reply;
+using BoardRenual.Models;
 using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
@@ -22,11 +23,12 @@ namespace BoardRenual.Controllers
         /// <returns>boolean</returns>
         private bool CookieCheck()
         {
+            bool result = false;
             if (Request.Cookies["Email"] != null)
             {
-                return true;
+                result = true;
             }
-            return false;
+            return result;
         }
         /// <summary>
         /// Board Index페이지
@@ -249,17 +251,16 @@ namespace BoardRenual.Controllers
         public JsonResult WriteReply(ReplyWriteRequestModel replyWriteRequestModel)
         {
             bool writeResult = false;
+            List<ReplyModel> replyList = null;
             if (replyWriteRequestModel != null && replyWriteRequestModel.BoardNo > 0 && replyWriteRequestModel.ParentReplyNo >= 0 && !(string.IsNullOrEmpty(replyWriteRequestModel.Content)) && !(string.IsNullOrEmpty(replyWriteRequestModel.Email)))
             {
-                return Json(new
-                {
-                    WriteResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel),
-                    ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo),
-                });
-            }
+                writeResult = new ReplyWriteBiz().ReplyWrite(replyWriteRequestModel);
+                replyList = new ReplyGetReplyListBiz().GetReplyList(replyWriteRequestModel.BoardNo)
+            };
             return Json(new
             {
                 WriteResult = writeResult,
+                ReplyList = replyList,
             });
         }
         /// <summary>
