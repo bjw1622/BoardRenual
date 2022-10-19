@@ -7,8 +7,9 @@ namespace BoardRenual.Repository
 {
     public class UserRepository
     {
-        public bool SignUp(UserModel userModel, Connection connection)
+        public bool SignUp(UserModel userModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             bool result = false;
             try
@@ -36,9 +37,10 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-        public int EmailCheck(UserModel userEntity, Connection connection)
+        public int EmailCheck(UserModel userEntity)
         {
             int result = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -59,8 +61,9 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-        public UserModel SignIn(UserModel userEntity, Connection connection)
+        public UserModel SignIn(UserModel userEntity)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             UserModel users = new UserModel();
             try {

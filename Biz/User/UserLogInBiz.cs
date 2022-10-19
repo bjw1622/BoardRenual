@@ -11,7 +11,7 @@ namespace BoardRenual.Biz.User
             UserModel userModel = new UserModel();
             userModel.Email = signUpEntity.Email;
             userModel.Pw = signUpEntity.Pw;
-            return new UserRepository().SignIn(userModel, new Connection());
+            return new UserRepository().SignIn(userModel);
         }
     }
 }

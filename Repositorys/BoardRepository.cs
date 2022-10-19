@@ -283,9 +283,10 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public int RecommandInfo(BoardModel boardModel, Connection connection)
+        public int RecommandInfo(BoardModel boardModel)
         {
             int result = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -307,8 +308,9 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void RecommandInsert(BoardModel boardModel, Connection connection)
+        public void RecommandInsert(BoardModel boardModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -329,8 +331,9 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public void RecommandDelete(BoardModel boardModel, Connection connection)
+        public void RecommandDelete(BoardModel boardModeㅣ)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -351,9 +354,10 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public int GetRecommandCount(BoardModel boardModel, Connection connection)
+        public int GetRecommandCount(BoardModel boardModel)
         {
             int result = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -429,9 +433,10 @@ namespace BoardRenual.Repositorys
             }
             return FileNameList;
         }
-        public bool ReplyWrite(ReplyModel replyModel, Connection connection)
+        public bool ReplyWrite(ReplyModel replyModel)
         {
             bool result = false;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -458,8 +463,9 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public List<ReplyModel> GetReplyList(int BoardNo, Connection connection)
+        public List<ReplyModel> GetReplyList(int BoardNo)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             List<ReplyModel> ReplyModelList = new List<ReplyModel>();
             try
@@ -490,8 +496,9 @@ namespace BoardRenual.Repositorys
             }
             return ReplyModelList;
         }
-        public List<ReplyModel> GetReReplyList(int ParentReplyNo, Connection connection)
+        public List<ReplyModel> GetReReplyList(int ParentReplyNo)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             List<ReplyModel> ReplyModelList = new List<ReplyModel>();
             try
@@ -548,8 +555,9 @@ namespace BoardRenual.Repositorys
             }
             return replyModel.Email;
         }
-        public bool ReplyDeleteReply(ReplyModel replyModel, Connection connection)
+        public bool ReplyDeleteReply(ReplyModel replyModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             bool flag = false;
             try
