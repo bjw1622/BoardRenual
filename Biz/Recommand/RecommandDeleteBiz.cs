@@ -11,7 +11,7 @@ namespace BoardRenual.Biz.Recommand
             BoardModel boardModel = new BoardModel();
             boardModel.No = recommandInfoRequestModel.BoardNo;
             boardModel.Email = recommandInfoRequestModel.Email;
-            new BoardRepository().RecommandDelete(boardModel, new Connection());
+            new BoardRepository().RecommandDelete(boardModel);
         }
     }
 }

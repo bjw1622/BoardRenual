@@ -9,9 +9,10 @@ namespace BoardRenual.Repositorys
 {
     public class BoardRepository
     {
-        public int WriteBoard(BoardModel boardmodel, Connection connection)
+        public int WriteBoard(BoardModel boardmodel)
         {
             int boardNo = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -35,9 +36,10 @@ namespace BoardRenual.Repositorys
             return boardNo;
         }
 
-        public List<BoardModel> GetBoardList(Connection connection)
+        public List<BoardModel> GetBoardList()
         {
             List<BoardModel> boardModelList = new List<BoardModel>();
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -68,9 +70,10 @@ namespace BoardRenual.Repositorys
             return boardModelList;
         }
 
-        public BoardModel GetBoardDetail(Connection connection, int No)
+        public BoardModel GetBoardDetail(int No)
         {
             BoardModel boardModel = new BoardModel();
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -99,8 +102,9 @@ namespace BoardRenual.Repositorys
             return boardModel;
         }
 
-        public BoardModel GetBoardEmail(Connection connection, int No)
+        public BoardModel GetBoardEmail(int No)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             BoardModel boardModel = new BoardModel();
             try
@@ -126,9 +130,10 @@ namespace BoardRenual.Repositorys
             }
             return boardModel;
         }
-        public bool DeleteBoard(Connection connection, int No)
+        public bool DeleteBoard(int No)
         {
             bool flag = false;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -152,9 +157,10 @@ namespace BoardRenual.Repositorys
             }
             return flag;
         }
-        public bool UpdateBoard(BoardModel boardmodel, Connection connection)
+        public bool UpdateBoard(BoardModel boardmodel)
         {
             bool result = false;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -180,9 +186,10 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public List<BoardModel> IndexPagingBoard(PageRequestModel pageRequestModel, Connection connection)
+        public List<BoardModel> IndexPagingBoard(PageRequestModel pageRequestModel)
         {
             List<BoardModel> boardModelList = new List<BoardModel>();
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -214,9 +221,10 @@ namespace BoardRenual.Repositorys
             }
             return boardModelList;
         }
-        public List<BoardModel> PageAndFindBoard(FindAndPageRequestModel findAndPageRequestModel, Connection connection)
+        public List<BoardModel> PageAndFindBoard(FindAndPageRequestModel findAndPageRequestModel)
         {
             List<BoardModel> boardModelList = new List<BoardModel>();
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -250,10 +258,10 @@ namespace BoardRenual.Repositorys
             }
             return boardModelList;
         }
-        public int PageAndFindBoardCount(string variable, string input, Connection connection)
+        public int PageAndFindBoardCount(string variable, string input)
         {
             int result = 0;
-            List<BoardModel> boardModelList = new List<BoardModel>();
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -275,9 +283,10 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public int RecommandInfo(BoardModel boardModel, Connection connection)
+        public int RecommandInfo(BoardModel boardModel)
         {
             int result = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -299,8 +308,9 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void RecommandInsert(BoardModel boardModel, Connection connection)
+        public void RecommandInsert(BoardModel boardModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -321,8 +331,9 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public void RecommandDelete(BoardModel boardModel, Connection connection)
+        public void RecommandDelete(BoardModel boardModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -343,9 +354,10 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public int GetRecommandCount(BoardModel boardModel, Connection connection)
+        public int GetRecommandCount(BoardModel boardModel)
         {
             int result = -1;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -366,8 +378,9 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public void WriteFileBoard(int BoardNo, List<string> FileNames, Connection connection)
+        public void WriteFileBoard(int BoardNo, List<string> FileNames)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -391,8 +404,9 @@ namespace BoardRenual.Repositorys
                 connection.ConDispose(con);
             }
         }
-        public List<string> GetFileInfo(BoardModel boardModel, Connection connection)
+        public List<string> GetFileInfo(BoardModel boardModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             List<string> FileNameList = new List<string>();
             try
@@ -419,9 +433,10 @@ namespace BoardRenual.Repositorys
             }
             return FileNameList;
         }
-        public bool ReplyWrite(ReplyModel replyModel, Connection connection)
+        public bool ReplyWrite(ReplyModel replyModel)
         {
             bool result = false;
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             try
             {
@@ -448,8 +463,9 @@ namespace BoardRenual.Repositorys
             }
             return result;
         }
-        public List<ReplyModel> GetReplyList(int BoardNo, Connection connection)
+        public List<ReplyModel> GetReplyList(int BoardNo)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             List<ReplyModel> ReplyModelList = new List<ReplyModel>();
             try
@@ -480,8 +496,9 @@ namespace BoardRenual.Repositorys
             }
             return ReplyModelList;
         }
-        public List<ReplyModel> GetReReplyList(int ParentReplyNo, Connection connection)
+        public List<ReplyModel> GetReReplyList(int ParentReplyNo)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             List<ReplyModel> ReplyModelList = new List<ReplyModel>();
             try
@@ -538,8 +555,9 @@ namespace BoardRenual.Repositorys
             }
             return replyModel.Email;
         }
-        public bool ReplyDeleteReply(ReplyModel replyModel, Connection connection)
+        public bool ReplyDeleteReply(ReplyModel replyModel)
         {
+            Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
             bool flag = false;
             try

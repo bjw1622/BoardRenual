@@ -8,7 +8,7 @@ namespace BoardRenual.Biz.Reply
     {
         public List<ReplyModel> GetReplyList(int BoardNo)
         {
-            return(new BoardRepository().GetReplyList(BoardNo, new Connection()));
+            return(new BoardRepository().GetReplyList(BoardNo));
         }
     }
 }

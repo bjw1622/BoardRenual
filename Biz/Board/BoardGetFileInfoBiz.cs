@@ -13,7 +13,7 @@ namespace BoardRenual.Biz.Board
         {
             BoardModel boardModel = new BoardModel();
             boardModel.No = BoardNo;
-            return(new BoardRepository().GetFileInfo(boardModel, new Connection()));
+            return(new BoardRepository().GetFileInfo(boardModel));
         }
     }
 }

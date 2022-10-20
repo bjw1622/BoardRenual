@@ -12,7 +12,7 @@
     <h2>게시판</h2>
     <hr />
     <div>
-        <select class="form-select" id="board-count">
+        <select class="form-select" id="board-count" onchange="changePaging()">
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="40">40</option>
@@ -30,7 +30,7 @@
             <tr>
                 <th class="text-center" scope="col">#</th>
                 <th class="text-center" scope="col">제목</th>
-                <th class="text-center" scope="col">작성자</th>
+                <th class="text-center" scope="col">작성자</th> 
                 <th class="text-center" scope="col">댓글</th>
                 <th class="text-center" scope="col">추천</th>
             </tr>
@@ -80,7 +80,45 @@
     <button class="btn btn-primary" onclick="location.href='/Board/Write'">글쓰기</button>
     <script>
     // 페이징 나타내기
-    document.querySelector('#board-count').addEventListener('click', () => {
+        function changePaging() {
+            $('#page').empty();
+        let totalPageCount = @(Model.Count);
+        for (let i = 1; i < (totalPageCount / document.querySelector('#board-count').value)+1; i++)
+        {
+            if (i === 1) {
+                $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="paging()" value=${i} >${i}</button>`);
+            }
+            else {
+                $('#page').append(` <button class="page-btn btn btn-light" onclick="paging()" value=${i} >${i}</button>`);
+            }
+        }
+        init();
+        const param = {
+            PageNumber: 1,
+            PageCount: $('#board-count').val(),
+        }
+        $.ajax({
+            url: '/Board/IndexPaging/',
+            type: 'get',
+            dataType: "json",
+            data: param,
+            contentType: "application/json",
+            success: function (data) {
+                if (data.Paging !== -1) {
+                    $('#tbody').empty();
+                    if (data.Paging !== "") {
+                        data.Paging.forEach((item, val) => {
+                            $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
+
+                        })
+                    }
+                }
+            },
+            error: function () {
+            }
+        });
+        }
+    @*document.querySelector('#board-count').addEventListener('click', () => {
         $('#page').empty();
         let totalPageCount = @(Model.Count);
         for (let i = 1; i < (totalPageCount / document.querySelector('#board-count').value)+1; i++)
@@ -117,7 +155,7 @@
             error: function () {
             }
         });
-    })
+    })*@
     // 검색 조건 없을 때 페이징
     function paging() {
         const param = {

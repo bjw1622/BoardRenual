@@ -17,7 +17,7 @@ namespace BoardRenual.Biz.Board
             boardModel.Title = boardUpdateRequestModel.Title;
             boardModel.Content = boardUpdateRequestModel.Content;
 
-            return (new BoardRepository().UpdateBoard(boardModel, new Connection()));
+            return (new BoardRepository().UpdateBoard(boardModel));
         }
     }
 }
