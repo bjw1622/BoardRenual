@@ -79,6 +79,7 @@ namespace BoardRenual.Controllers
                 new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteRequestModel.FileName);
             }
             return Json(boardNo);
+
         }
         /// <summary>
         /// 첨부파일 로컬 저장
@@ -318,5 +319,21 @@ namespace BoardRenual.Controllers
                 ReplyList = replyList,
             });
         }
+        //[HttpPost]
+        //public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
+        //{
+        //    if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
+        //    {
+        //        return Json(new
+        //        {
+        //            Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
+        //            ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
+        //        });
+        //    }
+        //    return Json(new
+        //    {
+        //        Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
+        //    });
+        //}
     }
 }
