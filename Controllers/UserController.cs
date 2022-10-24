@@ -2,6 +2,7 @@
 using BoardRenual.Models.OrginalModel.User;
 using BoardRenual.Models.RequestModel.User;
 using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace BoardRenual.Controllers
@@ -23,13 +24,13 @@ namespace BoardRenual.Controllers
         /// <param name="userSignUp"></param>
         /// <returns>bool</returns>
         [HttpPost]
-        public JsonResult SignUp(UserSignUpModel userSignUpModel)
+        public JsonResult SignUp(UserSignUpModel userSignUp)
         {
             bool result = false;
-            if(userSignUpModel != null && !(string.IsNullOrEmpty(userSignUpModel.Email)) && 
-                !(string.IsNullOrEmpty(userSignUpModel.Pw)) && !(string.IsNullOrEmpty(userSignUpModel.Name)) && userSignUpModel.Birth != null)
+            if(userSignUp != null && !(string.IsNullOrEmpty(userSignUp.Email)) && 
+                !(string.IsNullOrEmpty(userSignUp.Pw)) && !(string.IsNullOrEmpty(userSignUp.Name)) && userSignUp.Birth != null)
             {
-                result = new UserSignUpBiz().UserSignUp(userSignUpModel);
+                result = new UserSignUpBiz().UserSignUp(userSignUp);
             }
             return Json(result);
 
