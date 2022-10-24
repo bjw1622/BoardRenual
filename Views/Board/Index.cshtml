@@ -118,44 +118,6 @@
             }
         });
         }
-    @*document.querySelector('#board-count').addEventListener('click', () => {
-        $('#page').empty();
-        let totalPageCount = @(Model.Count);
-        for (let i = 1; i < (totalPageCount / document.querySelector('#board-count').value)+1; i++)
-        {
-            if (i === 1) {
-                $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="paging()" value=${i} >${i}</button>`);
-            }
-            else {
-                $('#page').append(` <button class="page-btn btn btn-light" onclick="paging()" value=${i} >${i}</button>`);
-            }
-        }
-        init();
-        const param = {
-            PageNumber: 1,
-            PageCount: $('#board-count').val(),
-        }
-        $.ajax({
-            url: '/Board/IndexPaging/',
-            type: 'get',
-            dataType: "json",
-            data: param,
-            contentType: "application/json",
-            success: function (data) {
-                if (data.Paging !== -1) {
-                    $('#tbody').empty();
-                    if (data.Paging !== "") {
-                        data.Paging.forEach((item, val) => {
-                            $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
-
-                        })
-                    }
-                }
-            },
-            error: function () {
-            }
-        });
-    })*@
     // 검색 조건 없을 때 페이징
     function paging() {
         const param = {

@@ -482,6 +482,7 @@ namespace BoardRenual.Repositorys
                         replyModel.ParentReplyNo = Convert.ToInt32(reader["ParentReplyNo"]);
                         replyModel.Content = Convert.ToString(reader["Content"]);
                         replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
+                        replyModel.Name = Convert.ToString(reader["Name"]);
                         ReplyModelList.Add(replyModel);
                     }
                 }
@@ -514,6 +515,7 @@ namespace BoardRenual.Repositorys
                         replyModel.No = Convert.ToInt32(reader["No"]);
                         replyModel.Content = Convert.ToString(reader["Content"]);
                         replyModel.UserNo = Convert.ToInt32(reader["UserNo"]);
+                        replyModel.Name = Convert.ToString(reader["Name"]);
                         ReplyModelList.Add(replyModel);
                     }
                 }
