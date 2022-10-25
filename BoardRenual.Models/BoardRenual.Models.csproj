@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8C5FE60-B08A-46AA-9806-30E0657BEF77}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BoardRenual.Models</RootNamespace>
+    <AssemblyName>BoardRenual.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Extends\BoardModel.cs" />
+    <Compile Include="Models\Extends\ReplyModel.cs" />
+    <Compile Include="Models\Orginal\Board\BoardModel.cs" />
+    <Compile Include="Models\Orginal\Reply\ReplyModel.cs" />
+    <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
+    <Compile Include="Models\Request\Board\BoardUpdateRequestModel.cs" />
+    <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
+    <Compile Include="Models\Request\Page\FindAndPageRequestModel.cs" />
+    <Compile Include="Models\Request\Page\PageRequestModel.cs" />
+    <Compile Include="Models\Request\Recommand\RecommandInfoRequestModel.cs" />
+    <Compile Include="Models\Request\Reply\ReplyDeleteRequestModel.cs" />
+    <Compile Include="Models\Request\Reply\ReplyWriteRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
+    <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

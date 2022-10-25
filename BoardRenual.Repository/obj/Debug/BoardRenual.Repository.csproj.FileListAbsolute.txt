@@ -1,0 +1,11 @@
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.dll.config
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.dll
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.pdb
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Models.dll
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Models.pdb
+C:\Projects\BoardRenual.Repository\bin\Debug\BoardRenual.Models.dll.config
+C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.AssemblyReference.cache
+C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CoreCompileInputs.cache
+C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CopyComplete
+C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.dll
+C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.pdb
