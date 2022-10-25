@@ -1,0 +1,6 @@
+C:\Projects\BoardRenual.Models\bin\Debug\BoardRenual.Models.dll.config
+C:\Projects\BoardRenual.Models\bin\Debug\BoardRenual.Models.dll
+C:\Projects\BoardRenual.Models\bin\Debug\BoardRenual.Models.pdb
+C:\Projects\BoardRenual.Models\obj\Debug\BoardRenual.Models.csproj.CoreCompileInputs.cache
+C:\Projects\BoardRenual.Models\obj\Debug\BoardRenual.Models.dll
+C:\Projects\BoardRenual.Models\obj\Debug\BoardRenual.Models.pdb
