@@ -1,8 +1,7 @@
 ﻿using BoardRenual.Biz.User;
 using BoardRenual.Models.OrginalModel.User;
-using BoardRenual.Models.RequestModel.User;
+using BoardRenual.Models.Request.User;
 using System;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BoardRenual.Controllers
@@ -24,7 +23,7 @@ namespace BoardRenual.Controllers
         /// <param name="userSignUp"></param>
         /// <returns>bool</returns>
         [HttpPost]
-        public JsonResult SignUp(UserSignUpModel userSignUp)
+        public JsonResult SignUp(UserSignUpRequestModel userSignUp)
         {
             bool result = false;
             if(userSignUp != null && !(string.IsNullOrEmpty(userSignUp.Email)) && 
@@ -41,7 +40,7 @@ namespace BoardRenual.Controllers
         /// <param name="userEmailCheck"></param>
         /// <returns>int result</returns>
         [HttpPost]
-        public JsonResult EmailCheck(UserEmailCheckModel userEmailCheck)
+        public JsonResult EmailCheck(UserEmailCheckRequestModel userEmailCheck)
         {
             int result = 0;
             if(userEmailCheck != null && !(string.IsNullOrEmpty(userEmailCheck.Email)))
@@ -69,11 +68,11 @@ namespace BoardRenual.Controllers
         /// <param name="userLogin"></param>
         /// <returns>View</returns>
         [HttpPost]
-        public ActionResult LogIn(UserLogInModel userLogin)
+        public ActionResult LogIn(UserLogInRequestModel userLogin)
         {
             if(userLogin != null && !(string.IsNullOrEmpty(userLogin.Email)) && !(string.IsNullOrEmpty(userLogin.Pw)))
             {
-                UserModel result = new UserLogInBiz().SignIn(userLogin);
+                UserOriginalModel result = new UserLogInBiz().SignIn(userLogin);
                 if (result.Email != null)
                 {
                     Response.Cookies["UserName"].Value = Server.UrlEncode(result.Name);

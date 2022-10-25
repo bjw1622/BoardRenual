@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BoardRenual.Models.RequestModel.User
+﻿namespace BoardRenual.Models.Request.User
 {
-    public class UserLogInModel
+    public class UserLogInRequestModel
     {
         public string Email { get; set; }
         public string Pw { get; set; }
