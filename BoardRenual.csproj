@@ -130,37 +130,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Biz\Board\BoardDeleteBoardBiz.cs" />
-    <Compile Include="Biz\Board\BoardFindAndPageCountRequestBiz.cs" />
-    <Compile Include="Biz\Board\BoardFindAndPageRequestBiz.cs" />
-    <Compile Include="Biz\Board\BoardGetBoardDetailBiz.cs" />
-    <Compile Include="Biz\Board\BoardGetBoardEmailBiz.cs" />
-    <Compile Include="Biz\Board\BoardGetBoardListBiz.cs" />
-    <Compile Include="Biz\Board\BoardGetFileInfoBiz.cs" />
-    <Compile Include="Biz\Board\BoardPagingBiz.cs" />
-    <Compile Include="Biz\Board\BoardUpdateBiz.cs" />
-    <Compile Include="Biz\Board\BoardWriteBiz.cs" />
-    <Compile Include="Biz\Board\BoardWriteFileBiz.cs" />
-    <Compile Include="Biz\Recommand\RecommandDeleteBiz.cs" />
-    <Compile Include="Biz\Recommand\RecommandGetCountBiz.cs" />
-    <Compile Include="Biz\Recommand\RecommandInsertBiz.cs" />
-    <Compile Include="Biz\Recommand\RecommandInfoBiz.cs" />
-    <Compile Include="Biz\Reply\ReplyDeleteReplyBiz.cs" />
-    <Compile Include="Biz\Reply\ReplyGetReplyListBiz.cs" />
-    <Compile Include="Biz\Reply\ReplyGetReReplyListBiz.cs" />
-    <Compile Include="Biz\Reply\ReplyUserCheckBiz.cs" />
-    <Compile Include="Biz\Reply\ReplyWriteBiz.cs" />
-    <Compile Include="Biz\User\UserEmailCheckBiz.cs" />
-    <Compile Include="Biz\User\UserLogInBiz.cs" />
-    <Compile Include="Biz\User\UserSignUpBiz.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Common\Connection.cs" />
-    <Compile Include="Repositorys\BoardRepository.cs" />
-    <Compile Include="Repositorys\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +457,10 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BoardRenual.Business\BoardRenual.Business.csproj">
+      <Project>{e7f2a588-ad38-4066-bc2b-f358e96cc0d0}</Project>
+      <Name>BoardRenual.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BoardRenual.Models\BoardRenual.Models.csproj">
       <Project>{f8c5fe60-b08a-46aa-9806-30e0657bef77}</Project>
       <Name>BoardRenual.Models</Name>
