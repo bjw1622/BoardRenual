@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardRenual", "BoardRenual.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entitys", "Entitys", "{92639B31-38CE-4150-B457-F1C605258848}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardRenual.Models", "..\BoardRenual.Models\BoardRenual.Models.csproj", "{F8C5FE60-B08A-46AA-9806-30E0657BEF77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,9 +19,16 @@ Global
 		{75AFA063-A649-4704-AA24-54354A8B0255}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AFA063-A649-4704-AA24-54354A8B0255}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AFA063-A649-4704-AA24-54354A8B0255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C5FE60-B08A-46AA-9806-30E0657BEF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C5FE60-B08A-46AA-9806-30E0657BEF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C5FE60-B08A-46AA-9806-30E0657BEF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C5FE60-B08A-46AA-9806-30E0657BEF77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8C5FE60-B08A-46AA-9806-30E0657BEF77} = {92639B31-38CE-4150-B457-F1C605258848}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0B7B503F-72B2-4E97-856B-D6A9C3BBD1B5}

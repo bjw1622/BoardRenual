@@ -1,4 +1,4 @@
-﻿using BoardRenual.Models;
+﻿using BoardRenual.Models.Models;
 using BoardRenual.Repositorys;
 using System.Collections.Generic;
 

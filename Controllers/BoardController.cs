@@ -1,11 +1,11 @@
 ﻿using BoardRenual.Biz.Board;
 using BoardRenual.Biz.Recommand;
 using BoardRenual.Biz.Reply;
-using BoardRenual.Models;
-using BoardRenual.Models.Request.Board;
-using BoardRenual.Models.Request.Page;
-using BoardRenual.Models.Request.Recommand;
-using BoardRenual.Models.Request.Reply;
+using BoardRenual.Models.Models;
+using BoardRenual.Models.Models.Request.Board;
+using BoardRenual.Models.Models.Request.Page;
+using BoardRenual.Models.Models.Request.Recommand;
+using BoardRenual.Models.Models.Request.Reply;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -318,21 +318,5 @@ namespace BoardRenual.Controllers
                 ReplyList = replyList,
             });
         }
-        //[HttpPost]
-        //public JsonResult DeleteReply(ReplyDeleteRequestModel replyDeleteRequestModel)
-        //{
-        //    if (replyDeleteRequestModel != null && replyDeleteRequestModel.No > 0 && replyDeleteRequestModel.BoardNo > 0)
-        //    {
-        //        return Json(new
-        //        {
-        //            Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No),
-        //            ReplyList = new ReplyGetReplyListBiz().GetReplyList(replyDeleteRequestModel.BoardNo),
-        //        });
-        //    }
-        //    return Json(new
-        //    {
-        //        Delete = new ReplyDeleteReplyBiz().ReplyDeleteReply(replyDeleteRequestModel.No)
-        //    });
-        //}
     }
 }

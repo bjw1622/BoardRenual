@@ -1,5 +1,5 @@
-﻿using BoardRenual.Models;
-using BoardRenual.Models.Request.Recommand;
+﻿using BoardRenual.Models.Models;
+using BoardRenual.Models.Models.Request.Recommand;
 using BoardRenual.Repositorys;
 
 namespace BoardRenual.Biz.Recommand

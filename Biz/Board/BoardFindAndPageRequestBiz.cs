@@ -1,5 +1,5 @@
-﻿using BoardRenual.Models;
-using BoardRenual.Models.Request.Page;
+﻿using BoardRenual.Models.Models;
+using BoardRenual.Models.Models.Request.Page;
 using BoardRenual.Repositorys;
 using System.Collections.Generic;
 

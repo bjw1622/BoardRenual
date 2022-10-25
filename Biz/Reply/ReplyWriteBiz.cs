@@ -1,5 +1,5 @@
-﻿using BoardRenual.Models;
-using BoardRenual.Models.Request.Reply;
+﻿using BoardRenual.Models.Models;
+using BoardRenual.Models.Models.Request.Reply;
 using BoardRenual.Repositorys;
 
 namespace BoardRenual.Biz.Reply

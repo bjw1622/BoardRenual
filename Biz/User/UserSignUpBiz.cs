@@ -1,5 +1,5 @@
-﻿using BoardRenual.Models.OrginalModel.User;
-using BoardRenual.Models.Request.User;
+﻿using BoardRenual.Models.Models.OrginalModel.User;
+using BoardRenual.Models.Models.Request.User;
 using BoardRenual.Repository;
 
 namespace BoardRenual.Biz.User

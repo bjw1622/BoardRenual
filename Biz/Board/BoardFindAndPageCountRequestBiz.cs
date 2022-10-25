@@ -1,4 +1,4 @@
-﻿using BoardRenual.Models.Request.Page;
+﻿using BoardRenual.Models.Models.Request.Page;
 using BoardRenual.Repositorys;
 
 namespace BoardRenual.Biz.Board

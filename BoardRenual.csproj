@@ -159,21 +159,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Common\Connection.cs" />
-    <Compile Include="Models\Extends\ReplyModel.cs" />
-    <Compile Include="Models\Orginal\Board\BoardModel.cs" />
-    <Compile Include="Models\Orginal\Reply\ReplyModel.cs" />
-    <Compile Include="Models\Orginal\User\UserOriginalModel.cs" />
-    <Compile Include="Models\Extends\BoardModel.cs" />
-    <Compile Include="Models\Request\Board\BoardUpdateRequestModel.cs" />
-    <Compile Include="Models\Request\Board\BoardWriteRequestModel.cs" />
-    <Compile Include="Models\Request\Page\FindAndPageRequestModel.cs" />
-    <Compile Include="Models\Request\Page\PageRequestModel.cs" />
-    <Compile Include="Models\Request\Recommand\RecommandInfoRequestModel.cs" />
-    <Compile Include="Models\Request\Reply\ReplyDeleteRequestModel.cs" />
-    <Compile Include="Models\Request\Reply\ReplyWriteRequestModel.cs" />
-    <Compile Include="Models\Request\User\UserEmailCheckRequestModel.cs" />
-    <Compile Include="Models\Request\User\UserLogInRequestModel.cs" />
-    <Compile Include="Models\Request\User\UserSignUpRequestModel.cs" />
     <Compile Include="Repositorys\BoardRepository.cs" />
     <Compile Include="Repositorys\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -496,6 +481,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BoardRenual.Models\BoardRenual.Models.csproj">
+      <Project>{f8c5fe60-b08a-46aa-9806-30e0657bef77}</Project>
+      <Name>BoardRenual.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

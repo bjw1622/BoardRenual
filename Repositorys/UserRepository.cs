@@ -1,4 +1,4 @@
-﻿using BoardRenual.Models.OrginalModel.User;
+﻿using BoardRenual.Models.Models.OrginalModel.User;
 using System;
 using System.Data;
 using System.Data.SqlClient;

@@ -1,10 +1,6 @@
-﻿using BoardRenual.Models;
-using BoardRenual.Models.Request.Board;
+﻿using BoardRenual.Models.Models;
+using BoardRenual.Models.Models.Request.Board;
 using BoardRenual.Repositorys;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BoardRenual.Biz.Board
 {

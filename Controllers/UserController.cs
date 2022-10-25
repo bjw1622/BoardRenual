@@ -1,6 +1,6 @@
 ﻿using BoardRenual.Biz.User;
-using BoardRenual.Models.OrginalModel.User;
-using BoardRenual.Models.Request.User;
+using BoardRenual.Models.Models.OrginalModel.User;
+using BoardRenual.Models.Models.Request.User;
 using System;
 using System.Web.Mvc;
 
