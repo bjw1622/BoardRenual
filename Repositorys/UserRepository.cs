@@ -7,7 +7,7 @@ namespace BoardRenual.Repository
 {
     public class UserRepository
     {
-        public bool SignUp(UserModel userModel)
+        public bool SignUp(UserOriginalModel userModel)
         {
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
@@ -37,7 +37,7 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-        public int EmailCheck(UserModel userEntity)
+        public int EmailCheck(UserOriginalModel userEntity)
         {
             int result = -1;
             Connection connection = new Connection();
@@ -61,11 +61,11 @@ namespace BoardRenual.Repository
             }
             return result;
         }
-        public UserModel SignIn(UserModel userEntity)
+        public UserOriginalModel SignIn(UserOriginalModel userEntity)
         {
             Connection connection = new Connection();
             SqlConnection con = connection.ConOpen();
-            UserModel users = new UserModel();
+            UserOriginalModel users = new UserOriginalModel();
             try {
                 using (SqlCommand com = new SqlCommand("dbo.LogInUser", con))
                 {

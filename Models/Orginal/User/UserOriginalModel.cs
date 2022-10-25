@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BoardRenual.Models.OrginalModel.User
 {
-    public class UserModel
+    public class UserOriginalModel
     {
         public int No { get; set; }
         public string Email { get; set; }

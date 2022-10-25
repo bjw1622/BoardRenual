@@ -6,7 +6,6 @@ using BoardRenual.Models.Request.Board;
 using BoardRenual.Models.Request.Page;
 using BoardRenual.Models.Request.Recommand;
 using BoardRenual.Models.Request.Reply;
-using BoardRenual.Models.RequestModel.Board;
 using System;
 using System.Collections.Generic;
 using System.IO;

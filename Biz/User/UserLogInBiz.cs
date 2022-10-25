@@ -1,14 +1,14 @@
 ﻿using BoardRenual.Models.OrginalModel.User;
-using BoardRenual.Models.RequestModel.User;
+using BoardRenual.Models.Request.User;
 using BoardRenual.Repository;
 
 namespace BoardRenual.Biz.User
 {
     public class UserLogInBiz
     {
-        public UserModel SignIn(UserLogInModel signUpEntity)
+        public UserOriginalModel SignIn(UserLogInRequestModel signUpEntity)
         {
-            UserModel userModel = new UserModel();
+            UserOriginalModel userModel = new UserOriginalModel();
             userModel.Email = signUpEntity.Email;
             userModel.Pw = signUpEntity.Pw;
             return new UserRepository().SignIn(userModel);
