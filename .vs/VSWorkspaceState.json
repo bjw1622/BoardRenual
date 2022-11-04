@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\BoardRenual",
+    "\\BoardRenual.Business",
+    "\\BoardRenual.Business\\Biz",
+    "\\BoardRenual.Business\\Biz\\Board",
+    "\\BoardRenual.Models",
+    "\\BoardRenual.Repository",
+    "\\BoardRenual\\Views",
+    "\\BoardRenual\\Views\\Shared"
+  ],
+  "SelectedNode": "\\BoardRenual\\Views\\Shared\\_Layout.cshtml",
+  "PreviewInSolutionExplorer": false
+}

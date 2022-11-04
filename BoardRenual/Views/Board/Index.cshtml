@@ -1,9 +1,7 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
-    int boardCount = 20;
-    int totalPage = (Model.Count / boardCount) + 2;
-}
+@{ ViewBag.Title = "Index";
+                int boardCount = 20;
+                int totalPage = (Model.Count / boardCount) + 2; }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -30,7 +28,7 @@
             <tr>
                 <th class="text-center" scope="col">#</th>
                 <th class="text-center" scope="col">제목</th>
-                <th class="text-center" scope="col">작성자</th> 
+                <th class="text-center" scope="col">작성자</th>
                 <th class="text-center" scope="col">댓글</th>
                 <th class="text-center" scope="col">추천</th>
             </tr>
@@ -40,27 +38,25 @@
             {
                 for (var i = 0; i < @ViewBag.Board.Count; i++)
                 {
-                    <tr class="text-center">
-                        <td class="text-center">@(i+1)</td>
-                        <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
-                        <td class="text-center">@Model[i].Name</td>
-                        <td class="text-center"></td>
-                        <td class="text-center">@Model[i].RecommandCount</td>
-                    </tr>
-                }
+<tr class="text-center">
+    <td class="text-center">@(i+1)</td>
+    <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
+    <td class="text-center">@Model[i].Name</td>
+    <td class="text-center"></td>
+    <td class="text-center">@Model[i].RecommandCount</td>
+</tr> }
             }
             else
             {
                 for (var i = 0; i < boardCount; i++)
                 {
-                    <tr class="text-center">
-                        <td class="text-center">@(i+1)</td>
-                        <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
-                        <td class="text-center">@Model[i].Name</td>
-                        <td class="text-center">@Model[i].ReplyCount</td>
-                        <td class="text-center">@Model[i].RecommandCount</td>
-                    </tr>
-                }
+<tr class="text-center">
+    <td class="text-center">@(i+1)</td>
+    <td class="text-center"><a href="/Board/Detail/@Model[i].No">@Model[i].Title</a></td>
+    <td class="text-center">@Model[i].Name</td>
+    <td class="text-center">@Model[i].ReplyCount</td>
+    <td class="text-center">@Model[i].RecommandCount</td>
+</tr>                }
             }
         </tbody>
     </table>
@@ -69,13 +65,11 @@
         {
             if (i == 1)
             {
-                <button class=" page-btn btn btn-light btn-info" onclick="paging()" value=@i>@i</button>
+<button class=" page-btn btn btn-light btn-info" onclick="paging()" value=@i>@i</button> }
+                else
+                {
+<button class="page-btn btn btn-light" onclick="paging()" value=@i>@i</button>}
             }
-            else
-            {
-                <button class="page-btn btn btn-light" onclick="paging()" value=@i>@i</button>
-            }
-        }
     </div>
     <button class="btn btn-primary" onclick="location.href='/Board/Write'">글쓰기</button>
     <script>
@@ -118,44 +112,6 @@
             }
         });
         }
-    @*document.querySelector('#board-count').addEventListener('click', () => {
-        $('#page').empty();
-        let totalPageCount = @(Model.Count);
-        for (let i = 1; i < (totalPageCount / document.querySelector('#board-count').value)+1; i++)
-        {
-            if (i === 1) {
-                $('#page').append(` <button class="page-btn btn btn-light btn-info" onclick="paging()" value=${i} >${i}</button>`);
-            }
-            else {
-                $('#page').append(` <button class="page-btn btn btn-light" onclick="paging()" value=${i} >${i}</button>`);
-            }
-        }
-        init();
-        const param = {
-            PageNumber: 1,
-            PageCount: $('#board-count').val(),
-        }
-        $.ajax({
-            url: '/Board/IndexPaging/',
-            type: 'get',
-            dataType: "json",
-            data: param,
-            contentType: "application/json",
-            success: function (data) {
-                if (data.Paging !== -1) {
-                    $('#tbody').empty();
-                    if (data.Paging !== "") {
-                        data.Paging.forEach((item, val) => {
-                            $('#tbody').append(createRow(item, val, param.PageNumber, param.PageCount))
-
-                        })
-                    }
-                }
-            },
-            error: function () {
-            }
-        });
-    })*@
     // 검색 조건 없을 때 페이징
     function paging() {
         const param = {
@@ -218,7 +174,8 @@
                 }
             },
             error: function (request, status, error ) {
-                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);            }
+                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+            }
         });
     })
     // 검색 조건 있을 때 페이징
