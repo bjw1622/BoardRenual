@@ -9,3 +9,14 @@ C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CoreC
 C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CopyComplete
 C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.dll
 C:\Projects\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.pdb
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.dll.config
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.dll
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Repository.pdb
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Models.dll
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Models.pdb
+C:\Projects\BoardRefactoring\BoardRenual.Repository\bin\Debug\BoardRenual.Models.dll.config
+C:\Projects\BoardRefactoring\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.AssemblyReference.cache
+C:\Projects\BoardRefactoring\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CoreCompileInputs.cache
+C:\Projects\BoardRefactoring\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.csproj.CopyComplete
+C:\Projects\BoardRefactoring\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.dll
+C:\Projects\BoardRefactoring\BoardRenual.Repository\obj\Debug\BoardRenual.Repository.pdb
