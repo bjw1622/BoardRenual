@@ -15,8 +15,7 @@
             <option value="30">30</option>
             <option value="40">40</option>
             <option value="50">50</option>
-        </select>
-        <select class="form-select" id="find-value">
+        </select>        <select class="form-select" id="find-value">
             <option value="Name">작성자</option>
             <option value="Title">제목</option>
         </select>
@@ -65,10 +64,10 @@
         {
             if (i == 1)
             {
-<button class=" page-btn btn btn-light btn-info" onclick="paging()" value=@i>@i</button> }
+                <button class=" page-btn btn btn-light btn-info" onclick="paging()" value=@i>@i</button> }
                 else
                 {
-<button class="page-btn btn btn-light" onclick="paging()" value=@i>@i</button>}
+                <button class="page-btn btn btn-light" onclick="paging()" value=@i>@i</button>}
             }
     </div>
     <button class="btn btn-primary" onclick="location.href='/Board/Write'">글쓰기</button>

@@ -7,9 +7,11 @@
     "\\BoardRenual.Business\\Biz\\Board",
     "\\BoardRenual.Models",
     "\\BoardRenual.Repository",
+    "\\BoardRenual\\Controllers",
     "\\BoardRenual\\Views",
+    "\\BoardRenual\\Views\\Board",
     "\\BoardRenual\\Views\\Shared"
   ],
-  "SelectedNode": "\\BoardRenual\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\BoardRenual\\BoardRenual.sln",
   "PreviewInSolutionExplorer": false
 }

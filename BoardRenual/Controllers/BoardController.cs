@@ -38,6 +38,12 @@ namespace BoardRenual.Controllers
         {
             return View(new BoardGetBoardListBiz().GetBoardList());
         }
+
+        [HttpGet]
+        public JsonResult IndexBoardList()
+        {
+            return Json(new BoardGetBoardListBiz().GetBoardList(),JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// Board Write페이지
         /// </summary>
@@ -78,7 +84,15 @@ namespace BoardRenual.Controllers
                 new BoardWriteFileBiz().WriteFileBoard(boardNo, boardWriteRequestModel.FileName);
             }
             return Json(boardNo);
+        }
 
+        [HttpPost]
+        public JsonResult WriteBoard(BoardWriteRequestModel boardWriteRequestModel)
+        {
+            // title, content, email
+            
+            // return boardNum
+            return Json(new BoardWriteBiz().WriteBoard(boardWriteRequestModel), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 첨부파일 로컬 저장
