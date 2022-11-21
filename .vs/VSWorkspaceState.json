@@ -2,16 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\BoardRenual",
-    "\\BoardRenual.Business",
-    "\\BoardRenual.Business\\Biz",
-    "\\BoardRenual.Business\\Biz\\Board",
     "\\BoardRenual.Models",
     "\\BoardRenual.Repository",
+    "\\BoardRenual\\App_Start",
     "\\BoardRenual\\Controllers",
+    "\\BoardRenual\\Cors",
     "\\BoardRenual\\Views",
     "\\BoardRenual\\Views\\Board",
     "\\BoardRenual\\Views\\Shared"
   ],
-  "SelectedNode": "\\BoardRenual\\BoardRenual.sln",
+  "SelectedNode": "\\BoardRenual\\Cors\\AllowCrossSiteAttribute.cs",
   "PreviewInSolutionExplorer": false
 }
