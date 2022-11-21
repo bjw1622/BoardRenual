@@ -42,7 +42,8 @@ namespace BoardRenual.Controllers
         [HttpGet]
         public JsonResult IndexBoardList()
         {
-            return Json(new BoardGetBoardListBiz().GetBoardList(),JsonRequestBehavior.AllowGet);
+            //return Json(new BoardGetBoardListBiz().GetBoardList());
+            return Json(new BoardGetBoardListBiz().GetBoardList(), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// Board Write페이지
@@ -85,14 +86,15 @@ namespace BoardRenual.Controllers
             }
             return Json(boardNo);
         }
-
+        /// <summary>
+        /// 글쓰기 Http Post
+        /// </summary>
+        /// <param name="boardWriteRequestModel"></param>
+        /// <returns>int boardNo</returns>
         [HttpPost]
         public JsonResult WriteBoard(BoardWriteRequestModel boardWriteRequestModel)
         {
-            // title, content, email
-            
-            // return boardNum
-            return Json(new BoardWriteBiz().WriteBoard(boardWriteRequestModel), JsonRequestBehavior.AllowGet);
+            return Json(new BoardWriteBiz().WriteBoard(boardWriteRequestModel));
         }
         /// <summary>
         /// 첨부파일 로컬 저장
